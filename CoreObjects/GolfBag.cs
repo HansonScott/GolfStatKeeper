@@ -33,7 +33,8 @@ namespace GolfStatKeeper
 
             this.Clubs = theseClubs;
         }
-        public GolfBag NewBag()
+
+        public static GolfBag NewBag()
         {
             Club [] newClubs = new Club[GolfBag.MaxClubs];
 

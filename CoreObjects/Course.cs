@@ -50,7 +50,7 @@ namespace GolfStatKeeper
                 }
             }
 
-            return HighestID;
+            return HighestID + 1;
         }
 
         public static Course LoadFromFileLine(string FileLine)
