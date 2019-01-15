@@ -274,10 +274,10 @@ namespace GolfStatKeeper
             int puttLength = 0;
 
             bool chipped = false;
-            ClubType ChipClub = ClubType.LW;
+            ClubType ChipClub = ClubType.Wedge_Lob;
             int ChipShotNumber = 0;
 
-            ClubType ApproachClub = ClubType.LW;
+            ClubType ApproachClub = ClubType.Wedge_Lob;
             int ApproachShotNumber = 0;
             int ApproachDistance = 0;
 

@@ -38,7 +38,7 @@ namespace GolfStatKeeper
             return new Player(ID, Name, bag);
         }
 
-        private int GetNextPlayerID()
+        public static int GetNextPlayerID()
         {
             Player[] players = DAC.GetPlayers();
             int HighestID = 0;

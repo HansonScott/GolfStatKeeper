@@ -102,6 +102,14 @@ namespace GolfStatKeeper
         {
             get { return Path.Combine(ContentsFolder, ConfigurationManager.AppSettings["PlayersFile"]); }
         }
+
+        internal static string SafeString(string raw)
+        {
+            raw = raw.Replace(DAC.ElementSeparator, String.Empty);
+            raw = raw.Replace(DAC.SubElementSeparator, String.Empty);
+            return raw;
+        }
+
         public static string CoursesFile
         {
             get { return Path.Combine(ContentsFolder, ConfigurationManager.AppSettings["CoursesFile"]); }
@@ -268,7 +276,7 @@ namespace GolfStatKeeper
 
             return null;
         }
-        public static void AddNewPlayer(string Name, string clubs)
+        public static void AddNewPlayer(int pID, string Name, string clubs)
         {
             string[] players = GetPlayerFileLines();
 
@@ -280,7 +288,7 @@ namespace GolfStatKeeper
                 {
                     // use enum?
                     string[] newFields = new string[Enum.GetNames(typeof(PlayerFileFields)).Length];
-                    newFields[(int)PlayerFileFields.ID] = i.ToString();
+                    newFields[(int)PlayerFileFields.ID] = pID.ToString();
                     newFields[(int)PlayerFileFields.Name] = Name;
                     newFields[(int)PlayerFileFields.Clubs] = clubs;
                     string newLine = String.Join(FieldSeparator, newFields);
