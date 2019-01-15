@@ -6,19 +6,9 @@ namespace GolfStatKeeper
 {
     public class Player : IComparable
     {
-        public int ID
-        {
-            get; set;
-        }
-
-        public string Name
-        {
-            get; set;
-        }
-        public GolfBag Bag
-        {
-            get; set;
-        }
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public GolfBag Bag { get; set; }
 
         public Player(string Name)
         {
@@ -34,18 +24,6 @@ namespace GolfStatKeeper
             this.Bag = bag;
         }
 
-        private int GetNextPlayerID()
-        {
-            Player[] players = DAC.GetPlayers();
-            int HighestID = 0;
-            for(int i = 0; i < players.Length; i++)
-            {
-                HighestID = Math.Max(players[i].ID, HighestID);
-            }
-
-            return HighestID + 1;
-        }
-
         public static Player LoadFromFileLine(string FileLine)
         {
             // use enum: PlayerFileFields
@@ -56,8 +34,20 @@ namespace GolfStatKeeper
             string clubsData = data[(int)PlayerFileFields.Clubs];
 
             // now make the clubs from the clubs line.
-            GolfBag bag = new GolfBag(clubsData);
+            GolfBag bag = GolfBag.LoadFromFileLine(clubsData);
             return new Player(ID, Name, bag);
+        }
+
+        private int GetNextPlayerID()
+        {
+            Player[] players = DAC.GetPlayers();
+            int HighestID = 0;
+            for (int i = 0; i < players.Length; i++)
+            {
+                HighestID = Math.Max(players[i].ID, HighestID);
+            }
+
+            return HighestID + 1;
         }
 
         public int CompareTo(object obj)

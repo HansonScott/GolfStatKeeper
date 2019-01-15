@@ -13,27 +13,8 @@ namespace GolfStatKeeper
         {
             this.Clubs = Clubs;
         }
-        public GolfBag(string clubs)
-        {
-            string[] fields = clubs.Split(DAC.ElementSeparator.ToCharArray());
-            Club[] theseClubs = new Club[fields.Length];
 
-            for (int i = 0; i < fields.Length; i++)
-            {
-                string[] temp  = fields[i].Split(DAC.SubElementSeparator.ToCharArray());;
-                string thisClub = temp[0];
-                string thisClubName = thisClub;
-                if (temp.Length > 1)
-                {
-                    thisClubName = temp[1];
-                }
-                ClubType t = (ClubType)Enum.Parse(typeof(ClubType), thisClub);
-                theseClubs[i] = new Club(t, thisClubName);
-            }
-
-            this.Clubs = theseClubs;
-        }
-
+        // creates a new bag with default clubs
         public static GolfBag NewBag()
         {
             Club [] newClubs = new Club[GolfBag.MaxClubs];
@@ -54,6 +35,29 @@ namespace GolfStatKeeper
             newClubs[13] = new Club(ClubType.Putter);
 
             return new GolfBag(newClubs);
+        }
+
+        internal static GolfBag LoadFromFileLine(string clubsData)
+        {
+            string[] fields = clubsData.Split(DAC.ElementSeparator.ToCharArray());
+            Club[] theseClubs = new Club[fields.Length];
+
+            for (int i = 0; i < fields.Length; i++)
+            {
+                string[] temp = fields[i].Split(DAC.SubElementSeparator.ToCharArray()); ;
+                string thisClub = temp[0];
+                string thisClubName = thisClub;
+                if (temp.Length > 1)
+                {
+                    thisClubName = temp[1];
+                }
+                ClubType t = (ClubType)Enum.Parse(typeof(ClubType), thisClub);
+                theseClubs[i] = new Club(t, thisClubName);
+            }
+
+            GolfBag results = new GolfBag(theseClubs);
+
+            return results;
         }
     }
 }
