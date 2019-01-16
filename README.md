@@ -1,6 +1,8 @@
 # GolfStatKeeper
 A windows desktop app for tracking your personal golf stats.  Provides analysis and trending to improve your game.
 
+Demonstrates data access to flat files, 2D graphics for charting and creative informative graphs.
+
 ## Features
 * Player CRUD and multi-player storage
 * Course CRUD to save any course info
