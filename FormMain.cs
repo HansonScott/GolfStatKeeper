@@ -52,7 +52,6 @@ namespace GolfStatKeeper
             bool Install = DAC.CheckInstalled();
             // regardless of the install, run the app.
             Application.Run(new FormMain());
-            //Application.Run(new FormTest());
         }
         #endregion
 

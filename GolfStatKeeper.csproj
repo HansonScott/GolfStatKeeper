@@ -85,12 +85,6 @@
     <Compile Include="FormPlayerSelector.Designer.cs">
       <DependentUpon>FormPlayerSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTest.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormTest.Designer.cs">
-      <DependentUpon>FormTest.cs</DependentUpon>
-    </Compile>
     <Compile Include="CoreObjects\GolfBag.cs" />
     <Compile Include="CoreObjects\Hole.cs" />
     <Compile Include="CoreObjects\Player.cs" />
@@ -175,10 +169,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormPlayerSelector.resx">
       <DependentUpon>FormPlayerSelector.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormTest.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>FormTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\PanelPlayer.resx">
       <DependentUpon>PanelPlayer.cs</DependentUpon>

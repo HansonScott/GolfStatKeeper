@@ -46,6 +46,9 @@ namespace GolfStatKeeper.Panels
 
             CurrentPlayer = P;
             PopulateGolfBag(P.Bag);
+
+            // store the new current player for other tabs' data.
+            FormMain.thisForm.CurrentPlayer = P;
         }
 
         public void PrepopulateGolfBagWithDefaults()
