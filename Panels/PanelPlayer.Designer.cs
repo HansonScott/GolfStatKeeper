@@ -30,14 +30,15 @@
         {
             this.lblName = new System.Windows.Forms.Label();
             this.gbGolfBag = new System.Windows.Forms.GroupBox();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
             this.dgvGolfBag = new System.Windows.Forms.DataGridView();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cbPlayerName = new System.Windows.Forms.ComboBox();
-            this.lblPlayerID = new System.Windows.Forms.Label();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnOpenPlayer = new System.Windows.Forms.Button();
+            this.btnNew = new System.Windows.Forms.Button();
+            this.tbPlayerName = new System.Windows.Forms.TextBox();
             this.gbGolfBag.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGolfBag)).BeginInit();
             this.SuspendLayout();
@@ -56,37 +57,13 @@
             this.gbGolfBag.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbGolfBag.Controls.Add(this.btnDelete);
-            this.gbGolfBag.Controls.Add(this.btnSave);
             this.gbGolfBag.Controls.Add(this.dgvGolfBag);
-            this.gbGolfBag.Location = new System.Drawing.Point(0, 45);
+            this.gbGolfBag.Location = new System.Drawing.Point(0, 75);
             this.gbGolfBag.Name = "gbGolfBag";
-            this.gbGolfBag.Size = new System.Drawing.Size(454, 409);
+            this.gbGolfBag.Size = new System.Drawing.Size(454, 379);
             this.gbGolfBag.TabIndex = 2;
             this.gbGolfBag.TabStop = false;
             this.gbGolfBag.Text = "Golf Bag";
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDelete.Location = new System.Drawing.Point(292, 380);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 2;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnSave
-            // 
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(373, 380);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 1;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // dgvGolfBag
             // 
@@ -102,7 +79,7 @@
             this.Column2});
             this.dgvGolfBag.Location = new System.Drawing.Point(6, 34);
             this.dgvGolfBag.Name = "dgvGolfBag";
-            this.dgvGolfBag.Size = new System.Drawing.Size(442, 340);
+            this.dgvGolfBag.Size = new System.Drawing.Size(442, 339);
             this.dgvGolfBag.TabIndex = 0;
             // 
             // Column3
@@ -126,32 +103,67 @@
             this.Column2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // cbPlayerName
+            // btnDelete
             // 
-            this.cbPlayerName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDelete.Location = new System.Drawing.Point(373, 46);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 2;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Location = new System.Drawing.Point(292, 46);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 1;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnOpenPlayer
+            // 
+            this.btnOpenPlayer.Location = new System.Drawing.Point(87, 46);
+            this.btnOpenPlayer.Name = "btnOpenPlayer";
+            this.btnOpenPlayer.Size = new System.Drawing.Size(75, 23);
+            this.btnOpenPlayer.TabIndex = 3;
+            this.btnOpenPlayer.Text = "Open";
+            this.btnOpenPlayer.UseVisualStyleBackColor = true;
+            this.btnOpenPlayer.Click += new System.EventHandler(this.btnOpenPlayer_Click);
+            // 
+            // btnNew
+            // 
+            this.btnNew.Location = new System.Drawing.Point(6, 46);
+            this.btnNew.Name = "btnNew";
+            this.btnNew.Size = new System.Drawing.Size(75, 23);
+            this.btnNew.TabIndex = 4;
+            this.btnNew.Text = "Create New";
+            this.btnNew.UseVisualStyleBackColor = true;
+            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+            // 
+            // tbPlayerName
+            // 
+            this.tbPlayerName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbPlayerName.FormattingEnabled = true;
-            this.cbPlayerName.Location = new System.Drawing.Point(89, 7);
-            this.cbPlayerName.Name = "cbPlayerName";
-            this.cbPlayerName.Size = new System.Drawing.Size(330, 21);
-            this.cbPlayerName.TabIndex = 3;
-            this.cbPlayerName.SelectedValueChanged += new System.EventHandler(this.cbPlayerName_SelectedValueChanged);
-            // 
-            // lblPlayerID
-            // 
-            this.lblPlayerID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblPlayerID.Location = new System.Drawing.Point(426, 10);
-            this.lblPlayerID.Name = "lblPlayerID";
-            this.lblPlayerID.Size = new System.Drawing.Size(22, 18);
-            this.lblPlayerID.TabIndex = 4;
-            this.lblPlayerID.Text = "0";
+            this.tbPlayerName.Location = new System.Drawing.Point(87, 7);
+            this.tbPlayerName.Name = "tbPlayerName";
+            this.tbPlayerName.Size = new System.Drawing.Size(361, 20);
+            this.tbPlayerName.TabIndex = 5;
+            this.tbPlayerName.Visible = false;
             // 
             // PanelPlayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.lblPlayerID);
-            this.Controls.Add(this.cbPlayerName);
+            this.Controls.Add(this.tbPlayerName);
+            this.Controls.Add(this.btnNew);
+            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.btnOpenPlayer);
             this.Controls.Add(this.gbGolfBag);
             this.Controls.Add(this.lblName);
             this.Name = "PanelPlayer";
@@ -172,8 +184,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewComboBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.ComboBox cbPlayerName;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Label lblPlayerID;
+        private System.Windows.Forms.Button btnOpenPlayer;
+        private System.Windows.Forms.Button btnNew;
+        private System.Windows.Forms.TextBox tbPlayerName;
     }
 }

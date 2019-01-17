@@ -16,6 +16,9 @@ namespace GolfStatKeeper.Panels
             Type = 1,
             Name = 2,
         }
+
+        public Player CurrentPlayer;
+
         public PanelPlayer()
         {
             InitializeComponent();
@@ -24,15 +27,24 @@ namespace GolfStatKeeper.Panels
             (dgvGolfBag.Columns[(int)GolfBagColumns.Type] as DataGridViewComboBoxColumn).DataSource = Enum.GetNames(typeof(GolfStatKeeper.ClubType));
         }
 
-        public void LoadPossiblePlayers(Player[] ps)
+        internal void SetForNewPlayer()
         {
-            cbPlayerName.DataSource = ps;
-            cbPlayerName.DisplayMember = "Name";
+            lblName.Text = "Player Name:";
+            tbPlayerName.Text = String.Empty;
+            tbPlayerName.Visible = true;
+            btnDelete.Enabled = false;
+
+            CurrentPlayer = null;
+            PrepopulateGolfBagWithDefaults();
         }
 
         public void LoadPlayer(Player P)
         {
-            lblPlayerID.Text = P.ID.ToString();
+            lblName.Text = P.Name;
+            tbPlayerName.Visible = false;
+            btnDelete.Enabled = true;
+
+            CurrentPlayer = P;
             PopulateGolfBag(P.Bag);
         }
 
@@ -54,18 +66,24 @@ namespace GolfStatKeeper.Panels
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            
+            DAC.DeletePlayerID(CurrentPlayer.ID.ToString());
+            CurrentPlayer = null;
+            dgvGolfBag.Rows.Clear();
+            lblName.Text = String.Empty;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if(Int32.Parse(lblPlayerID.Text) > 0)
+            if(CurrentPlayer != null)
             {
-                DAC.SavePlayer(Int32.Parse(lblPlayerID.Text), DAC.SafeString(cbPlayerName.Text), GetClubsStringFromGrid());
+                DAC.SavePlayer(CurrentPlayer.ID, DAC.SafeString(lblName.Text), GetClubsStringFromGrid());
             }
             else
             {
-                DAC.AddNewPlayer(Player.GetNextPlayerID(), DAC.SafeString(cbPlayerName.Text), GetClubsStringFromGrid());
+                int id = Player.GetNextPlayerID();
+                DAC.AddNewPlayer(id, DAC.SafeString(tbPlayerName.Text), GetClubsStringFromGrid());
+
+                LoadPlayer(DAC.GetPlayerByID(id.ToString()));
             }
         }
 
@@ -88,10 +106,20 @@ namespace GolfStatKeeper.Panels
             return result;
         }
 
-        private void cbPlayerName_SelectedValueChanged(object sender, EventArgs e)
+        private void btnNew_Click(object sender, EventArgs e)
         {
-            lblPlayerID.Text = (cbPlayerName.SelectedValue as Player).ID.ToString();
-            PopulateGolfBag((cbPlayerName.SelectedValue as Player).Bag);
+            SetForNewPlayer();
+        }
+
+        private void btnOpenPlayer_Click(object sender, EventArgs e)
+        {
+            FormPlayerSelector fm = new FormPlayerSelector();
+            DialogResult res = fm.ShowDialog();
+
+            if(res == DialogResult.OK)
+            {
+                LoadPlayer(fm.SelectedPlayer);
+            }
         }
     }
 }

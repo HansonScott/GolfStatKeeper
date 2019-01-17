@@ -66,11 +66,12 @@ namespace GolfStatKeeper
             bool NewPlayer = LoadCurrentPlayer();
             if (NewPlayer)
             {
+                panelPlayer1.SetForNewPlayer();
                 panelPlayer1.PrepopulateGolfBagWithDefaults();
             }
             else
             {
-                panelPlayer1.LoadPossiblePlayers(DAC.GetPlayers());
+                panelPlayer1.LoadPlayer(CurrentPlayer);
             }
         }
 
