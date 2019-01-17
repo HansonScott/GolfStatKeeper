@@ -170,6 +170,9 @@
     <EmbeddedResource Include="FormPlayerSelector.resx">
       <DependentUpon>FormPlayerSelector.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Panels\PanelCourse.resx">
+      <DependentUpon>PanelCourse.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Panels\PanelPlayer.resx">
       <DependentUpon>PanelPlayer.cs</DependentUpon>
     </EmbeddedResource>

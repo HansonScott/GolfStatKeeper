@@ -18,7 +18,6 @@ namespace GolfStatKeeper
         private Player m_CurrentPlayer;
 
         #region Panels Declarations
-        public PanelCourse PanelCourse1;
         public PanelRoundSummary PanelRoundSummary1;
         public PanelRound PanelRound1;
         public PanelStats PanelStats1;
