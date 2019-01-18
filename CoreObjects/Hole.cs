@@ -12,6 +12,8 @@ namespace GolfStatKeeper
         public int Length;
         public int HoleNumber;
         public int HCP;
+
+        // only used for a played hole, not a course hole.
         public int PenaltyStrokes = 0;
         public Shot[] Shots;
         #endregion
@@ -43,6 +45,35 @@ namespace GolfStatKeeper
         }
         #endregion
 
+        #region Static Functions
+        public static Hole CreateHoleFromHoleDataString(string holeData)
+        {
+            string[] data = holeData.Split(DAC.SubElementSeparator.ToCharArray());
+
+            int num = Int32.Parse(data[(int)HoleFileFields.HoleNumber]);
+            int par = Int32.Parse(data[(int)HoleFileFields.Par]);
+            int len = Int32.Parse(data[(int)HoleFileFields.Length]);
+            int hcp = Int32.Parse(data[(int)HoleFileFields.HCP]);
+
+            return new Hole(num, len, par, hcp);
+        }
+        public static Hole CreateHoleFromHolePlayedLine(string holePlayedLine)
+        {
+            Hole result = new Hole();
+
+            string[] fields = holePlayedLine.Split(DAC.FieldSeparator.ToCharArray());
+
+            result.HoleNumber = Int32.Parse(fields[(int)HolesPlayedFileFields.HoleNumber]);
+            result.PenaltyStrokes = Int32.Parse(fields[(int)HolesPlayedFileFields.PenaltyStrokes]);
+
+            string shots = fields[(int)HolesPlayedFileFields.Shots];
+            result.Shots = Shot.CreateShotsFromStringLine(shots);
+
+            return result;
+        }
+        #endregion
+
+        #region Public Functions
         public bool AddShot(Shot shot)
         {
             #region Add at end
@@ -155,33 +186,6 @@ namespace GolfStatKeeper
                 }
             }
         }
-
-        public static Hole CreateHoleFromHoleDataString(string holeData)
-        {
-            string[] data = holeData.Split(DAC.SubElementSeparator.ToCharArray());
-
-            int num = Int32.Parse(data[(int)HoleFileFields.HoleNumber]);
-            int par = Int32.Parse(data[(int)HoleFileFields.Par]);
-            int len = Int32.Parse(data[(int)HoleFileFields.Length]);
-            int hcp = Int32.Parse(data[(int)HoleFileFields.HCP]);
-
-            return new Hole(num, len, par, hcp);
-        }
-        public static Hole CreateHoleFromHolePlayedLine(string holePlayedLine)
-        {
-            Hole result = new Hole();
-
-            string[] fields = holePlayedLine.Split(DAC.FieldSeparator.ToCharArray());
-
-            result.HoleNumber = Int32.Parse(fields[(int)HolesPlayedFileFields.HoleNumber]);
-            result.PenaltyStrokes = Int32.Parse(fields[(int)HolesPlayedFileFields.PenaltyStrokes]);
-
-            string shots = fields[(int)HolesPlayedFileFields.Shots];
-            result.Shots = Shot.CreateShotsFromStringLine(shots);
-
-            return result;
-        }
-
         public Shot GetShotByShotNumber(int shotNumber)
         {
             for (int i = 0; i < this.Shots.Length; i++)
@@ -459,5 +463,27 @@ namespace GolfStatKeeper
             // return results
             return results;
         }
+
+        public string ToDataString(bool played)
+        {
+            if (!played)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(this.HoleNumber);
+                sb.Append(DAC.SubElementSeparator);
+                sb.Append(this.Par);
+                sb.Append(DAC.SubElementSeparator);
+                sb.Append(this.Length);
+                sb.Append(DAC.SubElementSeparator);
+                sb.Append(this.HCP);
+
+                return sb.ToString();
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+        #endregion
     }
 }

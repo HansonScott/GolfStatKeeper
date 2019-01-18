@@ -9,7 +9,6 @@ using System.Windows.Forms;
 namespace GolfStatKeeper
 {
     public partial class FormPlayerSelector : Form
-        
     {
         public Player SelectedPlayer
         {

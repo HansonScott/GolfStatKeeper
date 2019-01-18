@@ -103,13 +103,6 @@ namespace GolfStatKeeper
             get { return Path.Combine(ContentsFolder, ConfigurationManager.AppSettings["PlayersFile"]); }
         }
 
-        internal static string SafeString(string raw)
-        {
-            raw = raw.Replace(DAC.ElementSeparator, String.Empty);
-            raw = raw.Replace(DAC.SubElementSeparator, String.Empty);
-            return raw;
-        }
-
         public static string CoursesFile
         {
             get { return Path.Combine(ContentsFolder, ConfigurationManager.AppSettings["CoursesFile"]); }
@@ -528,8 +521,9 @@ namespace GolfStatKeeper
             // write over the file
             WriteLines(CoursesFile, courses);
         }
-        public static void AddCourse(string cName, string cTees, string cSlope, string cRating, string[] cHoles)
+        public static int AddCourse(string cName, string cTees, string cSlope, string cRating, string[] cHoles)
         {
+            int newID = 0;
             string[] courses = GetCoursesFileLines();
 
             string[] coursesUpdated = new string[courses.Length + 1];
@@ -554,6 +548,7 @@ namespace GolfStatKeeper
                     newFields[(int)CourseFileFields.Rating] = cRating;
 
                     newFields[(int)CourseFileFields.ID] = (maxID + 1).ToString();
+                    newID = maxID + 1;
 
                     string holes = String.Join(ElementSeparator, cHoles);
                     newFields[(int)CourseFileFields.Holes] = holes;
@@ -564,6 +559,7 @@ namespace GolfStatKeeper
             }
 
             WriteLines(CoursesFile, coursesUpdated);
+            return newID;
         }
         public static void DeleteCourseByID(string cID)
         {
@@ -993,5 +989,12 @@ namespace GolfStatKeeper
             return ReadText(Path.Combine(HelpFolder, file));
         }
         #endregion
+
+        internal static string SafeString(string raw)
+        {
+            raw = raw.Replace(DAC.ElementSeparator, String.Empty);
+            raw = raw.Replace(DAC.SubElementSeparator, String.Empty);
+            return raw;
+        }
     }
 }
