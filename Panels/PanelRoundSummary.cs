@@ -43,6 +43,7 @@ namespace GolfStatKeeper.Panels
             foreach (Round r in rounds)
             {
                 DataGridViewRow row = new DataGridViewRow();
+                row.Tag = r.ID;
                 row.Cells[(int)RoundGridColumns.Date].Value = r.When.ToString("yyyy-MMM-dd");
                 row.Cells[(int)RoundGridColumns.CourseTee].Value = r.Course.CourseAndTee;
                 row.Cells[(int)RoundGridColumns.Fairways].Value = (r.TotalFairwaysHit * 100 / r.Course.GetTotalFairways()) + "%";

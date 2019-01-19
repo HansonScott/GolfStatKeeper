@@ -6,8 +6,19 @@ namespace GolfStatKeeper
 {
     public class Round
     {
+        public enum RoundConditions
+        {
+            Cold = 1,
+            Rainy = 2,
+            Fair = 3,
+            Windy = 4,
+            Hot = 5,
+            Extra_Wet = 6,
+            Extra_Dry = 7,
+        }
+
         public int ID { get; set; }
-        public int Conditions { get; set; }
+        public RoundConditions Conditions { get; set; }
         public Course Course { get; set; }
         public int TotalFairwaysHit { get; set; }
         public int TotalGreensHit { get; set; }
