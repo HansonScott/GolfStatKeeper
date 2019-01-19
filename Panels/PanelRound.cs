@@ -14,15 +14,5 @@ namespace GolfStatKeeper.Panels
         {
             InitializeComponent();
         }
-
-        internal void PopulateCourseCombo()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal void RefreshCourseData()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

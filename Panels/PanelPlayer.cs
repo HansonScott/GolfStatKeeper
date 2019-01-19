@@ -17,7 +17,17 @@ namespace GolfStatKeeper.Panels
             Name = 2,
         }
 
-        public Player CurrentPlayer;
+        private Player m_CurrentPlayer;
+        public Player CurrentPlayer
+        {
+            get { return m_CurrentPlayer; }
+            set
+            {
+                m_CurrentPlayer = value;
+                FormMain.thisForm.CurrentPlayer = value;
+            }
+            
+        }
 
         public PanelPlayer()
         {

@@ -106,7 +106,7 @@
             // btnDelete
             // 
             this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDelete.Location = new System.Drawing.Point(373, 46);
+            this.btnDelete.Location = new System.Drawing.Point(373, 34);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 2;
@@ -117,7 +117,7 @@
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(292, 46);
+            this.btnSave.Location = new System.Drawing.Point(373, 5);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 1;
@@ -127,7 +127,8 @@
             // 
             // btnOpenPlayer
             // 
-            this.btnOpenPlayer.Location = new System.Drawing.Point(87, 46);
+            this.btnOpenPlayer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpenPlayer.Location = new System.Drawing.Point(292, 34);
             this.btnOpenPlayer.Name = "btnOpenPlayer";
             this.btnOpenPlayer.Size = new System.Drawing.Size(75, 23);
             this.btnOpenPlayer.TabIndex = 3;
@@ -137,7 +138,8 @@
             // 
             // btnNew
             // 
-            this.btnNew.Location = new System.Drawing.Point(6, 46);
+            this.btnNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNew.Location = new System.Drawing.Point(292, 5);
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(75, 23);
             this.btnNew.TabIndex = 4;
@@ -151,7 +153,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbPlayerName.Location = new System.Drawing.Point(87, 7);
             this.tbPlayerName.Name = "tbPlayerName";
-            this.tbPlayerName.Size = new System.Drawing.Size(361, 20);
+            this.tbPlayerName.Size = new System.Drawing.Size(199, 20);
             this.tbPlayerName.TabIndex = 5;
             this.tbPlayerName.Visible = false;
             // 

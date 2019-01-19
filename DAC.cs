@@ -626,8 +626,8 @@ namespace GolfStatKeeper
                     // change the data
                     fields[(int)RoundFileFields.Conditions] = ((int)thisRound.Conditions).ToString();
                     fields[(int)RoundFileFields.Course] = thisRound.Course.ID.ToString();
-                    fields[(int)RoundFileFields.FairwaysHit] = thisRound.FairwaysHit.ToString();
-                    fields[(int)RoundFileFields.GreensHit] = thisRound.GreensHit.ToString();
+                    fields[(int)RoundFileFields.FairwaysHit] = thisRound.TotalFairwaysHit.ToString();
+                    fields[(int)RoundFileFields.GreensHit] = thisRound.TotalGreensHit.ToString();
                     fields[(int)RoundFileFields.Player] = thisRound.Player.ID.ToString();
                     fields[(int)RoundFileFields.TotalPenaltyStrokes] = thisRound.TotalPenaltyStrokes.ToString();
                     fields[(int)RoundFileFields.TotalPutts] = thisRound.TotalPutts.ToString();
@@ -663,8 +663,8 @@ namespace GolfStatKeeper
                     fields[(int)RoundFileFields.ID] = thisRound.ID.ToString();
                     fields[(int)RoundFileFields.Conditions] = ((int)thisRound.Conditions).ToString();
                     fields[(int)RoundFileFields.Course] = thisRound.Course.ID.ToString();
-                    fields[(int)RoundFileFields.FairwaysHit] = thisRound.FairwaysHit.ToString();
-                    fields[(int)RoundFileFields.GreensHit] = thisRound.GreensHit.ToString();
+                    fields[(int)RoundFileFields.FairwaysHit] = thisRound.TotalFairwaysHit.ToString();
+                    fields[(int)RoundFileFields.GreensHit] = thisRound.TotalGreensHit.ToString();
                     fields[(int)RoundFileFields.Player] = thisRound.Player.ID.ToString();
                     fields[(int)RoundFileFields.TotalPenaltyStrokes] = thisRound.TotalPenaltyStrokes.ToString();
                     fields[(int)RoundFileFields.TotalPutts] = thisRound.TotalPutts.ToString();
@@ -888,27 +888,27 @@ namespace GolfStatKeeper
 
             return ReadAllLines(path);
         }
-        public static Hole[] GetHolesPlayedByRoundID(string RoundID, Course c)
+        public static HoleScore[] GetHolesPlayedByRoundID(string RoundID, Course c)
         {
             // look up the file with the RoundID.txt
             string[] holeLines = GetHoleFileLines(RoundID);
             if (holeLines == null || holeLines.Length == 0) { return null; }
 
-            Hole[] results = new Hole[holeLines.Length];
+            HoleScore[] results = new HoleScore[holeLines.Length];
 
             for (int i = 0; i < holeLines.Length; i++)
             {
-                results[i] = Hole.CreateHoleFromHolePlayedLine(holeLines[i]);
+                results[i] = HoleScore.CreateHoleFromHolePlayedLine(holeLines[i]);
 
                 // and fill in course data too
-                results[i].Par = c.Holes[i].Par;
-                results[i].HCP = c.Holes[i].HCP;
-                results[i].Length = c.Holes[i].Length;
+                results[i].HolePlayed.Par = c.Holes[i].Par;
+                results[i].HolePlayed.HCP = c.Holes[i].HCP;
+                results[i].HolePlayed.Length = c.Holes[i].Length;
             }
 
             return results;
         }
-        public static void SaveHolesPlayedByRoundID(string RoundID, Hole[] holes)
+        public static void SaveHolesPlayedByRoundID(string RoundID, HoleScore[] holes)
         {
             string folder = RoundDetailsFolder;
             if (!Directory.Exists(folder))
@@ -922,7 +922,7 @@ namespace GolfStatKeeper
             for (int i = 0; i < holes.Length; i++)
             {
                 string[] fields = new string[Enum.GetNames(typeof(HolesPlayedFileFields)).Length];
-                fields[(int)HolesPlayedFileFields.HoleNumber] = holes[i].HoleNumber.ToString();
+                fields[(int)HolesPlayedFileFields.HoleNumber] = holes[i].HolePlayed.HoleNumber.ToString();
                 fields[(int)HolesPlayedFileFields.PenaltyStrokes] = holes[i].PenaltyStrokes.ToString();
                 fields[(int)HolesPlayedFileFields.Shots] = Shot.SaveShotsToString(holes[i].Shots);
 

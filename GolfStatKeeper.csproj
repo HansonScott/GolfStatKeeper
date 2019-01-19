@@ -72,6 +72,7 @@
     <Compile Include="CoreObjects\Club.cs" />
     <Compile Include="ComboBoxUtil.cs" />
     <Compile Include="CoreObjects\Course.cs" />
+    <Compile Include="CoreObjects\HoleScore.cs" />
     <Compile Include="DAC.cs" />
     <Compile Include="FormCourseSelector.cs">
       <SubType>Form</SubType>
@@ -184,6 +185,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\PanelPlayer.resx">
       <DependentUpon>PanelPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\PanelRound.resx">
+      <DependentUpon>PanelRound.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\PanelRoundSummary.resx">
+      <DependentUpon>PanelRoundSummary.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
   </ItemGroup>

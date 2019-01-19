@@ -52,8 +52,8 @@ namespace GolfStatKeeper
                 DataRow row = dt.NewRow();
 
                 row["Score"] = ThisRound.TotalScore;
-                row["Fairways"] = (decimal)((decimal)(ThisRound.FairwaysHit * 100) / (decimal)ThisRound.Course.GetTotalFairways());
-                row["Greens"] = (decimal)((decimal)(ThisRound.GreensHit * 100) / (decimal)18);
+                row["Fairways"] = (decimal)((decimal)(ThisRound.TotalFairwaysHit * 100) / (decimal)ThisRound.Course.GetTotalFairways());
+                row["Greens"] = (decimal)((decimal)(ThisRound.TotalGreensHit * 100) / (decimal)18);
                 row["Putts"] = ThisRound.TotalPutts;
                 row["Penalties"] = ThisRound.TotalPenaltyStrokes;
 

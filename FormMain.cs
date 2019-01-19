@@ -104,5 +104,13 @@ namespace GolfStatKeeper
             return false;
         }
         #endregion
+
+        private void tabControl1_Selected(object sender, TabControlEventArgs e)
+        {
+            if(e.TabPage.Text == "Rounds")
+            {
+                thisForm.PanelRoundSummary1.LoadRoundSummaries();
+            }
+        }
     }
 }

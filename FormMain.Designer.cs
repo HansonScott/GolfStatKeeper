@@ -33,11 +33,11 @@ namespace GolfStatKeeper
             this.tabPlayers = new System.Windows.Forms.TabPage();
             this.panelPlayer1 = new GolfStatKeeper.Panels.PanelPlayer();
             this.tabCourses = new System.Windows.Forms.TabPage();
+            this.panelCourse1 = new GolfStatKeeper.Panels.PanelCourse();
             this.tabRounds = new System.Windows.Forms.TabPage();
             this.tabStats = new System.Windows.Forms.TabPage();
             this.tabNotes = new System.Windows.Forms.TabPage();
             this.tabHelp = new System.Windows.Forms.TabPage();
-            this.panelCourse1 = new GolfStatKeeper.Panels.PanelCourse();
             this.tabControl1.SuspendLayout();
             this.tabPlayers.SuspendLayout();
             this.tabCourses.SuspendLayout();
@@ -56,6 +56,7 @@ namespace GolfStatKeeper
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(725, 566);
             this.tabControl1.TabIndex = 1;
+            this.tabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl1_Selected);
             // 
             // tabPlayers
             // 
@@ -85,6 +86,16 @@ namespace GolfStatKeeper
             this.tabCourses.TabIndex = 1;
             this.tabCourses.Text = "Courses";
             this.tabCourses.UseVisualStyleBackColor = true;
+            // 
+            // panelCourse1
+            // 
+            this.panelCourse1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelCourse1.Location = new System.Drawing.Point(0, 3);
+            this.panelCourse1.Name = "panelCourse1";
+            this.panelCourse1.Size = new System.Drawing.Size(714, 537);
+            this.panelCourse1.TabIndex = 0;
             // 
             // tabRounds
             // 
@@ -122,16 +133,6 @@ namespace GolfStatKeeper
             this.tabHelp.TabIndex = 5;
             this.tabHelp.Text = "Help";
             this.tabHelp.UseVisualStyleBackColor = true;
-            // 
-            // panelCourse2
-            // 
-            this.panelCourse1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelCourse1.Location = new System.Drawing.Point(0, 3);
-            this.panelCourse1.Name = "panelCourse2";
-            this.panelCourse1.Size = new System.Drawing.Size(714, 537);
-            this.panelCourse1.TabIndex = 0;
             // 
             // FormMain
             // 

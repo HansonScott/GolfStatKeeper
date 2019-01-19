@@ -9,13 +9,13 @@ namespace GolfStatKeeper
         public int ID { get; set; }
         public int Conditions { get; set; }
         public Course Course { get; set; }
-        public int FairwaysHit { get; set; }
-        public int GreensHit { get; set; }
+        public int TotalFairwaysHit { get; set; }
+        public int TotalGreensHit { get; set; }
         public Player Player { get; set; }
         public int TotalPenaltyStrokes { get; set; }
         public int TotalPutts { get; set; }
         public int TotalScore { get; set; }
-        public Hole[] HolesPlayed { get; set; }
+        public HoleScore[] HolesPlayed { get; set; }
         public int TotalHolesPlayed
         {
             get
