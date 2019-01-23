@@ -492,6 +492,23 @@ namespace GolfStatKeeper
             Array.Sort(names);
             return names;
         }
+        public static string[] GetTeesForCourse(string cID)
+        {
+            List<string> tees = new List<string>();
+
+            string[] courses = GetCoursesFileLines();
+
+            for (int i = 0; i < courses.Length; i++)
+            {
+                string[] fields = courses[i].Split(FieldSeparator.ToCharArray());
+                if (fields[(int)CourseFileFields.ID] == cID)
+                {
+                    tees.Add(fields[(int)CourseFileFields.Tees]);
+                }
+            }
+
+            return tees.ToArray();
+        }
         public static void SaveCourse(string cID, string cName, string cTees, string cSlope, string cRating, string[] cHoles)
         {
             string[] courses = GetCoursesFileLines();
@@ -623,20 +640,7 @@ namespace GolfStatKeeper
 
                 if (fields[(int)RoundFileFields.ID] == thisRound.ID.ToString())
                 {
-                    // change the data
-                    fields[(int)RoundFileFields.Conditions] = ((int)thisRound.Conditions).ToString();
-                    fields[(int)RoundFileFields.Course] = thisRound.Course.ID.ToString();
-                    fields[(int)RoundFileFields.FairwaysHit] = thisRound.TotalFairwaysHit.ToString();
-                    fields[(int)RoundFileFields.GreensHit] = thisRound.TotalGreensHit.ToString();
-                    fields[(int)RoundFileFields.Player] = thisRound.Player.ID.ToString();
-                    fields[(int)RoundFileFields.TotalPenaltyStrokes] = thisRound.TotalPenaltyStrokes.ToString();
-                    fields[(int)RoundFileFields.TotalPutts] = thisRound.TotalPutts.ToString();
-                    fields[(int)RoundFileFields.TotalScore] = thisRound.TotalScore.ToString();
-                    fields[(int)RoundFileFields.HolesPlayed] = thisRound.TotalHolesPlayed.ToString();
-                    fields[(int)RoundFileFields.When] = thisRound.When.ToString("yyyyMMdd");
-
-                    // set back to list of players
-                    rounds[i] = String.Join(FieldSeparator, fields);
+                    rounds[i] = thisRound.ToString();
                     break;
                 }
             }
@@ -657,30 +661,8 @@ namespace GolfStatKeeper
                     // assign the new ID
                     thisRound.ID = i;
 
-                    // use enum?
-                    string[] fields = new string[Enum.GetNames(typeof(RoundFileFields)).Length];
-                    // set the data
-                    fields[(int)RoundFileFields.ID] = thisRound.ID.ToString();
-                    fields[(int)RoundFileFields.Conditions] = ((int)thisRound.Conditions).ToString();
-                    fields[(int)RoundFileFields.Course] = thisRound.Course.ID.ToString();
-                    fields[(int)RoundFileFields.FairwaysHit] = thisRound.TotalFairwaysHit.ToString();
-                    fields[(int)RoundFileFields.GreensHit] = thisRound.TotalGreensHit.ToString();
-                    fields[(int)RoundFileFields.Player] = thisRound.Player.ID.ToString();
-                    fields[(int)RoundFileFields.TotalPenaltyStrokes] = thisRound.TotalPenaltyStrokes.ToString();
-                    fields[(int)RoundFileFields.TotalPutts] = thisRound.TotalPutts.ToString();
-                    fields[(int)RoundFileFields.TotalScore] = thisRound.TotalScore.ToString();
-
-                    int hp = 0;
-                    for (int j = 0; j < thisRound.HolesPlayed.Length; j++)
-                    {
-                        if (thisRound.HolesPlayed[j] == null) { break; }
-                    }
-                    fields[(int)RoundFileFields.HolesPlayed] = hp.ToString();
-
-
-                    fields[(int)RoundFileFields.When] = thisRound.When.ToString("yyyyMMdd");
-
-                    string newLine = String.Join(FieldSeparator, fields);
+                    string newLine = thisRound.ToString();
+                    
                     roundsUpdated[i] = newLine;
                 }
                 else

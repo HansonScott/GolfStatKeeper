@@ -193,6 +193,8 @@
       <DependentUpon>PanelRoundSummary.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
+    <None Include="Properties\DataSources\Shot.BallLie.datasource" />
+    <None Include="Properties\DataSources\Shot.ShotResult.datasource" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Courses.txt">
@@ -227,7 +229,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Help\" />
-    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
