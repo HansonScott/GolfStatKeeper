@@ -870,13 +870,13 @@ namespace GolfStatKeeper
 
             return ReadAllLines(path);
         }
-        public static HoleScore[] GetHolesPlayedByRoundID(string RoundID, Course c)
+        public static List<HoleScore> GetHolesPlayedByRoundID(string RoundID, Course c)
         {
             // look up the file with the RoundID.txt
             string[] holeLines = GetHoleFileLines(RoundID);
             if (holeLines == null || holeLines.Length == 0) { return null; }
 
-            HoleScore[] results = new HoleScore[holeLines.Length];
+            List<HoleScore> results = new List<HoleScore>(holeLines.Length);
 
             for (int i = 0; i < holeLines.Length; i++)
             {
@@ -890,7 +890,7 @@ namespace GolfStatKeeper
 
             return results;
         }
-        public static void SaveHolesPlayedByRoundID(string RoundID, HoleScore[] holes)
+        public static void SaveHolesPlayedByRoundID(string RoundID, List<HoleScore> holes)
         {
             string folder = RoundDetailsFolder;
             if (!Directory.Exists(folder))
@@ -900,8 +900,8 @@ namespace GolfStatKeeper
             string file = RoundID + ".txt";
             string path = Path.Combine(folder,file);
 
-            string[] holeData = new string[holes.Length];
-            for (int i = 0; i < holes.Length; i++)
+            string[] holeData = new string[holes.Count];
+            for (int i = 0; i < holes.Count; i++)
             {
                 string[] fields = new string[Enum.GetNames(typeof(HolesPlayedFileFields)).Length];
                 fields[(int)HolesPlayedFileFields.HoleNumber] = holes[i].HolePlayed.HoleNumber.ToString();

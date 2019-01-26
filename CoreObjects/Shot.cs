@@ -17,20 +17,30 @@ namespace GolfStatKeeper
         }
         public enum BallFlight
         {
-            wiff,
+            Wiff,
             Chip,
             BumpAndRun,
             Flop,
             Topped,
             Shank,
             Fat,
-            Sand_Greenside,
+            Skied,
+            Pull,
+            Hook,
+            Draw,
+            Straight,
+            Fade,
+            Slice,
+            Push,
         }
         public enum ShotResult
         {
+            As_intended,
+            Different_Ball_Impact,
+            Different_Ball_Flight,
+            Different_Location,
             Hazard,
             OB,
-            As_intended,
         }
 
         public int ShotNumber { get; set; }

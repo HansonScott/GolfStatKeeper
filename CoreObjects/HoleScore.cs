@@ -139,7 +139,7 @@ namespace GolfStatKeeper
                 }
 
                 #region Wiff
-                if (thisShot.ActualFlight == Shot.BallFlight.wiff)
+                if (thisShot.ActualFlight == Shot.BallFlight.Wiff)
                 {
                     results.Add(new ShotWasted(this.HolePlayed.HoleNumber, (this.Score - this.HolePlayed.Par), thisShot.ShotNumber, thisShot.Club, 0, ShotWastedType.Wiff));
                 }
@@ -218,7 +218,7 @@ namespace GolfStatKeeper
                         !(this.HolePlayed.Par > 3 && thisShot.Lie == Shot.BallLie.Tee) &&
                         thisShot.Club != ClubType.Putter &&
                         thisShot.Lie != Shot.BallLie.Green &&
-                        thisShot.ActualFlight != Shot.BallFlight.Sand_Greenside &&
+                        thisShot.Lie != Shot.BallLie.Sand &&
                         thisShot.TargetFlight != Shot.BallFlight.BumpAndRun &&
                         thisShot.TargetFlight != Shot.BallFlight.Chip &&
                         thisShot.TargetFlight != Shot.BallFlight.Flop &&

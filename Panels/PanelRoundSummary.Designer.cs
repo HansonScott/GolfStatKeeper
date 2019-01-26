@@ -66,6 +66,7 @@
             // btnDelete
             // 
             this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDelete.Enabled = false;
             this.btnDelete.Location = new System.Drawing.Point(477, 32);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
@@ -77,6 +78,7 @@
             // btnOpen
             // 
             this.btnOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpen.Enabled = false;
             this.btnOpen.Location = new System.Drawing.Point(396, 32);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(75, 23);
@@ -239,6 +241,7 @@
             this.dgvRounds.ShowRowErrors = false;
             this.dgvRounds.Size = new System.Drawing.Size(551, 335);
             this.dgvRounds.TabIndex = 12;
+            this.dgvRounds.SelectionChanged += new System.EventHandler(this.dgvRounds_SelectionChanged);
             // 
             // PanelRoundSummary
             // 

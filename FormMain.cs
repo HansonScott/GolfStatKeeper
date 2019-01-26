@@ -14,11 +14,13 @@ namespace GolfStatKeeper
     {
         public static FormMain thisForm;
 
+        public static bool IsAppRunning = false;
+
         #region Class Declarations
         private Player m_CurrentPlayer;
 
         #region Panels Declarations
-        public PanelRoundSummary PanelRoundSummary1;
+        public PanelRoundSummary panelRoundSummary1;
         public PanelRound PanelRound1;
         public PanelStats PanelStats1;
         public PanelChart PanelChart1;
@@ -37,7 +39,14 @@ namespace GolfStatKeeper
             set
             {
                 m_CurrentPlayer = value;
-                thisForm.Text = "Golf Stat Keeper - " + m_CurrentPlayer.Name;
+                if (m_CurrentPlayer != null)
+                {
+                    thisForm.Text = "Golf Stat Keeper - " + m_CurrentPlayer.Name;
+                }
+                else
+                {
+                    thisForm.Text = "Golf Stat Keeper";
+                }
             }
         }
         #endregion
@@ -50,6 +59,7 @@ namespace GolfStatKeeper
             Application.SetCompatibleTextRenderingDefault(false);
             bool Install = DAC.CheckInstalled();
             // regardless of the install, run the app.
+            FormMain.IsAppRunning = true;
             Application.Run(new FormMain());
         }
         #endregion
@@ -109,7 +119,7 @@ namespace GolfStatKeeper
         {
             if(e.TabPage.Text == "Rounds")
             {
-                thisForm.PanelRoundSummary1.LoadRoundSummaries();
+                thisForm.panelRoundSummary1.LoadRoundSummaries();
             }
         }
     }

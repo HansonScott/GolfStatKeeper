@@ -27,7 +27,7 @@ namespace GolfStatKeeper
         public int TotalPenaltyStrokes { get; set; }
         public int TotalPutts { get; set; }
         public int TotalScore { get; set; }
-        public HoleScore[] HolesPlayed { get; set; }
+        public List<HoleScore> HolesPlayed { get; set; }
         public int TotalHolesPlayed
         {
             get
@@ -35,7 +35,7 @@ namespace GolfStatKeeper
                 if(HolesPlayed == null) { return 0; }
                 else
                 {
-                    return HolesPlayed.Length;
+                    return HolesPlayed.Count;
                 }
             }
         }
@@ -46,6 +46,7 @@ namespace GolfStatKeeper
         public Round()
         {
             this.ID = -1; // default to -1 so the save function knows it is new.
+            HolesPlayed = new List<HoleScore>();
         }
         #endregion
 
@@ -67,7 +68,7 @@ namespace GolfStatKeeper
             fields[(int)RoundFileFields.TotalScore] = this.TotalScore.ToString();
 
             int hp = 0;
-            for (int j = 0; j < this.HolesPlayed.Length; j++)
+            for (int j = 0; j < this.HolesPlayed.Count; j++)
             {
                 if (this.HolesPlayed[j] == null) { break; }
             }

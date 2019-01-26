@@ -38,9 +38,11 @@ namespace GolfStatKeeper
             this.tabStats = new System.Windows.Forms.TabPage();
             this.tabNotes = new System.Windows.Forms.TabPage();
             this.tabHelp = new System.Windows.Forms.TabPage();
+            this.panelRoundSummary1 = new GolfStatKeeper.Panels.PanelRoundSummary();
             this.tabControl1.SuspendLayout();
             this.tabPlayers.SuspendLayout();
             this.tabCourses.SuspendLayout();
+            this.tabRounds.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -71,6 +73,7 @@ namespace GolfStatKeeper
             // 
             // panelPlayer1
             // 
+            this.panelPlayer1.CurrentPlayer = null;
             this.panelPlayer1.Location = new System.Drawing.Point(8, 6);
             this.panelPlayer1.Name = "panelPlayer1";
             this.panelPlayer1.Size = new System.Drawing.Size(703, 528);
@@ -99,6 +102,7 @@ namespace GolfStatKeeper
             // 
             // tabRounds
             // 
+            this.tabRounds.Controls.Add(this.panelRoundSummary1);
             this.tabRounds.Location = new System.Drawing.Point(4, 22);
             this.tabRounds.Name = "tabRounds";
             this.tabRounds.Size = new System.Drawing.Size(717, 540);
@@ -134,6 +138,13 @@ namespace GolfStatKeeper
             this.tabHelp.Text = "Help";
             this.tabHelp.UseVisualStyleBackColor = true;
             // 
+            // panelRoundSummary2
+            // 
+            this.panelRoundSummary1.Location = new System.Drawing.Point(3, 3);
+            this.panelRoundSummary1.Name = "panelRoundSummary2";
+            this.panelRoundSummary1.Size = new System.Drawing.Size(711, 534);
+            this.panelRoundSummary1.TabIndex = 0;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -149,6 +160,7 @@ namespace GolfStatKeeper
             this.tabControl1.ResumeLayout(false);
             this.tabPlayers.ResumeLayout(false);
             this.tabCourses.ResumeLayout(false);
+            this.tabRounds.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

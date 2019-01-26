@@ -64,38 +64,80 @@ namespace GolfStatKeeper.Panels
 
             // now that we're done with all the rows, make the summary averages
             dgvSummaryStats.Rows.Clear();
-            string fairways = (int)(grandFairways / rounds.Length) + "%";
-            string greens = (int)(grandGreens / rounds.Length) + "%";
-            string putts = (int)(grandPutts / rounds.Length) + "%";
-            string penalties = (int)(grandPenalties / rounds.Length) + "%";
-            string score = (int)(grandScore / rounds.Length) + "%";
+            if (rounds != null && rounds.Length > 0)
+            {
+                string fairways = (int)(grandFairways / rounds.Length) + "%";
+                string greens = (int)(grandGreens / rounds.Length) + "%";
+                string putts = (int)(grandPutts / rounds.Length) + "%";
+                string penalties = (int)(grandPenalties / rounds.Length) + "%";
+                string score = (int)(grandScore / rounds.Length) + "%";
 
-            dgvSummaryStats.Rows.Add(fairways, greens, penalties, score);
+                dgvSummaryStats.Rows.Add(fairways, greens, penalties, score);
+            }
+            else
+            {
+                // summary if no rounds?
+            }
         }
 
         private void btnCreateNew_Click(object sender, EventArgs e)
         {
-
+            FormRoundDetails frm = new FormRoundDetails();
+            frm.Show();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-
+            //?
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
         {
+            if(dgvRounds.SelectedRows.Count == 1)
+            {
+                int rID = (dgvRounds.SelectedRows[0].Tag as int?).Value;
+                HandleOpenRound(rID);
+            }
+        }
 
+        private void HandleOpenRound(int ID)
+        {
+            FormRoundDetails frm = new FormRoundDetails();
+            frm.panelRound1.LoadRoundData(ID);
+            frm.Show();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            if(dgvRounds.SelectedRows.Count == 1)
+            {
+                HandleDeleteSelectedRound(dgvRounds.SelectedRows[0].Tag as int?);
+            }
+        }
 
+        private void HandleDeleteSelectedRound(int? rID)
+        {
+            if (!rID.HasValue) { return; }
+            int ID = rID.Value;
+
+            if (MessageBox.Show("Are you sure you want to delete this selected round and all it's data?", "Delete Round?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                DAC.DeleteRoundByID(ID);
+
+                // refresh grid
+                LoadRoundSummaries();
+            }
         }
 
         private void btnAnalyze_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void dgvRounds_SelectionChanged(object sender, EventArgs e)
+        {
+            btnDelete.Enabled = (dgvRounds.SelectedRows.Count == 1);
+            btnOpen.Enabled = (dgvRounds.SelectedRows.Count == 1);
         }
     }
 }
