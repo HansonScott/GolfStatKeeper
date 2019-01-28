@@ -34,7 +34,16 @@
             this.cbConditions = new System.Windows.Forms.ComboBox();
             this.dgvHoles = new System.Windows.Forms.DataGridView();
             this.dgvShots = new System.Windows.Forms.DataGridView();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ballLieBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.Column2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.ballFlightBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.shotResultBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -42,21 +51,12 @@
             this.lblPenalties = new System.Windows.Forms.Label();
             this.btnSaveHole = new System.Windows.Forms.Button();
             this.btnSaveNext = new System.Windows.Forms.Button();
-            this.ballFlightBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHoles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShots)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ballLieBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ballFlightBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.shotResultBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Penalties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ballFlightBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // dtWhen
@@ -108,12 +108,13 @@
             this.dgvHoles.Name = "dgvHoles";
             this.dgvHoles.RowHeadersVisible = false;
             this.dgvHoles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullColumnSelect;
-            this.dgvHoles.Size = new System.Drawing.Size(555, 150);
+            this.dgvHoles.Size = new System.Drawing.Size(555, 175);
             this.dgvHoles.TabIndex = 4;
             this.dgvHoles.SelectionChanged += new System.EventHandler(this.dgvHolesPlayed_SelectionChanged);
             // 
             // dgvShots
             // 
+            this.dgvShots.AllowUserToResizeRows = false;
             this.dgvShots.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -128,18 +129,82 @@
             this.Column8,
             this.Column6,
             this.Column5});
-            this.dgvShots.Location = new System.Drawing.Point(0, 232);
+            this.dgvShots.Location = new System.Drawing.Point(0, 248);
             this.dgvShots.MultiSelect = false;
             this.dgvShots.Name = "dgvShots";
             this.dgvShots.RowHeadersVisible = false;
             this.dgvShots.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvShots.ShowEditingIcon = false;
-            this.dgvShots.Size = new System.Drawing.Size(451, 150);
+            this.dgvShots.Size = new System.Drawing.Size(451, 152);
             this.dgvShots.TabIndex = 5;
+            // 
+            // Column3
+            // 
+            this.Column3.FillWeight = 10F;
+            this.Column3.HeaderText = "Shot Number";
+            this.Column3.MinimumWidth = 2;
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 87;
+            // 
+            // Column1
+            // 
+            this.Column1.DataSource = this.ballLieBindingSource;
+            this.Column1.HeaderText = "Lie";
+            this.Column1.Name = "Column1";
+            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column1.Width = 46;
             // 
             // ballLieBindingSource
             // 
             this.ballLieBindingSource.DataSource = typeof(GolfStatKeeper.Shot.BallLie);
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Club";
+            this.Column2.Name = "Column2";
+            this.Column2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column2.Width = 53;
+            // 
+            // Column7
+            // 
+            this.Column7.DataSource = this.ballFlightBindingSource;
+            this.Column7.HeaderText = "Intended Ball Flight";
+            this.Column7.Name = "Column7";
+            this.Column7.Width = 70;
+            // 
+            // ballFlightBindingSource
+            // 
+            this.ballFlightBindingSource.DataSource = typeof(GolfStatKeeper.Shot.BallFlight);
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Intended Length";
+            this.Column4.Name = "Column4";
+            this.Column4.Width = 101;
+            // 
+            // Column8
+            // 
+            this.Column8.DataSource = this.ballFlightBindingSource;
+            this.Column8.HeaderText = "Actual Ball Flight";
+            this.Column8.Name = "Column8";
+            this.Column8.Width = 59;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "Actual Length";
+            this.Column6.Name = "Column6";
+            this.Column6.Width = 90;
+            // 
+            // Column5
+            // 
+            this.Column5.DataSource = this.shotResultBindingSource;
+            this.Column5.HeaderText = "Result";
+            this.Column5.Name = "Column5";
+            this.Column5.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column5.Width = 62;
             // 
             // shotResultBindingSource
             // 
@@ -172,7 +237,7 @@
             // 
             this.nud_Penalties.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.nud_Penalties.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_Penalties.Location = new System.Drawing.Point(457, 248);
+            this.nud_Penalties.Location = new System.Drawing.Point(457, 264);
             this.nud_Penalties.Maximum = new decimal(new int[] {
             10,
             0,
@@ -186,7 +251,7 @@
             // 
             this.lblPenalties.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPenalties.AutoSize = true;
-            this.lblPenalties.Location = new System.Drawing.Point(454, 232);
+            this.lblPenalties.Location = new System.Drawing.Point(454, 248);
             this.lblPenalties.Name = "lblPenalties";
             this.lblPenalties.Size = new System.Drawing.Size(84, 13);
             this.lblPenalties.TabIndex = 20;
@@ -195,7 +260,7 @@
             // btnSaveHole
             // 
             this.btnSaveHole.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveHole.Location = new System.Drawing.Point(457, 294);
+            this.btnSaveHole.Location = new System.Drawing.Point(457, 312);
             this.btnSaveHole.Name = "btnSaveHole";
             this.btnSaveHole.Size = new System.Drawing.Size(98, 23);
             this.btnSaveHole.TabIndex = 21;
@@ -206,77 +271,13 @@
             // btnSaveNext
             // 
             this.btnSaveNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveNext.Location = new System.Drawing.Point(457, 323);
+            this.btnSaveNext.Location = new System.Drawing.Point(457, 341);
             this.btnSaveNext.Name = "btnSaveNext";
             this.btnSaveNext.Size = new System.Drawing.Size(98, 23);
             this.btnSaveNext.TabIndex = 22;
             this.btnSaveNext.Text = "Save and Next";
             this.btnSaveNext.UseVisualStyleBackColor = true;
             this.btnSaveNext.Click += new System.EventHandler(this.btnSaveNext_Click);
-            // 
-            // ballFlightBindingSource
-            // 
-            this.ballFlightBindingSource.DataSource = typeof(GolfStatKeeper.Shot.BallFlight);
-            // 
-            // Column3
-            // 
-            this.Column3.FillWeight = 10F;
-            this.Column3.HeaderText = "Shot Number";
-            this.Column3.MinimumWidth = 2;
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 94;
-            // 
-            // Column1
-            // 
-            this.Column1.DataSource = this.ballLieBindingSource;
-            this.Column1.HeaderText = "Lie";
-            this.Column1.Name = "Column1";
-            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column1.Width = 46;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Club";
-            this.Column2.Name = "Column2";
-            this.Column2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column2.Width = 53;
-            // 
-            // Column7
-            // 
-            this.Column7.DataSource = this.ballFlightBindingSource;
-            this.Column7.HeaderText = "Intended Ball Flight";
-            this.Column7.Name = "Column7";
-            this.Column7.Width = 70;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Intended Length";
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 101;
-            // 
-            // Column8
-            // 
-            this.Column8.DataSource = this.ballFlightBindingSource;
-            this.Column8.HeaderText = "Actual Ball Flight";
-            this.Column8.Name = "Column8";
-            this.Column8.Width = 59;
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "Actual Length";
-            this.Column6.Name = "Column6";
-            this.Column6.Width = 90;
-            // 
-            // Column5
-            // 
-            this.Column5.DataSource = this.shotResultBindingSource;
-            this.Column5.HeaderText = "Result";
-            this.Column5.Name = "Column5";
-            this.Column5.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column5.Width = 62;
             // 
             // PanelRound
             // 
@@ -294,13 +295,13 @@
             this.Controls.Add(this.cbCourse);
             this.Controls.Add(this.dtWhen);
             this.Name = "PanelRound";
-            this.Size = new System.Drawing.Size(561, 382);
+            this.Size = new System.Drawing.Size(561, 400);
             ((System.ComponentModel.ISupportInitialize)(this.dgvHoles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShots)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ballLieBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ballFlightBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.shotResultBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Penalties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ballFlightBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

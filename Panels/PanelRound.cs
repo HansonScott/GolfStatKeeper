@@ -9,11 +9,12 @@ namespace GolfStatKeeper.Panels
         private enum HolesRows
         {
             HoleNumber = 0,
-            Par = 1,
-            Score = 2,
-            Fairway = 3,
-            Green = 4,
-            Putts = 5,
+            Length = 1,
+            Par = 2,
+            Score = 3,
+            Fairway = 4,
+            Green = 5,
+            Putts = 6,
         }
         private enum ShotsColumns
         {
@@ -50,6 +51,7 @@ namespace GolfStatKeeper.Panels
             if (FormMain.IsAppRunning)
             {
                 PopulateCBCourses();
+                PopulateCBConditions();
             }
 
             SetupShotDetailsGridWithPlayerClubs();
@@ -62,10 +64,15 @@ namespace GolfStatKeeper.Panels
             else
             {
                 m_thisRound = new Round();
-                SetupEmptyScoreCard(18);
+                SetupEmptyScoreCard(null);
             }
 
             IsLoading = false;
+        }
+
+        private void PopulateCBConditions()
+        {
+            ComboBoxUtil.PopulateCBFromEnum(cbConditions, typeof(Round.RoundConditions));
         }
 
         private void PopulateCBCourses()
@@ -89,6 +96,10 @@ namespace GolfStatKeeper.Panels
             }
 
             (dgvShots.Columns[(int)ShotsColumns.Club] as DataGridViewComboBoxColumn).DataSource = clubs;
+            (dgvShots.Columns[(int)ShotsColumns.Lie] as DataGridViewComboBoxColumn).DataSource = Enum.GetNames(typeof(Shot.BallLie));
+            (dgvShots.Columns[(int)ShotsColumns.Intended_Flight] as DataGridViewComboBoxColumn).DataSource = Enum.GetNames(typeof(Shot.BallFlight));
+            (dgvShots.Columns[(int)ShotsColumns.Actual_Flight] as DataGridViewComboBoxColumn).DataSource = Enum.GetNames(typeof(Shot.BallFlight));
+            (dgvShots.Columns[(int)ShotsColumns.Result] as DataGridViewComboBoxColumn).DataSource = Enum.GetNames(typeof(Shot.ShotResult));
         }
         public void LoadRoundData(int roundID)
         {
@@ -101,7 +112,7 @@ namespace GolfStatKeeper.Panels
             cbConditions.Text = Enum.GetName(typeof(Round.RoundConditions), m_thisRound.Conditions);
 
             // load holes
-            SetupEmptyScoreCard(m_thisRound.Course.Holes.Length);
+            SetupEmptyScoreCard(m_thisRound.Course);
             PopulateScoreCardWithHoleSummary();
         }
         private void PopulateScoreCardWithHoleSummary()
@@ -133,7 +144,7 @@ namespace GolfStatKeeper.Panels
             // putts
             dgvHoles.Rows[(int)HolesRows.Putts].Cells[20].Value = m_thisRound.TotalPutts;
         }
-        private void SetupEmptyScoreCard(int holeCount)
+        private void SetupEmptyScoreCard(Course c)
         {
             dgvHoles.Columns.Clear();
 
@@ -142,17 +153,38 @@ namespace GolfStatKeeper.Panels
 
             // add all the holes
             int ColumnNumber = 0;
-            for(int h = 0; h < holeCount; h++)
+            if (c != null)
             {
-                AddColumn(dgvHoles, "Column" + ColumnNumber++, h.ToString());
+                for (int h = 0; h < c.Holes.Length; h++)
+                {
+                    AddColumn(dgvHoles, "Column" + ColumnNumber++, h.ToString());
+                }
             }
-
+            else
+            {
+                for (int h = 0; h < 18; h++)
+                {
+                    AddColumn(dgvHoles, "Column" + ColumnNumber++, h.ToString());
+                }
+            }
             // add the totals column
             AddColumn(dgvHoles, "ColumnTotals", "");
 
             // populate intended default rows
             // NOTE: abide by the enum order - HolesRows
             dgvHoles.Rows.Add("Hole Number", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18");
+
+            if (c != null)
+            {
+                dgvHoles.Rows.Add("Length", c.Holes[0].Length, c.Holes[1].Length, c.Holes[2].Length, c.Holes[3].Length, c.Holes[4].Length, c.Holes[5].Length,
+                                            c.Holes[6].Length, c.Holes[7].Length, c.Holes[8].Length, c.Holes[9].Length, c.Holes[10].Length,
+                                            c.Holes[11].Length, c.Holes[12].Length, c.Holes[13].Length, c.Holes[14].Length, c.Holes[15].Length,
+                                            c.Holes[16].Length, c.Holes[17].Length);
+            }
+            else
+            {
+                dgvHoles.Rows.Add("Length", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+            }
             dgvHoles.Rows.Add("Par", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
             dgvHoles.Rows.Add("Score", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
             dgvHoles.Rows.Add("Fairway Hit", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
@@ -178,7 +210,7 @@ namespace GolfStatKeeper.Panels
             if (cbCourse.SelectedItem == null) { return; }
 
             // reset score card
-            SetupEmptyScoreCard((cbCourse.SelectedItem as Course).Holes.Length);
+            SetupEmptyScoreCard((cbCourse.SelectedItem as Course));
 
 
             // populate tees combo
@@ -205,7 +237,8 @@ namespace GolfStatKeeper.Panels
 
             Round.RoundConditions RoundConditions = (Round.RoundConditions)Enum.Parse(typeof(Round.RoundConditions), cbConditions.SelectedValue.ToString());
 
-            if (RoundConditions != m_thisRound.Conditions)
+            if (this.m_thisRound != null &&
+                RoundConditions != m_thisRound.Conditions)
             {
                 m_thisRound.Conditions = RoundConditions;
                 if (!IsLoading)
@@ -307,6 +340,8 @@ namespace GolfStatKeeper.Panels
 
             foreach (DataGridViewRow row in dgvShots.Rows)
             {
+                if (row.IsNewRow) { continue; }
+
                 Shot s = new Shot();
 
                 s.ShotNumber = Int32.Parse(row.Cells[(int)ShotsColumns.ShotNumber].Value.ToString());
@@ -317,6 +352,8 @@ namespace GolfStatKeeper.Panels
                 s.ActualDistance = Int32.Parse(row.Cells[(int)ShotsColumns.Actual_Length].Value.ToString());
                 s.ActualFlight = (Shot.BallFlight)Enum.Parse(typeof(Shot.BallFlight), row.Cells[(int)ShotsColumns.Actual_Flight].Value.ToString());
                 s.ActualResult = (Shot.ShotResult)Enum.Parse(typeof(Shot.ShotResult), row.Cells[(int)ShotsColumns.Result].Value.ToString());
+
+                hole.Shots.Add(s);
             }
 
             // store back to this hole in thisRound.
