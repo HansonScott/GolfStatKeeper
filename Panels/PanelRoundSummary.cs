@@ -42,7 +42,8 @@ namespace GolfStatKeeper.Panels
 
             foreach (Round r in rounds)
             {
-                DataGridViewRow row = new DataGridViewRow();
+                int rowIndex = dgvRounds.Rows.Add();
+                DataGridViewRow row = dgvRounds.Rows[rowIndex];
                 row.Tag = r.ID;
                 row.Cells[(int)RoundGridColumns.Date].Value = r.When.ToString("yyyy-MMM-dd");
                 row.Cells[(int)RoundGridColumns.CourseTee].Value = r.Course.CourseAndTee;
@@ -51,8 +52,6 @@ namespace GolfStatKeeper.Panels
                 row.Cells[(int)RoundGridColumns.Putts].Value = r.TotalPutts;
                 row.Cells[(int)RoundGridColumns.Penalties].Value = r.TotalPenaltyStrokes;
                 row.Cells[(int)RoundGridColumns.Score].Value = r.TotalScore;
-
-                dgvRounds.Rows.Add(row);
 
                 // capture grand numbers for overall summary stats
                 grandScore += r.TotalScore;

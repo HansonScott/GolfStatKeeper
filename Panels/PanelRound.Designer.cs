@@ -137,6 +137,7 @@
             this.dgvShots.ShowEditingIcon = false;
             this.dgvShots.Size = new System.Drawing.Size(451, 152);
             this.dgvShots.TabIndex = 5;
+            this.dgvShots.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvShots_RowsAdded);
             // 
             // Column3
             // 

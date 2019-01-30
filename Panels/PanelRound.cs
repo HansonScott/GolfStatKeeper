@@ -63,11 +63,27 @@ namespace GolfStatKeeper.Panels
             }
             else
             {
-                m_thisRound = new Round();
+                SetupNewRound();
                 SetupEmptyScoreCard(null);
             }
 
             IsLoading = false;
+        }
+
+        private void SetupNewRound()
+        {
+            m_thisRound = new Round();
+            m_thisRound.Course = (cbCourse.SelectedItem as Course);
+            m_thisRound.HolesPlayed = new System.Collections.Generic.List<HoleScore>(m_thisRound.Course.Holes.Length);
+            UpdateRoundFromUI();
+        }
+
+        private void UpdateRoundFromUI()
+        {
+            m_thisRound.Course = (cbCourse.SelectedItem as Course);
+            m_thisRound.Conditions = (Round.RoundConditions)(Enum.Parse(typeof(Round.RoundConditions), (cbConditions.SelectedItem as CBItem).Name));
+            m_thisRound.Player = FormMain.thisForm.CurrentPlayer;
+            m_thisRound.When = dtWhen.Value;
         }
 
         private void PopulateCBConditions()
@@ -131,18 +147,19 @@ namespace GolfStatKeeper.Panels
         }
         private void PopulateSummaryTotals()
         {
+            int totalsColumn = 19;
             // score
-            dgvHoles.Rows[(int)HolesRows.Score].Cells[20].Value = m_thisRound.TotalScore;
+            dgvHoles.Rows[(int)HolesRows.Score].Cells[totalsColumn].Value = m_thisRound.TotalScore;
 
             // fairways - as a fraction string
             string f = m_thisRound.TotalFairwaysHit + " / " + m_thisRound.Course.GetTotalFairways();
-            dgvHoles.Rows[(int)HolesRows.Fairway].Cells[20].Value = f;
+            dgvHoles.Rows[(int)HolesRows.Fairway].Cells[totalsColumn].Value = f;
 
             // greens
-            dgvHoles.Rows[(int)HolesRows.Green].Cells[20].Value = m_thisRound.TotalGreensHit;
+            dgvHoles.Rows[(int)HolesRows.Green].Cells[totalsColumn].Value = m_thisRound.TotalGreensHit;
 
             // putts
-            dgvHoles.Rows[(int)HolesRows.Putts].Cells[20].Value = m_thisRound.TotalPutts;
+            dgvHoles.Rows[(int)HolesRows.Putts].Cells[totalsColumn].Value = m_thisRound.TotalPutts;
         }
         private void SetupEmptyScoreCard(Course c)
         {
@@ -206,15 +223,20 @@ namespace GolfStatKeeper.Panels
         private void cbCourse_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!FormMain.IsAppRunning) { return; }
+            if (IsLoading) { return; }
 
             if (cbCourse.SelectedItem == null) { return; }
 
             // reset score card
-            SetupEmptyScoreCard((cbCourse.SelectedItem as Course));
+            Course c = (cbCourse.SelectedItem as Course);
+            UpdateRoundFromUI();
 
+            SetupEmptyScoreCard(c);
 
             // populate tees combo
-            PopulateEmptyScoreCardFromCourseAndTees(cbCourse.SelectedItem as Course);
+            PopulateEmptyScoreCardFromCourseAndTees(c);
+
+            m_thisRound.HolesPlayed.Capacity = c.Holes.Length;
             if(!IsLoading)
             {
                 isDirty = true;
@@ -251,14 +273,32 @@ namespace GolfStatKeeper.Panels
         {
             if (!FormMain.IsAppRunning) { return; }
 
+            // if we selected anything, clear the grid below before determining what to load.
+            dgvShots.Rows.Clear();
+            
             if (dgvHoles.SelectedColumns.Count == 1)
             {
-                int holeNumber = dgvHoles.SelectedColumns[0].Index;
+                int holeNumber = dgvHoles.SelectedColumns[0].DisplayIndex;
+
+                // if we have shots for this hole, load them
                 if (holeNumber > 0 &&
                     holeNumber < m_thisRound.HolesPlayed.Count)
                 {
-                    HoleScore h = m_thisRound.HolesPlayed[holeNumber];
+                    HoleScore h = m_thisRound.HolesPlayed[holeNumber - 1];
                     LoadShots(h);
+                }
+                else // this is a new hole played, create an empty slot for the shots.
+                {
+                    for(int i = 0; i < holeNumber; i++)
+                    {
+                        if(m_thisRound.HolesPlayed.Count <= i ||
+                            m_thisRound.HolesPlayed[i] == null)
+                        {
+                            HoleScore hs = new HoleScore();
+                            hs.HolePlayed = m_thisRound.Course.Holes[i];
+                            m_thisRound.HolesPlayed.Add(hs);
+                        }
+                    }
                 }
             }
         }
@@ -311,7 +351,8 @@ namespace GolfStatKeeper.Panels
 
             foreach(Shot s in holePlayed.Shots)
             {
-                DataGridViewRow shotRow = new DataGridViewRow();
+                int newRowIndex = dgvShots.Rows.Add();
+                DataGridViewRow shotRow = dgvShots.Rows[newRowIndex];
 
                 shotRow.Cells[(int)ShotsColumns.ShotNumber].Value = s.ShotNumber;
                 shotRow.Cells[(int)ShotsColumns.Lie].Value = s.Lie;
@@ -322,7 +363,6 @@ namespace GolfStatKeeper.Panels
                 shotRow.Cells[(int)ShotsColumns.Actual_Length].Value = s.ActualDistance;
                 shotRow.Cells[(int)ShotsColumns.Result].Value = s.ActualResult;
 
-                dgvShots.Rows.Add(shotRow);
             }
         }
         private void PopulateEmptyScoreCardFromCourseAndTees(Course course)
@@ -344,22 +384,82 @@ namespace GolfStatKeeper.Panels
 
                 Shot s = new Shot();
 
-                s.ShotNumber = Int32.Parse(row.Cells[(int)ShotsColumns.ShotNumber].Value.ToString());
-                s.Lie = (Shot.BallLie)Enum.Parse(typeof(Shot.BallLie), row.Cells[(int)ShotsColumns.Lie].Value.ToString());
-                s.Club = (ClubType)Enum.Parse(typeof(ClubType), row.Cells[(int)ShotsColumns.Club].Value.ToString());
-                s.TargetDistance = Int32.Parse(row.Cells[(int)ShotsColumns.Intended_Length].Value.ToString());
-                s.TargetFlight = (Shot.BallFlight)Enum.Parse(typeof(Shot.BallFlight), row.Cells[(int)ShotsColumns.Intended_Flight].Value.ToString());
-                s.ActualDistance = Int32.Parse(row.Cells[(int)ShotsColumns.Actual_Length].Value.ToString());
-                s.ActualFlight = (Shot.BallFlight)Enum.Parse(typeof(Shot.BallFlight), row.Cells[(int)ShotsColumns.Actual_Flight].Value.ToString());
-                s.ActualResult = (Shot.ShotResult)Enum.Parse(typeof(Shot.ShotResult), row.Cells[(int)ShotsColumns.Result].Value.ToString());
+                object valShotNumber = row.Cells[(int)ShotsColumns.ShotNumber].Value;
+                if (valShotNumber != null)
+                {
+                    int isn;
+                    if(Int32.TryParse(valShotNumber.ToString(), out isn))
+                    {
+                        s.ShotNumber = isn;
+                    }
+                }
 
+                object valLie = row.Cells[(int)ShotsColumns.Lie].Value;
+                if (valLie != null)
+                {
+                    s.Lie = (Shot.BallLie)Enum.Parse(typeof(Shot.BallLie), valLie.ToString());
+                }
+
+                object valClub = row.Cells[(int)ShotsColumns.Club].Value;
+                if (valClub != null)
+                {
+                    s.Club = (ClubType)Enum.Parse(typeof(ClubType), valClub.ToString());
+                }
+
+                object valTargetDistance = row.Cells[(int)ShotsColumns.Intended_Length].Value;
+                if (valTargetDistance != null)
+                {
+                    int itd;
+                    if(Int32.TryParse(valTargetDistance.ToString(), out itd))
+                    {
+                        s.TargetDistance = itd;
+                    }
+                }
+
+                object valTargetFlight = row.Cells[(int)ShotsColumns.Intended_Flight].Value;
+                if (valTargetFlight != null)
+                {
+                    s.TargetFlight = (Shot.BallFlight)Enum.Parse(typeof(Shot.BallFlight), valTargetFlight.ToString());
+                }
+
+                object valActualDistance = row.Cells[(int)ShotsColumns.Actual_Length].Value;
+                if (valActualDistance != null)
+                {
+                    int iad;
+                    if(Int32.TryParse(valActualDistance.ToString(), out iad));
+                    s.ActualDistance = iad;
+                }
+
+                object valActualFlight = row.Cells[(int)ShotsColumns.Actual_Flight].Value;
+                if (valActualFlight != null)
+                {
+                    s.ActualFlight = (Shot.BallFlight)Enum.Parse(typeof(Shot.BallFlight), valActualFlight.ToString());
+                }
+
+                object valShotResult = row.Cells[(int)ShotsColumns.Result].Value;
+                if (valShotResult != null)
+                {
+                    s.ActualResult = (Shot.ShotResult)Enum.Parse(typeof(Shot.ShotResult), valShotResult.ToString());
+                }
                 hole.Shots.Add(s);
             }
 
             // store back to this hole in thisRound.
-            int holeNumber = dgvHoles.SelectedColumns[0].Index;
-            m_thisRound.HolesPlayed[holeNumber] = hole;
+            int holeNumber = dgvHoles.SelectedColumns[0].DisplayIndex;
 
+            // capture the course's hole that this score is for
+            hole.HolePlayed = (cbCourse.SelectedItem as Course).Holes[holeNumber - 1];
+
+            // and store this score back to this round
+            if (m_thisRound.HolesPlayed.Count >= holeNumber &&
+                m_thisRound.HolesPlayed[holeNumber - 1] != null)
+            {
+                m_thisRound.HolesPlayed[holeNumber - 1] = hole;
+            }
+            else
+            {
+                m_thisRound.HolesPlayed.Add(hole);
+            }
             // repopulate scorecard with changes
             PopulateScoreCardWithHoleSummary();
         }
@@ -375,5 +475,14 @@ namespace GolfStatKeeper.Panels
             }
         }
         #endregion
+
+        private void dgvShots_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            // caused issues, no added value, nevermind...
+            //dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.ShotNumber].Value = e.RowCount + 1;
+            //dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Intended_Flight].Value = (int)Shot.BallFlight.Straight;
+            //dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Actual_Flight].Value = (int)Shot.BallFlight.Straight;
+            //dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Result].Value = (int)Shot.ShotResult.As_intended;
+        }
     }
 }

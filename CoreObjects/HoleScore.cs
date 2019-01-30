@@ -56,7 +56,7 @@ namespace GolfStatKeeper
         {
             if (this.HolePlayed.Par == 3) { return false; }
 
-            if (this.Shots.Count == 0) { return false; }
+            if (this.Shots.Count < 2) { return false; }
 
             // if drive went into the hazard or OB
             if (this.PenaltyStrokes > 0 &&
@@ -71,7 +71,8 @@ namespace GolfStatKeeper
         }
         public bool GreenWasHit()
         {
-            if (this.Shots[0] == null) { return false; }
+            if (this.Shots.Count < 1 ||
+                this.Shots[0] == null) { return false; }
 
             int putts = GetPuttsForHole();
 
