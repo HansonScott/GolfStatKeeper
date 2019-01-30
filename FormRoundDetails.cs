@@ -16,5 +16,10 @@ namespace GolfStatKeeper
         {
             InitializeComponent();
         }
+
+        private void FormRoundDetails_Load(object sender, EventArgs e)
+        {
+            CenterToParent();
+        }
     }
 }

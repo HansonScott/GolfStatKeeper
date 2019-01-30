@@ -55,6 +55,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Round Details";
+            this.Load += new System.EventHandler(this.FormRoundDetails_Load);
             this.ResumeLayout(false);
 
         }

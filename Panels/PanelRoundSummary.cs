@@ -83,7 +83,7 @@ namespace GolfStatKeeper.Panels
         private void btnCreateNew_Click(object sender, EventArgs e)
         {
             FormRoundDetails frm = new FormRoundDetails();
-            frm.Show();
+            frm.ShowDialog(this);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -104,7 +104,7 @@ namespace GolfStatKeeper.Panels
         {
             FormRoundDetails frm = new FormRoundDetails();
             frm.panelRound1.LoadRoundData(ID);
-            frm.Show();
+            frm.ShowDialog(this);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
