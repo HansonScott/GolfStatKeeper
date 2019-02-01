@@ -114,6 +114,7 @@
             // 
             // dgvShots
             // 
+            this.dgvShots.AllowUserToAddRows = false;
             this.dgvShots.AllowUserToResizeRows = false;
             this.dgvShots.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 

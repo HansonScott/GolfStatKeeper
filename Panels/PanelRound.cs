@@ -48,11 +48,11 @@ namespace GolfStatKeeper.Panels
         {
             InitializeComponent();
 
-            if (FormMain.IsAppRunning)
-            {
-                PopulateCBCourses();
-                PopulateCBConditions();
-            }
+            if (!FormMain.IsAppRunning) { return; }
+
+            PopulateCBCourses();
+
+            PopulateCBConditions();
 
             SetupShotDetailsGridWithPlayerClubs();
 
@@ -66,6 +66,9 @@ namespace GolfStatKeeper.Panels
                 SetupNewRound();
                 SetupEmptyScoreCard(null);
             }
+
+            // cause the population of the score card for the first, default course
+            PopulateEmptyScoreCardFromCourseAndTees(cbCourse.Items[0] as Course);
 
             IsLoading = false;
         }
@@ -280,18 +283,23 @@ namespace GolfStatKeeper.Panels
             {
                 int holeNumber = dgvHoles.SelectedColumns[0].DisplayIndex;
 
+                // only allow adding of shots if a column is selected that is a normal hole.
+                dgvShots.AllowUserToAddRows = (dgvHoles.SelectedColumns[0].DisplayIndex > 0 && 
+                                                dgvHoles.SelectedColumns[0].DisplayIndex < 19);
+
                 // if we have shots for this hole, load them
-                if (holeNumber > 0 &&
-                    holeNumber < m_thisRound.HolesPlayed.Count)
+                if (holeNumber == 0) { } // this is the row header, do nothing
+                else if (holeNumber > m_thisRound.Course.Holes.Length) { } // totals column, do nothing
+                else if (holeNumber < m_thisRound.HolesPlayed.Count) // if we have hole data for this so far
                 {
                     HoleScore h = m_thisRound.HolesPlayed[holeNumber - 1];
                     LoadShots(h);
                 }
                 else // this is a new hole played, create an empty slot for the shots.
                 {
-                    for(int i = 0; i < holeNumber; i++)
+                    for (int i = 0; i < holeNumber; i++)
                     {
-                        if(m_thisRound.HolesPlayed.Count <= i ||
+                        if (m_thisRound.HolesPlayed.Count <= i ||
                             m_thisRound.HolesPlayed[i] == null)
                         {
                             HoleScore hs = new HoleScore();
@@ -370,6 +378,7 @@ namespace GolfStatKeeper.Panels
             for(int i = 0; i < course.Holes.Length; i++)
             {
                 this.dgvHoles.Rows[(int)HolesRows.Par].Cells[i + 1].Value = course.Holes[i].Par;
+                this.dgvHoles.Rows[(int)HolesRows.Length].Cells[i + 1].Value = course.Holes[i].Length;
             }
         }
         private void HandleSaveHole()

@@ -8,9 +8,9 @@ namespace GolfStatKeeper
     {
         public enum RoundConditions
         {
-            Cold = 1,
-            Rainy = 2,
-            Fair = 3,
+            Fair = 1,
+            Cold = 2,
+            Rainy = 3,
             Windy = 4,
             Hot = 5,
             Extra_Wet = 6,
