@@ -17,6 +17,8 @@ namespace GolfStatKeeper
             Extra_Dry = 7,
         }
 
+        private static string RoundWhenFormat = "yyyyMMdd";
+
         #region Class Properties
         public int ID { get; set; }
         public RoundConditions Conditions { get; set; }
@@ -57,7 +59,7 @@ namespace GolfStatKeeper
             string[] fields = new string[Enum.GetNames(typeof(RoundFileFields)).Length];
             // set the data
             fields[(int)RoundFileFields.ID] = this.ID.ToString();
-            fields[(int)RoundFileFields.When] = this.When.ToString("yyyyMMdd");
+            fields[(int)RoundFileFields.When] = this.When.ToString(RoundWhenFormat);
             fields[(int)RoundFileFields.Conditions] = ((int)this.Conditions).ToString();
             fields[(int)RoundFileFields.Course] = this.Course.ID.ToString();
             fields[(int)RoundFileFields.FairwaysHit] = this.TotalFairwaysHit.ToString();
@@ -74,25 +76,31 @@ namespace GolfStatKeeper
             }
             fields[(int)RoundFileFields.HolesPlayed] = hp.ToString();
 
-            return String.Join(DAC.FieldSeparator, fields);
+            return String.Join(DAC.Level1Separator, fields);
         }
 
         public static Round LoadFromFileLine(string rawSummaryLine, Boolean includeDetails)
         {
-            string[] fields = rawSummaryLine.Split(DAC.FieldSeparator.ToCharArray());
+            if(rawSummaryLine == string.Empty) { return null; }
+
+            string[] fields = rawSummaryLine.Split(DAC.Level1Separator.ToCharArray());
 
             Round thisRound = new Round();
 
             thisRound.ID = Int32.Parse(fields[(int)RoundFileFields.ID]);
-            thisRound.When = DateTime.Parse(fields[(int)RoundFileFields.When].ToString());
+            thisRound.When = DateTime.ParseExact(fields[(int)RoundFileFields.When].ToString(), RoundWhenFormat, null);
             thisRound.Conditions = (Round.RoundConditions)Enum.Parse(typeof(Round.RoundConditions), fields[(int)RoundFileFields.Conditions]);
-            thisRound.Course.ID = Int32.Parse(fields[(int)RoundFileFields.Course]);
             thisRound.TotalFairwaysHit = Int32.Parse(fields[(int)RoundFileFields.FairwaysHit]);
             thisRound.TotalGreensHit = Int32.Parse(fields[(int)RoundFileFields.GreensHit]);
-            thisRound.Player.ID = Int32.Parse(fields[(int)RoundFileFields.Player]);
             thisRound.TotalPenaltyStrokes = Int32.Parse(fields[(int)RoundFileFields.TotalPenaltyStrokes]);
             thisRound.TotalPutts = Int32.Parse(fields[(int)RoundFileFields.TotalPutts]);
             thisRound.TotalScore = Int32.Parse(fields[(int)RoundFileFields.TotalScore]);
+
+            string pID = fields[(int)RoundFileFields.Player];
+            thisRound.Player = DAC.GetPlayerByID(pID);
+
+            string cID = fields[(int)RoundFileFields.Course];
+            thisRound.Course = DAC.GetCourseByID(cID);
 
             if (includeDetails)
             {

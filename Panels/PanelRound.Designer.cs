@@ -34,7 +34,6 @@
             this.cbConditions = new System.Windows.Forms.ComboBox();
             this.dgvHoles = new System.Windows.Forms.DataGridView();
             this.dgvShots = new System.Windows.Forms.DataGridView();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ballLieBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.Column2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -122,7 +121,6 @@
             this.dgvShots.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvShots.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvShots.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column3,
             this.Column1,
             this.Column2,
             this.Column7,
@@ -139,14 +137,6 @@
             this.dgvShots.Size = new System.Drawing.Size(451, 152);
             this.dgvShots.TabIndex = 5;
             this.dgvShots.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvShots_RowsAdded);
-            // 
-            // Column3
-            // 
-            this.Column3.FillWeight = 10F;
-            this.Column3.HeaderText = "Shot Number";
-            this.Column3.MinimumWidth = 2;
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 87;
             // 
             // Column1
             // 
@@ -215,7 +205,6 @@
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Enabled = false;
             this.btnSave.Location = new System.Drawing.Point(480, 8);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
@@ -325,7 +314,6 @@
         private System.Windows.Forms.Button btnSaveHole;
         private System.Windows.Forms.Button btnSaveNext;
         private System.Windows.Forms.BindingSource ballFlightBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewComboBoxColumn Column1;
         private System.Windows.Forms.DataGridViewComboBoxColumn Column2;
         private System.Windows.Forms.DataGridViewComboBoxColumn Column7;

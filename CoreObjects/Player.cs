@@ -27,7 +27,7 @@ namespace GolfStatKeeper
         public static Player LoadFromFileLine(string FileLine)
         {
             // use enum: PlayerFileFields
-            string[] data = FileLine.Split(DAC.FieldSeparator.ToCharArray());
+            string[] data = FileLine.Split(DAC.Level1Separator.ToCharArray());
 
             int ID = Int32.Parse(data[(int)PlayerFileFields.ID]);
             string Name = data[(int)PlayerFileFields.Name];

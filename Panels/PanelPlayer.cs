@@ -114,7 +114,7 @@ namespace GolfStatKeeper.Panels
             }
 
             // get the string from the bag object
-            string result = bag.SaveToFileLine();
+            string result = bag.ToString();
 
             return result;
         }

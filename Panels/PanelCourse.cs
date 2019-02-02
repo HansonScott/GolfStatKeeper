@@ -148,7 +148,7 @@ namespace GolfStatKeeper.Panels
 
                 holes[i] = new Hole(iHoleNumber, iLength, iPar, iHCP);
 
-                holeData[i] = holes[i].ToDataString(false);
+                holeData[i] = holes[i].ToString();
             }
 
             return holes;

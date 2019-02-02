@@ -307,19 +307,31 @@ namespace GolfStatKeeper
             return results;
         }
 
-        public static HoleScore CreateHoleFromHolePlayedLine(string holePlayedLine)
+        public static HoleScore CreateHolePlayedFromString(string holePlayedLine)
         {
             HoleScore result = new HoleScore();
 
-            string[] fields = holePlayedLine.Split(DAC.FieldSeparator.ToCharArray());
+            string[] fields = holePlayedLine.Split(DAC.Level1Separator.ToCharArray());
 
             result.HolePlayed.HoleNumber = Int32.Parse(fields[(int)HolesPlayedFileFields.HoleNumber]);
             result.PenaltyStrokes = Int32.Parse(fields[(int)HolesPlayedFileFields.PenaltyStrokes]);
 
             string shots = fields[(int)HolesPlayedFileFields.Shots];
-            result.Shots = Shot.CreateShotsFromStringLine(shots);
+            result.Shots = Shot.CreateShotsFromString(shots);
 
             return result;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(this.HolePlayed.HoleNumber);
+            sb.Append(DAC.Level1Separator);
+            sb.Append(this.PenaltyStrokes);
+            sb.Append(DAC.Level1Separator);
+            sb.Append(Shot.SaveShotsToString(this.Shots));
+
+            return sb.ToString();
         }
 
     }

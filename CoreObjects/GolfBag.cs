@@ -46,13 +46,13 @@ namespace GolfStatKeeper
 
         internal static GolfBag LoadFromFileLine(string clubsData)
         {
-            string[] clubs = clubsData.Split(DAC.ElementSeparator.ToCharArray());
+            string[] clubs = clubsData.Split(DAC.Level2Separator.ToCharArray());
             Club[] theseClubs = new Club[clubs.Length];
 
             // foreach club
             for (int i = 0; i < clubs.Length; i++)
             {
-                string[] clubFields = clubs[i].Split(DAC.SubElementSeparator.ToCharArray()); ;
+                string[] clubFields = clubs[i].Split(DAC.Level3Separator.ToCharArray()); ;
                 ClubType t = (ClubType)Enum.Parse(typeof(ClubType), clubFields[0]);
                 string thisClubName = clubFields[1];
                 theseClubs[i] = new Club(t, thisClubName);
@@ -63,7 +63,7 @@ namespace GolfStatKeeper
             return results;
         }
 
-        internal string SaveToFileLine()
+        public override string ToString()
         {
             StringBuilder result = new StringBuilder();
 
@@ -71,11 +71,11 @@ namespace GolfStatKeeper
             {
                 if(result.Length > 0)
                 {
-                    result.Append(DAC.ElementSeparator);
+                    result.Append(DAC.Level2Separator);
                 }
 
                 result.Append((int)c.ClubType);
-                result.Append(DAC.SubElementSeparator);
+                result.Append(DAC.Level3Separator);
                 result.Append(DAC.SafeString(c.Name));
             }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace GolfStatKeeper
 {
@@ -57,14 +58,116 @@ namespace GolfStatKeeper
         public ShotResult ActualResult { get; set; }
         public int ActualDistance { get; set; }
 
+        public static Shot FromString(string data)
+        {
+            Shot s = new Shot();
+            string[] fields = data.Split(DAC.Level3Separator.ToCharArray());
+            int sn = 0;
+            if(fields != null && fields.Length > 0 &&
+                Int32.TryParse(fields[0], out sn))
+            {
+                s.ShotNumber = sn;
+            }
+
+            if(fields != null && fields.Length > 1)
+            {
+                s.Lie = (BallLie)(Enum.Parse(typeof(BallLie), fields[1]));
+            }
+
+            if (fields != null && fields.Length > 2)
+            {
+                s.Club = (ClubType)(Enum.Parse(typeof(ClubType), fields[2]));
+            }
+
+            if (fields != null && fields.Length > 3)
+            {
+                s.TargetFlight = (BallFlight)(Enum.Parse(typeof(BallFlight), fields[3]));
+            }
+
+            if (fields != null && fields.Length > 4)
+            {
+                s.TargetResult = (ShotResult)(Enum.Parse(typeof(ShotResult), fields[4]));
+            }
+
+            int td = 0;
+            if (fields != null && fields.Length > 5 &&
+                Int32.TryParse(fields[5], out td))
+            {
+                s.TargetDistance = td;
+            }
+
+            if (fields != null && fields.Length > 6)
+            {
+                s.ActualFlight = (BallFlight)(Enum.Parse(typeof(BallFlight), fields[6]));
+            }
+
+            if (fields != null && fields.Length > 7)
+            {
+                s.ActualResult = (ShotResult)(Enum.Parse(typeof(ShotResult), fields[7]));
+            }
+
+            int ad = 0;
+            if (fields != null && fields.Length > 5 &&
+                Int32.TryParse(fields[6], out ad))
+            {
+                s.ActualDistance = ad;
+            }
+
+            return s;
+        }
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append(this.ShotNumber);
+            sb.Append(DAC.Level3Separator);
+            sb.Append((int)this.Lie);
+            sb.Append(DAC.Level3Separator);
+            sb.Append((int)this.Club);
+            sb.Append(DAC.Level3Separator);
+            sb.Append((int)this.TargetFlight);
+            sb.Append(DAC.Level3Separator);
+            sb.Append((int)this.TargetResult);
+            sb.Append(DAC.Level3Separator);
+            sb.Append((int)this.TargetDistance);
+            sb.Append(DAC.Level3Separator);
+            sb.Append((int)this.ActualFlight);
+            sb.Append(DAC.Level3Separator);
+            sb.Append((int)this.ActualResult);
+            sb.Append(DAC.Level3Separator);
+            sb.Append((int)this.ActualDistance);
+
+            return sb.ToString();
+        }
         public static string SaveShotsToString(List<Shot> shots)
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new StringBuilder();
+
+            bool n = true;
+            foreach(Shot s in shots)
+            {
+                if(n)
+                {
+                    sb.Append(DAC.Level2Separator);
+                }
+
+                sb.Append(s.ToString());
+            }
+
+            return sb.ToString();
         }
 
-        public static List<Shot> CreateShotsFromStringLine(string shots)
+        public static List<Shot> CreateShotsFromString(string shots)
         {
-            throw new NotImplementedException();
+            string[] shotData = shots.Split(DAC.Level2Separator.ToCharArray());
+            List<Shot> lshots = new List<Shot>();
+
+            foreach(string s in shotData)
+            {
+                lshots.Add(Shot.FromString(s));
+            }
+
+            return lshots;
         }
     }
 }

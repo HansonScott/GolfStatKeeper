@@ -42,7 +42,7 @@ namespace GolfStatKeeper
         #region Static Functions
         public static Course LoadFromFileLine(string FileLine)
         {
-            string[] data = FileLine.Split(DAC.FieldSeparator.ToCharArray());
+            string[] data = FileLine.Split(DAC.Level1Separator.ToCharArray());
 
             int ID = Int32.Parse(data[(int)CourseFileFields.ID]);
             string Name = data[(int)CourseFileFields.Name];
@@ -52,12 +52,12 @@ namespace GolfStatKeeper
             string Holes = data[(int)CourseFileFields.Holes];
 
             // now make the holes out of the hole string.
-            string[] holeData = Holes.Split(DAC.ElementSeparator.ToCharArray());
+            string[] holeData = Holes.Split(DAC.Level2Separator.ToCharArray());
             Hole[] newHoles = new Hole[holeData.Length];
             for (int i = 0; i < holeData.Length; i++)
             {
 
-                newHoles[i] = Hole.CreateHoleFromHoleDataString(holeData[i]);
+                newHoles[i] = Hole.CreateHoleFromString(holeData[i]);
             }
 
             return new Course(ID, Name, Tees, Decimal.Parse(Slope), Decimal.Parse(Rating), newHoles);
@@ -91,7 +91,7 @@ namespace GolfStatKeeper
             string[] holeData = new string[holes.Length];
             for (int i = 0; i < holes.Length; i++)
             {
-                holeData[i] = holes[i].ToDataString(false);
+                holeData[i] = holes[i].ToString();
             }
 
             return holeData;

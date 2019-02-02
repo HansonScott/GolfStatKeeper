@@ -26,29 +26,30 @@ namespace GolfStatKeeper
         #endregion
 
         #region Static Functions
-        public static Hole CreateHoleFromHoleDataString(string holeData)
+        public static Hole CreateHoleFromString(string holeData)
         {
-            string[] data = holeData.Split(DAC.SubElementSeparator.ToCharArray());
+            string[] data = holeData.Split(DAC.Level2Separator.ToCharArray());
 
-            int num = Int32.Parse(data[(int)HoleFileFields.HoleNumber]);
-            int par = Int32.Parse(data[(int)HoleFileFields.Par]);
-            int len = Int32.Parse(data[(int)HoleFileFields.Length]);
-            int hcp = Int32.Parse(data[(int)HoleFileFields.HCP]);
+            int num = Int32.Parse(data[(int)HoleFields.HoleNumber]);
+            int par = Int32.Parse(data[(int)HoleFields.Par]);
+            int len = Int32.Parse(data[(int)HoleFields.Length]);
+            int hcp = Int32.Parse(data[(int)HoleFields.HCP]);
 
             return new Hole(num, len, par, hcp);
         }
         #endregion
 
         #region Public Functions
-        public string ToDataString(bool played)
+        public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
+
             sb.Append(this.HoleNumber);
-            sb.Append(DAC.SubElementSeparator);
+            sb.Append(DAC.Level2Separator);
             sb.Append(this.Par);
-            sb.Append(DAC.SubElementSeparator);
+            sb.Append(DAC.Level2Separator);
             sb.Append(this.Length);
-            sb.Append(DAC.SubElementSeparator);
+            sb.Append(DAC.Level2Separator);
             sb.Append(this.HCP);
 
             return sb.ToString();

@@ -18,14 +18,13 @@ namespace GolfStatKeeper.Panels
         }
         private enum ShotsColumns
         {
-            ShotNumber = 0,
-            Lie = 1,
-            Club = 2,
-            Intended_Flight = 3,
-            Intended_Length = 4,
-            Actual_Flight = 5,
-            Actual_Length = 6,
-            Result = 7,
+            Lie = 0,
+            Club = 1,
+            Intended_Flight = 2,
+            Intended_Length = 3,
+            Actual_Flight = 4,
+            Actual_Length = 5,
+            Result = 6,
         }
         #endregion
 
@@ -362,7 +361,6 @@ namespace GolfStatKeeper.Panels
                 int newRowIndex = dgvShots.Rows.Add();
                 DataGridViewRow shotRow = dgvShots.Rows[newRowIndex];
 
-                shotRow.Cells[(int)ShotsColumns.ShotNumber].Value = s.ShotNumber;
                 shotRow.Cells[(int)ShotsColumns.Lie].Value = s.Lie;
                 shotRow.Cells[(int)ShotsColumns.Club].Value = s.Club;
                 shotRow.Cells[(int)ShotsColumns.Intended_Flight].Value = s.TargetFlight;
@@ -387,13 +385,14 @@ namespace GolfStatKeeper.Panels
             HoleScore hole = new HoleScore();
             hole.PenaltyStrokes = (int)nud_Penalties.Value;
 
+            // save each shot
             foreach (DataGridViewRow row in dgvShots.Rows)
             {
                 if (row.IsNewRow) { continue; }
 
                 Shot s = new Shot();
 
-                object valShotNumber = row.Cells[(int)ShotsColumns.ShotNumber].Value;
+                object valShotNumber = row.Index + 1;
                 if (valShotNumber != null)
                 {
                     int isn;
@@ -435,8 +434,10 @@ namespace GolfStatKeeper.Panels
                 if (valActualDistance != null)
                 {
                     int iad;
-                    if(Int32.TryParse(valActualDistance.ToString(), out iad));
-                    s.ActualDistance = iad;
+                    if (Int32.TryParse(valActualDistance.ToString(), out iad))
+                    {
+                        s.ActualDistance = iad;
+                    }
                 }
 
                 object valActualFlight = row.Cells[(int)ShotsColumns.Actual_Flight].Value;
