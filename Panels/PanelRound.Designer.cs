@@ -40,16 +40,20 @@
             this.Column7 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ballFlightBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.shotResultBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.Column8 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.nud_Penalties = new System.Windows.Forms.NumericUpDown();
             this.lblPenalties = new System.Windows.Forms.Label();
             this.btnSaveHole = new System.Windows.Forms.Button();
             this.btnSaveNext = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.BtnDelete = new System.Windows.Forms.Button();
+            this.btnUp = new System.Windows.Forms.Button();
+            this.btnDown = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHoles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShots)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ballLieBindingSource)).BeginInit();
@@ -114,6 +118,7 @@
             // dgvShots
             // 
             this.dgvShots.AllowUserToAddRows = false;
+            this.dgvShots.AllowUserToDeleteRows = false;
             this.dgvShots.AllowUserToResizeRows = false;
             this.dgvShots.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -125,17 +130,18 @@
             this.Column2,
             this.Column7,
             this.Column4,
+            this.Column5,
             this.Column8,
-            this.Column6,
-            this.Column5});
+            this.Column6});
             this.dgvShots.Location = new System.Drawing.Point(0, 248);
             this.dgvShots.MultiSelect = false;
             this.dgvShots.Name = "dgvShots";
-            this.dgvShots.RowHeadersVisible = false;
+            this.dgvShots.RowHeadersWidth = 25;
             this.dgvShots.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvShots.ShowEditingIcon = false;
             this.dgvShots.Size = new System.Drawing.Size(451, 152);
             this.dgvShots.TabIndex = 5;
+            this.dgvShots.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShots_CellValueChanged);
             this.dgvShots.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvShots_RowsAdded);
             // 
             // Column1
@@ -176,19 +182,6 @@
             this.Column4.Name = "Column4";
             this.Column4.Width = 101;
             // 
-            // Column8
-            // 
-            this.Column8.DataSource = this.ballFlightBindingSource;
-            this.Column8.HeaderText = "Actual Ball Flight";
-            this.Column8.Name = "Column8";
-            this.Column8.Width = 59;
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "Actual Length";
-            this.Column6.Name = "Column6";
-            this.Column6.Width = 90;
-            // 
             // Column5
             // 
             this.Column5.DataSource = this.shotResultBindingSource;
@@ -201,6 +194,19 @@
             // shotResultBindingSource
             // 
             this.shotResultBindingSource.DataSource = typeof(GolfStatKeeper.Shot.ShotResult);
+            // 
+            // Column8
+            // 
+            this.Column8.DataSource = this.ballFlightBindingSource;
+            this.Column8.HeaderText = "Actual Ball Flight";
+            this.Column8.Name = "Column8";
+            this.Column8.Width = 59;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "Actual Length";
+            this.Column6.Name = "Column6";
+            this.Column6.Width = 90;
             // 
             // btnSave
             // 
@@ -227,7 +233,7 @@
             // nud_Penalties
             // 
             this.nud_Penalties.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.nud_Penalties.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_Penalties.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_Penalties.Location = new System.Drawing.Point(457, 264);
             this.nud_Penalties.Maximum = new decimal(new int[] {
             10,
@@ -235,7 +241,7 @@
             0,
             0});
             this.nud_Penalties.Name = "nud_Penalties";
-            this.nud_Penalties.Size = new System.Drawing.Size(39, 26);
+            this.nud_Penalties.Size = new System.Drawing.Size(39, 23);
             this.nud_Penalties.TabIndex = 19;
             // 
             // lblPenalties
@@ -251,7 +257,7 @@
             // btnSaveHole
             // 
             this.btnSaveHole.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveHole.Location = new System.Drawing.Point(457, 312);
+            this.btnSaveHole.Location = new System.Drawing.Point(457, 347);
             this.btnSaveHole.Name = "btnSaveHole";
             this.btnSaveHole.Size = new System.Drawing.Size(98, 23);
             this.btnSaveHole.TabIndex = 21;
@@ -262,7 +268,7 @@
             // btnSaveNext
             // 
             this.btnSaveNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveNext.Location = new System.Drawing.Point(457, 341);
+            this.btnSaveNext.Location = new System.Drawing.Point(457, 376);
             this.btnSaveNext.Name = "btnSaveNext";
             this.btnSaveNext.Size = new System.Drawing.Size(98, 23);
             this.btnSaveNext.TabIndex = 22;
@@ -270,10 +276,58 @@
             this.btnSaveNext.UseVisualStyleBackColor = true;
             this.btnSaveNext.Click += new System.EventHandler(this.btnSaveNext_Click);
             // 
+            // btnAdd
+            // 
+            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAdd.Location = new System.Drawing.Point(457, 291);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(26, 23);
+            this.btnAdd.TabIndex = 23;
+            this.btnAdd.Text = "+";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // BtnDelete
+            // 
+            this.BtnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnDelete.Location = new System.Drawing.Point(489, 291);
+            this.BtnDelete.Name = "BtnDelete";
+            this.BtnDelete.Size = new System.Drawing.Size(26, 23);
+            this.BtnDelete.TabIndex = 24;
+            this.BtnDelete.Text = "-";
+            this.BtnDelete.UseVisualStyleBackColor = true;
+            this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
+            // 
+            // btnUp
+            // 
+            this.btnUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUp.Location = new System.Drawing.Point(457, 318);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(26, 23);
+            this.btnUp.TabIndex = 25;
+            this.btnUp.Text = "^";
+            this.btnUp.UseVisualStyleBackColor = true;
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
+            // 
+            // btnDown
+            // 
+            this.btnDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDown.Location = new System.Drawing.Point(489, 318);
+            this.btnDown.Name = "btnDown";
+            this.btnDown.Size = new System.Drawing.Size(26, 23);
+            this.btnDown.TabIndex = 26;
+            this.btnDown.Text = "v";
+            this.btnDown.UseVisualStyleBackColor = true;
+            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
+            // 
             // PanelRound
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnDown);
+            this.Controls.Add(this.btnUp);
+            this.Controls.Add(this.BtnDelete);
+            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnSaveNext);
             this.Controls.Add(this.btnSaveHole);
             this.Controls.Add(this.lblPenalties);
@@ -318,8 +372,12 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn Column2;
         private System.Windows.Forms.DataGridViewComboBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Column5;
         private System.Windows.Forms.DataGridViewComboBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewComboBoxColumn Column5;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button BtnDelete;
+        private System.Windows.Forms.Button btnUp;
+        private System.Windows.Forms.Button btnDown;
     }
 }

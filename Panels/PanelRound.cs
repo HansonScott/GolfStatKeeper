@@ -22,9 +22,9 @@ namespace GolfStatKeeper.Panels
             Club = 1,
             Intended_Flight = 2,
             Intended_Length = 3,
-            Actual_Flight = 4,
-            Actual_Length = 5,
-            Result = 6,
+            Result = 4,
+            Actual_Flight = 5,
+            Actual_Length = 6,
         }
         #endregion
 
@@ -150,6 +150,10 @@ namespace GolfStatKeeper.Panels
         private void PopulateSummaryTotals()
         {
             int totalsColumn = 19;
+
+            // update round from holes
+            m_thisRound.UpdateTotalsFromHolesPlayed();
+
             // score
             dgvHoles.Rows[(int)HolesRows.Score].Cells[totalsColumn].Value = m_thisRound.TotalScore;
 
@@ -493,6 +497,53 @@ namespace GolfStatKeeper.Panels
             //dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Intended_Flight].Value = (int)Shot.BallFlight.Straight;
             //dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Actual_Flight].Value = (int)Shot.BallFlight.Straight;
             //dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Result].Value = (int)Shot.ShotResult.As_intended;
+        }
+
+        private void dgvShots_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (IsLoading) { return; }
+
+            // if we hit the shot as intended, then copy the intended values over to the actual values
+            if(e.ColumnIndex == (int)ShotsColumns.Result)
+            {
+                if(this.dgvShots.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == 
+                    (Shot.ShotResult.As_intended).ToString())
+                {
+                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Actual_Flight].Value =
+                        this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Intended_Flight].Value;
+
+                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Actual_Length].Value =
+                        this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Intended_Length].Value;
+
+                }
+            }
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            int r = dgvShots.SelectedCells[0].RowIndex;
+            dgvShots.Rows.RemoveAt(r);
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            dgvShots.Rows.Add();
+        }
+
+        private void btnUp_Click(object sender, EventArgs e)
+        {
+            int r = dgvShots.SelectedCells[0].RowIndex;
+            DataGridViewRow rowToMove = dgvShots.Rows[r];
+            dgvShots.Rows.Remove(rowToMove);
+            dgvShots.Rows.Insert(Math.Max(r - 1, 0), rowToMove);
+        }
+
+        private void btnDown_Click(object sender, EventArgs e)
+        {
+            int r = dgvShots.SelectedCells[0].RowIndex;
+            DataGridViewRow rowToMove = dgvShots.Rows[r];
+            dgvShots.Rows.Remove(rowToMove);
+            dgvShots.Rows.Insert(Math.Min(r + 1, dgvShots.Rows.Count - 1), rowToMove);
         }
     }
 }

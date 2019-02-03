@@ -28,7 +28,7 @@ namespace GolfStatKeeper
         #region Static Functions
         public static Hole CreateHoleFromString(string holeData)
         {
-            string[] data = holeData.Split(DAC.Level2Separator.ToCharArray());
+            string[] data = holeData.Split(DAC.Level3Separator.ToCharArray());
 
             int num = Int32.Parse(data[(int)HoleFields.HoleNumber]);
             int par = Int32.Parse(data[(int)HoleFields.Par]);
@@ -45,11 +45,11 @@ namespace GolfStatKeeper
             StringBuilder sb = new StringBuilder();
 
             sb.Append(this.HoleNumber);
-            sb.Append(DAC.Level2Separator);
+            sb.Append(DAC.Level3Separator);
             sb.Append(this.Par);
-            sb.Append(DAC.Level2Separator);
+            sb.Append(DAC.Level3Separator);
             sb.Append(this.Length);
-            sb.Append(DAC.Level2Separator);
+            sb.Append(DAC.Level3Separator);
             sb.Append(this.HCP);
 
             return sb.ToString();
