@@ -241,6 +241,7 @@
             this.dgvRounds.ShowRowErrors = false;
             this.dgvRounds.Size = new System.Drawing.Size(551, 335);
             this.dgvRounds.TabIndex = 12;
+            this.dgvRounds.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRounds_CellDoubleClick);
             this.dgvRounds.SelectionChanged += new System.EventHandler(this.dgvRounds_SelectionChanged);
             // 
             // PanelRoundSummary

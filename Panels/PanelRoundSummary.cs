@@ -138,5 +138,14 @@ namespace GolfStatKeeper.Panels
             btnDelete.Enabled = (dgvRounds.SelectedRows.Count == 1);
             btnOpen.Enabled = (dgvRounds.SelectedRows.Count == 1);
         }
+
+        private void dgvRounds_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvRounds.SelectedRows.Count == 1)
+            {
+                int rID = (dgvRounds.SelectedRows[0].Tag as int?).Value;
+                HandleOpenRound(rID);
+            }
+        }
     }
 }

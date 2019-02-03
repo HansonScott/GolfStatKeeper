@@ -807,11 +807,14 @@ namespace GolfStatKeeper
             string[] rounds = GetRoundsFileLines();
             for (int i = 0; i < rounds.Length; i++)
             {
+                if (rounds[i] == string.Empty){ continue; }
+
                 string[] fields = rounds[i].Split(DAC.Level1Separator.ToCharArray());
                 int ID = Int32.Parse(fields[(int)RoundFileFields.ID]);
                 if (ID == rID)
                 {
-                    return Round.LoadFromFileLine(rounds[i], true);
+                    Round result = Round.LoadFromFileLine(rounds[i], true);
+                    result.HolesPlayed = GetHolesPlayedByRoundID(rID.ToString(), result.Course);
                 }
             }
 

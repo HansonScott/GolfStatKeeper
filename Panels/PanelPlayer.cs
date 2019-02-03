@@ -90,13 +90,17 @@ namespace GolfStatKeeper.Panels
             if(CurrentPlayer != null)
             {
                 DAC.SavePlayer(CurrentPlayer.ID, DAC.SafeString(lblName.Text), GetClubsStringFromGrid());
+                MessageBox.Show("Player saved.");
             }
             else
             {
                 int id = Player.GetNextPlayerID();
                 DAC.AddNewPlayer(id, DAC.SafeString(tbPlayerName.Text), GetClubsStringFromGrid());
 
+                MessageBox.Show("Player added.");
+
                 LoadPlayer(DAC.GetPlayerByID(id.ToString()));
+
             }
         }
 

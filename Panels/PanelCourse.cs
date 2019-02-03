@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace GolfStatKeeper.Panels
@@ -91,20 +92,30 @@ namespace GolfStatKeeper.Panels
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
+            if(tbCourseName.Text == String.Empty) { MessageBox.Show("Missing course name."); return; }
+
             string tee = dgvCourseData.Rows[(int)CourseInfoRows.Tee].Cells[1].Value.ToString();
+            if(tee == String.Empty) { MessageBox.Show("Missing tee."); return; }
             string slope = dgvCourseData.Rows[(int)CourseInfoRows.Slope].Cells[1].Value.ToString();
+            if (slope == String.Empty) { MessageBox.Show("Missing slope."); return; }
             string rating = dgvCourseData.Rows[(int)CourseInfoRows.Rating].Cells[1].Value.ToString();
+            if (rating == String.Empty) { MessageBox.Show("Missing rating."); return; }
 
             Hole[] holes = GetHoleData();
+
+            if(holes == null || holes.Length == 0) { MessageBox.Show("Missing hole data."); return; }
 
             if (CurrentCourse == null)
             {
                 int newID = DAC.AddCourse(tbCourseName.Text, tee, slope, rating, Course.GetHolesString(holes));
                 CurrentCourse = DAC.GetCourseByID(newID.ToString());
+
+                MessageBox.Show("Course added.");
             }
             else
             {
                 DAC.SaveCourse(CurrentCourse.ID.ToString(), tbCourseName.Text, tee, slope, rating, Course.GetHolesString(holes));
+                MessageBox.Show("Course saved.");
             }
         }
         private void btnOpen_Click(object sender, EventArgs e)
@@ -132,26 +143,29 @@ namespace GolfStatKeeper.Panels
         #region Private Functions
         private Hole[] GetHoleData()
         {
-            Hole[] holes = new Hole[dgvHoleData.Columns.Count - 2];  //-2 for the row header and totals columns
-            string[] holeData = new string[holes.Length];
-            for (int i = 0; i < holes.Length; i++)
+            List<Hole> holes = new List<Hole>();  //-2 for the row header and totals columns
+            for (int i = 0; i < (dgvHoleData.Columns.Count - 2); i++)
             {
                 string holeNumber = dgvHoleData.Rows[(int)ScoreCardRows.HoleNumber].Cells[i + 1].Value.ToString();
-                string length = dgvHoleData.Rows[(int)ScoreCardRows.Length].Cells[i + 1].Value.ToString();
-                string par = dgvHoleData.Rows[(int)ScoreCardRows.Par].Cells[i + 1].Value.ToString();
-                string HCP = dgvHoleData.Rows[(int)ScoreCardRows.HCP].Cells[i + 1].Value.ToString();
+                object vLength = dgvHoleData.Rows[(int)ScoreCardRows.Length].Cells[i + 1].Value;
+                if(vLength == null) { continue; }
+                string length = vLength.ToString();
+                object vPar = dgvHoleData.Rows[(int)ScoreCardRows.Par].Cells[i + 1].Value;
+                if(vPar == null) { continue; }
+                string par = vPar.ToString();
+                object vHCP = dgvHoleData.Rows[(int)ScoreCardRows.HCP].Cells[i + 1].Value;
+                if(vHCP == null) { continue; }
+                string HCP = vHCP.ToString();
 
                 int iHoleNumber; Int32.TryParse(holeNumber, out iHoleNumber);
                 int iLength; Int32.TryParse(length, out iLength);
                 int iPar; Int32.TryParse(par, out iPar);
                 int iHCP; Int32.TryParse(HCP, out iHCP);
 
-                holes[i] = new Hole(iHoleNumber, iLength, iPar, iHCP);
-
-                holeData[i] = holes[i].ToString();
+                holes.Add(new Hole(iHoleNumber, iLength, iPar, iHCP));
             }
 
-            return holes;
+            return holes.ToArray();
         }
         private void LoadCourse(Course c)
         {

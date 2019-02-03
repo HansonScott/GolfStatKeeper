@@ -54,24 +54,14 @@ namespace GolfStatKeeper
 
         public void UpdateTotalsFromHolesPlayed()
         {
-            // greens
-            int tGreens = 0;
-            int tFairwaysHit = 0;
-            int tPutts = 0;
-            int tScore = 0;
-            int tHolesPlayed = 0;
-            int tPenalties = 0;
             foreach (HoleScore h in HolesPlayed)
             {
-                if (h.GreenWasHit()) tGreens++;
-                if (h.FairwayWasHit()) tFairwaysHit++;
-                tPutts += h.GetPuttsForHole();
-                tScore += h.Score;
-                tPenalties += h.PenaltyStrokes;
-                tHolesPlayed++;
+                if (h.GreenWasHit()) this.TotalGreensHit++;
+                if (h.FairwayWasHit()) this.TotalFairwaysHit++;
+                this.TotalPutts += h.GetPuttsForHole();
+                this.TotalScore += h.Score;
+                this.TotalPenaltyStrokes += h.PenaltyStrokes;
             }
-
-
         }
 
         #region File IO functions

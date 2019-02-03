@@ -415,7 +415,9 @@ namespace GolfStatKeeper.Panels
                 object valClub = row.Cells[(int)ShotsColumns.Club].Value;
                 if (valClub != null)
                 {
-                    s.Club = (ClubType)Enum.Parse(typeof(ClubType), valClub.ToString());
+                    object valClubType = GetClubTypeFromClubName(valClub);
+
+                    s.Club = (ClubType)Enum.Parse(typeof(ClubType), valClubType.ToString());
                 }
 
                 object valTargetDistance = row.Cells[(int)ShotsColumns.Intended_Length].Value;
@@ -477,15 +479,29 @@ namespace GolfStatKeeper.Panels
             // repopulate scorecard with changes
             PopulateScoreCardWithHoleSummary();
         }
+
+        private object GetClubTypeFromClubName(object valClub)
+        {
+            // comes in as a custom name, needs to map back to the generic type
+            foreach(Club c in FormMain.thisForm.CurrentPlayer.Bag.Clubs)
+            {
+                if(c.Name == valClub.ToString()) { return c.ClubType; }
+            }
+
+            return null;
+        }
+
         private void HandleRoundSave()
         {
             if(m_thisRound.ID == -1)
             {
                 DAC.AddRound(m_thisRound);
+                MessageBox.Show("Round added");
             }
             else
             {
                 DAC.SaveRound(m_thisRound);
+                MessageBox.Show("Round saved.");
             }
         }
         #endregion
