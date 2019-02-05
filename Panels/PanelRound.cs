@@ -365,16 +365,29 @@ namespace GolfStatKeeper.Panels
                 int newRowIndex = dgvShots.Rows.Add();
                 DataGridViewRow shotRow = dgvShots.Rows[newRowIndex];
 
-                shotRow.Cells[(int)ShotsColumns.Lie].Value = s.Lie;
-                shotRow.Cells[(int)ShotsColumns.Club].Value = s.Club;
-                shotRow.Cells[(int)ShotsColumns.Intended_Flight].Value = s.TargetFlight;
+                shotRow.Cells[(int)ShotsColumns.Lie].Value = s.Lie.ToString();
+                string c = GetClubNameFromClubType(s.Club.ToString());
+                shotRow.Cells[(int)ShotsColumns.Club].Value = c;
+                shotRow.Cells[(int)ShotsColumns.Intended_Flight].Value = s.TargetFlight.ToString();
                 shotRow.Cells[(int)ShotsColumns.Intended_Length].Value = s.TargetDistance;
-                shotRow.Cells[(int)ShotsColumns.Actual_Flight].Value = s.ActualFlight;
+                shotRow.Cells[(int)ShotsColumns.Result].Value = s.ActualResult.ToString();
+                shotRow.Cells[(int)ShotsColumns.Actual_Flight].Value = s.ActualFlight.ToString();
                 shotRow.Cells[(int)ShotsColumns.Actual_Length].Value = s.ActualDistance;
-                shotRow.Cells[(int)ShotsColumns.Result].Value = s.ActualResult;
 
             }
         }
+
+        private string GetClubNameFromClubType(string clubType)
+        {
+            // comes in as a custom name, needs to map back to the generic type
+            foreach (Club c in FormMain.thisForm.CurrentPlayer.Bag.Clubs)
+            {
+                if (c.ClubType.ToString() == clubType) { return c.Name; }
+            }
+
+            return null;
+        }
+
         private void PopulateEmptyScoreCardFromCourseAndTees(Course course)
         {
             for(int i = 0; i < course.Holes.Length; i++)
