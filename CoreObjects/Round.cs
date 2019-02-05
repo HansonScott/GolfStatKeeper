@@ -54,13 +54,22 @@ namespace GolfStatKeeper
 
         public void UpdateTotalsFromHolesPlayed()
         {
-            foreach (HoleScore h in HolesPlayed)
+            this.TotalGreensHit = 0;
+            this.TotalFairwaysHit = 0;
+            this.TotalPutts = 0;
+            this.TotalScore = 0;
+            this.TotalPenaltyStrokes = 0;
+
+            if (HolesPlayed != null)
             {
-                if (h.GreenWasHit()) this.TotalGreensHit++;
-                if (h.FairwayWasHit()) this.TotalFairwaysHit++;
-                this.TotalPutts += h.GetPuttsForHole();
-                this.TotalScore += h.Score;
-                this.TotalPenaltyStrokes += h.PenaltyStrokes;
+                foreach (HoleScore h in HolesPlayed)
+                {
+                    if (h.GreenWasHit()) this.TotalGreensHit++;
+                    if (h.FairwayWasHit()) this.TotalFairwaysHit++;
+                    this.TotalPutts += h.GetPuttsForHole();
+                    this.TotalScore += h.Score;
+                    this.TotalPenaltyStrokes += h.PenaltyStrokes;
+                }
             }
         }
 
@@ -84,7 +93,10 @@ namespace GolfStatKeeper
             int hp = 0;
             for (int j = 0; j < this.HolesPlayed.Count; j++)
             {
-                if (this.HolesPlayed[j] == null) { break; }
+                if (this.HolesPlayed[j] == null) { continue; }
+                if(this.HolesPlayed[j].Shots.Count == 0) { continue; }
+
+                hp++;
             }
             fields[(int)RoundFileFields.HolesPlayed] = hp.ToString();
 

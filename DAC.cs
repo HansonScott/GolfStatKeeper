@@ -683,6 +683,8 @@ namespace GolfStatKeeper
             }
 
             WriteLines(RoundsFile, roundsUpdated);
+
+            SaveHolesPlayedByRoundID(thisRound.ID.ToString(), thisRound.HolesPlayed);
         }
         public static Round[] GetRoundsSummaryOnly()
         {
@@ -815,6 +817,8 @@ namespace GolfStatKeeper
                 {
                     Round result = Round.LoadFromFileLine(rounds[i], true);
                     result.HolesPlayed = GetHolesPlayedByRoundID(rID.ToString(), result.Course);
+                    if(result.HolesPlayed == null) { result.HolesPlayed = new List<HoleScore>(); }
+                    return result;
                 }
             }
 
@@ -896,12 +900,14 @@ namespace GolfStatKeeper
 
             for (int i = 0; i < holeLines.Length; i++)
             {
-                results[i] = HoleScore.CreateHolePlayedFromString(holeLines[i]);
+                HoleScore s = HoleScore.CreateHolePlayedFromString(holeLines[i]);
 
                 // and fill in course data too
-                results[i].HolePlayed.Par = c.Holes[i].Par;
-                results[i].HolePlayed.HCP = c.Holes[i].HCP;
-                results[i].HolePlayed.Length = c.Holes[i].Length;
+                s.HolePlayed.Par = c.Holes[i].Par;
+                s.HolePlayed.HCP = c.Holes[i].HCP;
+                s.HolePlayed.Length = c.Holes[i].Length;
+
+                results.Add(s);
             }
 
             return results;

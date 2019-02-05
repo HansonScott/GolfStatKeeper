@@ -136,15 +136,22 @@ namespace GolfStatKeeper.Panels
         private void PopulateScoreCardWithHoleSummary()
         {
             int ColumnNumber = 1;
-            foreach (HoleScore h in m_thisRound.HolesPlayed)
+            if (m_thisRound.HolesPlayed != null)
             {
-                dgvHoles.Rows[(int)HolesRows.HoleNumber].Cells[ColumnNumber].Value = h.HolePlayed.HoleNumber;
-                dgvHoles.Rows[(int)HolesRows.Score].Cells[ColumnNumber].Value = h.Score;
-                dgvHoles.Rows[(int)HolesRows.Fairway].Cells[ColumnNumber].Value = (h.FairwayWasHit() ? "X" : ""); // interpret the boolean for display
-                dgvHoles.Rows[(int)HolesRows.Green].Cells[ColumnNumber].Value = (h.GreenWasHit() ? "X" : "");
-                dgvHoles.Rows[(int)HolesRows.Putts].Cells[ColumnNumber++].Value = h.GetPuttsForHole();
-            }
+                foreach (HoleScore h in m_thisRound.HolesPlayed)
+                {
+                    if (h != null && h.Shots.Count > 0)
+                    {
+                        dgvHoles.Rows[(int)HolesRows.HoleNumber].Cells[ColumnNumber].Value = h.HolePlayed.HoleNumber;
+                        dgvHoles.Rows[(int)HolesRows.Score].Cells[ColumnNumber].Value = h.Score;
+                        dgvHoles.Rows[(int)HolesRows.Fairway].Cells[ColumnNumber].Value = (h.FairwayWasHit() ? "X" : ""); // interpret the boolean for display
+                        dgvHoles.Rows[(int)HolesRows.Green].Cells[ColumnNumber].Value = (h.GreenWasHit() ? "X" : "");
+                        dgvHoles.Rows[(int)HolesRows.Putts].Cells[ColumnNumber].Value = h.GetPuttsForHole();
+                    }
 
+                    ColumnNumber++;
+                }
+            }
             PopulateSummaryTotals();
         }
         private void PopulateSummaryTotals()
@@ -343,10 +350,10 @@ namespace GolfStatKeeper.Panels
             // highlight and load the next hole
             int holeNumber = dgvHoles.SelectedColumns[0].Index;
 
-            dgvHoles.SelectedColumns[holeNumber].Selected = false;
+            dgvHoles.SelectedColumns[0].Selected = false;
             if (holeNumber < 19)
             {
-                dgvHoles.SelectedColumns[holeNumber++].Selected = true;
+                dgvHoles.Columns[holeNumber + 1].Selected = true;
 
                 // should trigger the load by going through the selection changed handler
                 //HoleScore h = m_thisRound.HolesPlayed[holeNumber];
@@ -373,7 +380,6 @@ namespace GolfStatKeeper.Panels
                 shotRow.Cells[(int)ShotsColumns.Result].Value = s.ActualResult.ToString();
                 shotRow.Cells[(int)ShotsColumns.Actual_Flight].Value = s.ActualFlight.ToString();
                 shotRow.Cells[(int)ShotsColumns.Actual_Length].Value = s.ActualDistance;
-
             }
         }
 
@@ -489,6 +495,9 @@ namespace GolfStatKeeper.Panels
             {
                 m_thisRound.HolesPlayed.Add(hole);
             }
+
+            m_thisRound.UpdateTotalsFromHolesPlayed();
+
             // repopulate scorecard with changes
             PopulateScoreCardWithHoleSummary();
         }

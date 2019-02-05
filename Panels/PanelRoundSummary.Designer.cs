@@ -33,21 +33,21 @@
             this.btnOpen = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.lblSummary = new System.Windows.Forms.Label();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvSummaryStats = new System.Windows.Forms.DataGridView();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnCreateNew = new System.Windows.Forms.Button();
             this.dgvRounds = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSummaryStats)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRounds)).BeginInit();
             this.SuspendLayout();
@@ -103,39 +103,18 @@
             // 
             this.lblSummary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSummary.AutoSize = true;
-            this.lblSummary.Location = new System.Drawing.Point(161, 416);
+            this.lblSummary.Location = new System.Drawing.Point(137, 416);
             this.lblSummary.Name = "lblSummary";
             this.lblSummary.Size = new System.Drawing.Size(91, 13);
             this.lblSummary.TabIndex = 14;
             this.lblSummary.Text = "Overall Averages:";
             // 
-            // Column12
-            // 
-            this.Column12.HeaderText = "Score";
-            this.Column12.Name = "Column12";
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "Penalties";
-            this.Column11.Name = "Column11";
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "Putts";
-            this.Column10.Name = "Column10";
-            // 
-            // Column9
-            // 
-            this.Column9.HeaderText = "Greens";
-            this.Column9.Name = "Column9";
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Fairways";
-            this.Column8.Name = "Column8";
-            // 
             // dgvSummaryStats
             // 
+            this.dgvSummaryStats.AllowUserToAddRows = false;
+            this.dgvSummaryStats.AllowUserToDeleteRows = false;
+            this.dgvSummaryStats.AllowUserToResizeColumns = false;
+            this.dgvSummaryStats.AllowUserToResizeRows = false;
             this.dgvSummaryStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvSummaryStats.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvSummaryStats.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -147,56 +126,37 @@
             this.Column12});
             this.dgvSummaryStats.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvSummaryStats.Enabled = false;
-            this.dgvSummaryStats.Location = new System.Drawing.Point(258, 402);
+            this.dgvSummaryStats.Location = new System.Drawing.Point(234, 389);
             this.dgvSummaryStats.MultiSelect = false;
             this.dgvSummaryStats.Name = "dgvSummaryStats";
             this.dgvSummaryStats.RowHeadersVisible = false;
-            this.dgvSummaryStats.Size = new System.Drawing.Size(296, 40);
+            this.dgvSummaryStats.Size = new System.Drawing.Size(320, 53);
             this.dgvSummaryStats.TabIndex = 13;
             // 
-            // Column3
+            // Column8
             // 
-            this.Column3.HeaderText = "Score";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
+            this.Column8.HeaderText = "Fairways";
+            this.Column8.Name = "Column8";
             // 
-            // Column7
+            // Column9
             // 
-            this.Column7.HeaderText = "Penalties";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
+            this.Column9.HeaderText = "Greens";
+            this.Column9.Name = "Column9";
             // 
-            // Column6
+            // Column10
             // 
-            this.Column6.HeaderText = "Putts";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
+            this.Column10.HeaderText = "Putts";
+            this.Column10.Name = "Column10";
             // 
-            // Column5
+            // Column11
             // 
-            this.Column5.HeaderText = "Greens";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
+            this.Column11.HeaderText = "Penalties";
+            this.Column11.Name = "Column11";
             // 
-            // Column4
+            // Column12
             // 
-            this.Column4.HeaderText = "Fairways";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.FillWeight = 300F;
-            this.Column2.HeaderText = "Course & Tee";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // Column1
-            // 
-            this.Column1.FillWeight = 150F;
-            this.Column1.HeaderText = "Date";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
+            this.Column12.HeaderText = "Score";
+            this.Column12.Name = "Column12";
             // 
             // btnCreateNew
             // 
@@ -239,10 +199,54 @@
             this.dgvRounds.ShowCellToolTips = false;
             this.dgvRounds.ShowEditingIcon = false;
             this.dgvRounds.ShowRowErrors = false;
-            this.dgvRounds.Size = new System.Drawing.Size(551, 335);
+            this.dgvRounds.Size = new System.Drawing.Size(551, 322);
             this.dgvRounds.TabIndex = 12;
             this.dgvRounds.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRounds_CellDoubleClick);
             this.dgvRounds.SelectionChanged += new System.EventHandler(this.dgvRounds_SelectionChanged);
+            // 
+            // Column1
+            // 
+            this.Column1.FillWeight = 150F;
+            this.Column1.HeaderText = "Date";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.FillWeight = 300F;
+            this.Column2.HeaderText = "Course & Tee";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Fairways";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Greens";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "Putts";
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "Penalties";
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Score";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
             // 
             // PanelRoundSummary
             // 

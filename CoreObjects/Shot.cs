@@ -61,6 +61,8 @@ namespace GolfStatKeeper
 
         public static Shot FromString(string data)
         {
+            if (data == string.Empty){ return null; }
+
             Shot s = new Shot();
             string[] fields = data.Split(DAC.Level3Separator.ToCharArray());
             int sn = 0;
@@ -165,7 +167,11 @@ namespace GolfStatKeeper
 
             foreach(string s in shotData)
             {
-                lshots.Add(Shot.FromString(s));
+                Shot sh = Shot.FromString(s);
+                if(sh != null)
+                {
+                    lshots.Add(sh);
+                }
             }
 
             return lshots;

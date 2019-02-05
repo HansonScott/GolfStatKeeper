@@ -6,7 +6,7 @@ namespace GolfStatKeeper
 {
     public class HoleScore
     {
-        public Hole HolePlayed;
+        public Hole HolePlayed = new Hole();
         public int PenaltyStrokes = 0;
         public List<Shot> Shots = new List<Shot>();
 
