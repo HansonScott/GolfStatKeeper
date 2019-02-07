@@ -63,11 +63,8 @@ namespace GolfStatKeeper.Panels
             else
             {
                 SetupNewRound();
-                SetupEmptyScoreCard(null);
+                SetupEmptyScoreCard(cbCourse.Items[0] as Course);
             }
-
-            // cause the population of the score card for the first, default course
-            PopulateEmptyScoreCardFromCourseAndTees(cbCourse.Items[0] as Course);
 
             IsLoading = false;
         }
@@ -79,7 +76,6 @@ namespace GolfStatKeeper.Panels
             m_thisRound.HolesPlayed = new System.Collections.Generic.List<HoleScore>(m_thisRound.Course.Holes.Length);
             UpdateRoundFromUI();
         }
-
         private void UpdateRoundFromUI()
         {
             m_thisRound.Course = (cbCourse.SelectedItem as Course);
@@ -87,12 +83,10 @@ namespace GolfStatKeeper.Panels
             m_thisRound.Player = FormMain.thisForm.CurrentPlayer;
             m_thisRound.When = dtWhen.Value;
         }
-
         private void PopulateCBConditions()
         {
             ComboBoxUtil.PopulateCBFromEnum(cbConditions, typeof(Round.RoundConditions));
         }
-
         private void PopulateCBCourses()
         {
             cbCourse.DataSource = DAC.GetCourses();
@@ -119,20 +113,6 @@ namespace GolfStatKeeper.Panels
             (dgvShots.Columns[(int)ShotsColumns.Actual_Flight] as DataGridViewComboBoxColumn).DataSource = Enum.GetNames(typeof(Shot.BallFlight));
             (dgvShots.Columns[(int)ShotsColumns.Result] as DataGridViewComboBoxColumn).DataSource = Enum.GetNames(typeof(Shot.ShotResult));
         }
-        public void LoadRoundData(int roundID)
-        {
-            // get round object from file
-            m_thisRound = DAC.GetRoundByID(roundID);
-
-            // load summary fields
-            dtWhen.Value = m_thisRound.When;
-            cbCourse.SelectedItem = m_thisRound.Course;
-            cbConditions.Text = Enum.GetName(typeof(Round.RoundConditions), m_thisRound.Conditions);
-
-            // load holes
-            SetupEmptyScoreCard(m_thisRound.Course);
-            PopulateScoreCardWithHoleSummary();
-        }
         private void PopulateScoreCardWithHoleSummary()
         {
             int ColumnNumber = 1;
@@ -142,7 +122,7 @@ namespace GolfStatKeeper.Panels
                 {
                     if (h != null && h.Shots.Count > 0)
                     {
-                        dgvHoles.Rows[(int)HolesRows.HoleNumber].Cells[ColumnNumber].Value = h.HolePlayed.HoleNumber;
+                        //dgvHoles.Rows[(int)HolesRows.HoleNumber].Cells[ColumnNumber].Value = h.HolePlayed.HoleNumber;
                         dgvHoles.Rows[(int)HolesRows.Score].Cells[ColumnNumber].Value = h.Score;
                         dgvHoles.Rows[(int)HolesRows.Fairway].Cells[ColumnNumber].Value = (h.FairwayWasHit() ? "X" : ""); // interpret the boolean for display
                         dgvHoles.Rows[(int)HolesRows.Green].Cells[ColumnNumber].Value = (h.GreenWasHit() ? "X" : "");
@@ -160,6 +140,12 @@ namespace GolfStatKeeper.Panels
 
             // update round from holes
             m_thisRound.UpdateTotalsFromHolesPlayed();
+
+            // length
+            dgvHoles.Rows[(int)HolesRows.Length].Cells[totalsColumn].Value = m_thisRound.Course.GetTotalLength();
+
+            // par
+            dgvHoles.Rows[(int)HolesRows.Par].Cells[totalsColumn].Value = m_thisRound.Course.GetTotalPar();
 
             // score
             dgvHoles.Rows[(int)HolesRows.Score].Cells[totalsColumn].Value = m_thisRound.TotalScore;
@@ -204,22 +190,14 @@ namespace GolfStatKeeper.Panels
             // NOTE: abide by the enum order - HolesRows
             dgvHoles.Rows.Add("Hole Number", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18");
 
-            if (c != null)
-            {
-                dgvHoles.Rows.Add("Length", c.Holes[0].Length, c.Holes[1].Length, c.Holes[2].Length, c.Holes[3].Length, c.Holes[4].Length, c.Holes[5].Length,
-                                            c.Holes[6].Length, c.Holes[7].Length, c.Holes[8].Length, c.Holes[9].Length, c.Holes[10].Length,
-                                            c.Holes[11].Length, c.Holes[12].Length, c.Holes[13].Length, c.Holes[14].Length, c.Holes[15].Length,
-                                            c.Holes[16].Length, c.Holes[17].Length);
-            }
-            else
-            {
-                dgvHoles.Rows.Add("Length", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
-            }
+            dgvHoles.Rows.Add("Length", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
             dgvHoles.Rows.Add("Par", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
             dgvHoles.Rows.Add("Score", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
             dgvHoles.Rows.Add("Fairway Hit", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
             dgvHoles.Rows.Add("Green Hit", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
             dgvHoles.Rows.Add("Putts", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+
+            if(c != null) { PopulateEmptyScoreCardFromCourseAndTees(c); }
         }
 
         private void AddColumn(DataGridView dgv, string headerTxt, string name)
@@ -339,6 +317,49 @@ namespace GolfStatKeeper.Panels
             // close parent form and return to round summary list.
             this.ParentForm.Close();
         }
+
+        private void dgvShots_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (IsLoading) { return; }
+
+            // if we hit the shot as intended, then copy the intended values over to the actual values
+            if (e.ColumnIndex == (int)ShotsColumns.Result)
+            {
+                if (this.dgvShots.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() ==
+                    (Shot.ShotResult.As_intended).ToString())
+                {
+                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Actual_Flight].Value =
+                        this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Intended_Flight].Value;
+
+                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Actual_Length].Value =
+                        this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Intended_Length].Value;
+
+                }
+            }
+        }
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            int r = dgvShots.SelectedCells[0].RowIndex;
+            dgvShots.Rows.RemoveAt(r);
+        }
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            dgvShots.Rows.Add();
+        }
+        private void btnUp_Click(object sender, EventArgs e)
+        {
+            int r = dgvShots.SelectedCells[0].RowIndex;
+            DataGridViewRow rowToMove = dgvShots.Rows[r];
+            dgvShots.Rows.Remove(rowToMove);
+            dgvShots.Rows.Insert(Math.Max(r - 1, 0), rowToMove);
+        }
+        private void btnDown_Click(object sender, EventArgs e)
+        {
+            int r = dgvShots.SelectedCells[0].RowIndex;
+            DataGridViewRow rowToMove = dgvShots.Rows[r];
+            dgvShots.Rows.Remove(rowToMove);
+            dgvShots.Rows.Insert(Math.Min(r + 1, dgvShots.Rows.Count - 1), rowToMove);
+        }
         private void btnSaveHole_Click(object sender, EventArgs e)
         {
             HandleSaveHole();
@@ -362,6 +383,23 @@ namespace GolfStatKeeper.Panels
         }
         #endregion
 
+        #region Public Methods
+        public void LoadRoundData(int roundID)
+        {
+            // get round object from file
+            m_thisRound = DAC.GetRoundByID(roundID);
+
+            // load summary fields
+            dtWhen.Value = m_thisRound.When;
+            cbCourse.SelectedItem = m_thisRound.Course;
+            cbConditions.Text = Enum.GetName(typeof(Round.RoundConditions), m_thisRound.Conditions);
+
+            // load holes
+            SetupEmptyScoreCard(m_thisRound.Course);
+            PopulateScoreCardWithHoleSummary();
+        }
+        #endregion
+
         #region Private Functions
         private void LoadShots(HoleScore holePlayed)
         {
@@ -382,7 +420,6 @@ namespace GolfStatKeeper.Panels
                 shotRow.Cells[(int)ShotsColumns.Actual_Length].Value = s.ActualDistance;
             }
         }
-
         private string GetClubNameFromClubType(string clubType)
         {
             // comes in as a custom name, needs to map back to the generic type
@@ -393,7 +430,6 @@ namespace GolfStatKeeper.Panels
 
             return null;
         }
-
         private void PopulateEmptyScoreCardFromCourseAndTees(Course course)
         {
             for(int i = 0; i < course.Holes.Length; i++)
@@ -501,7 +537,6 @@ namespace GolfStatKeeper.Panels
             // repopulate scorecard with changes
             PopulateScoreCardWithHoleSummary();
         }
-
         private object GetClubTypeFromClubName(object valClub)
         {
             // comes in as a custom name, needs to map back to the generic type
@@ -512,7 +547,6 @@ namespace GolfStatKeeper.Panels
 
             return null;
         }
-
         private void HandleRoundSave()
         {
             if(m_thisRound.ID == -1)
@@ -527,61 +561,5 @@ namespace GolfStatKeeper.Panels
             }
         }
         #endregion
-
-        private void dgvShots_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            // caused issues, no added value, nevermind...
-            //dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.ShotNumber].Value = e.RowCount + 1;
-            //dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Intended_Flight].Value = (int)Shot.BallFlight.Straight;
-            //dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Actual_Flight].Value = (int)Shot.BallFlight.Straight;
-            //dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Result].Value = (int)Shot.ShotResult.As_intended;
-        }
-
-        private void dgvShots_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (IsLoading) { return; }
-
-            // if we hit the shot as intended, then copy the intended values over to the actual values
-            if(e.ColumnIndex == (int)ShotsColumns.Result)
-            {
-                if(this.dgvShots.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == 
-                    (Shot.ShotResult.As_intended).ToString())
-                {
-                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Actual_Flight].Value =
-                        this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Intended_Flight].Value;
-
-                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Actual_Length].Value =
-                        this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Intended_Length].Value;
-
-                }
-            }
-        }
-
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            int r = dgvShots.SelectedCells[0].RowIndex;
-            dgvShots.Rows.RemoveAt(r);
-        }
-
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            dgvShots.Rows.Add();
-        }
-
-        private void btnUp_Click(object sender, EventArgs e)
-        {
-            int r = dgvShots.SelectedCells[0].RowIndex;
-            DataGridViewRow rowToMove = dgvShots.Rows[r];
-            dgvShots.Rows.Remove(rowToMove);
-            dgvShots.Rows.Insert(Math.Max(r - 1, 0), rowToMove);
-        }
-
-        private void btnDown_Click(object sender, EventArgs e)
-        {
-            int r = dgvShots.SelectedCells[0].RowIndex;
-            DataGridViewRow rowToMove = dgvShots.Rows[r];
-            dgvShots.Rows.Remove(rowToMove);
-            dgvShots.Rows.Insert(Math.Min(r + 1, dgvShots.Rows.Count - 1), rowToMove);
-        }
     }
 }
