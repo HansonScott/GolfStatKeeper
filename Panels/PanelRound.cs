@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace GolfStatKeeper.Panels
@@ -120,13 +121,13 @@ namespace GolfStatKeeper.Panels
             {
                 foreach (HoleScore h in m_thisRound.HolesPlayed)
                 {
-                    if (h != null && h.Shots.Count > 0)
+                    if (h != null)
                     {
                         //dgvHoles.Rows[(int)HolesRows.HoleNumber].Cells[ColumnNumber].Value = h.HolePlayed.HoleNumber;
                         dgvHoles.Rows[(int)HolesRows.Score].Cells[ColumnNumber].Value = h.Score;
-                        dgvHoles.Rows[(int)HolesRows.Fairway].Cells[ColumnNumber].Value = (h.FairwayWasHit() ? "X" : ""); // interpret the boolean for display
-                        dgvHoles.Rows[(int)HolesRows.Green].Cells[ColumnNumber].Value = (h.GreenWasHit() ? "X" : "");
-                        dgvHoles.Rows[(int)HolesRows.Putts].Cells[ColumnNumber].Value = h.GetPuttsForHole();
+                        dgvHoles.Rows[(int)HolesRows.Fairway].Cells[ColumnNumber].Value = (h.FairwayWasHit ? "X" : ""); // interpret the boolean for display
+                        dgvHoles.Rows[(int)HolesRows.Green].Cells[ColumnNumber].Value = (h.GreenWasHit ? "X" : "");
+                        dgvHoles.Rows[(int)HolesRows.Putts].Cells[ColumnNumber].Value = h.PuttsForHole;
                     }
 
                     ColumnNumber++;
@@ -549,6 +550,8 @@ namespace GolfStatKeeper.Panels
         }
         private void HandleRoundSave()
         {
+            CaptureHoleSummaryIfNoShots();
+
             if(m_thisRound.ID == -1)
             {
                 DAC.AddRound(m_thisRound);
@@ -558,6 +561,57 @@ namespace GolfStatKeeper.Panels
             {
                 DAC.SaveRound(m_thisRound);
                 MessageBox.Show("Round saved.");
+            }
+        }
+
+        private void CaptureHoleSummaryIfNoShots()
+        {
+            // foreach hole, if there are no shots, then capture the summaries at least.
+            for(int i = 1; i < dgvHoles.Columns.Count - 1; i++)
+            {
+                // if grid has no values, skip
+                if (dgvHoles.Rows[(int)HolesRows.Score].Cells[i].Value == null ||
+                    dgvHoles.Rows[(int)HolesRows.Score].Cells[i].Value.ToString() == String.Empty) { continue; }
+
+                // if grid has values, then
+                else
+                {
+                    // if thisRound.thisHole has shots, skip
+                    if(m_thisRound.HolesPlayed != null && 
+                        m_thisRound.HolesPlayed.Count > i &&
+                        m_thisRound.HolesPlayed[i].Shots != null &&
+                        m_thisRound.HolesPlayed[i].Shots.Count > 0)
+                        { continue; }
+
+                    // if thisRound.thisHole doesn't have shots
+                    if (m_thisRound.HolesPlayed == null) { m_thisRound.HolesPlayed = new List<HoleScore>(); }
+                    while (m_thisRound.HolesPlayed.Count < i) { m_thisRound.HolesPlayed.Add(new HoleScore()); }
+
+                    // capture summary to thisHole
+                    HoleScore h = m_thisRound.HolesPlayed[i - 1];
+
+                    object sobj = dgvHoles.Rows[(int)HolesRows.Score].Cells[i].Value;
+                    if(sobj != null)
+                    {
+                        int sval = 0;
+                        if (Int32.TryParse(sobj.ToString(), out sval)) { h.Score = sval; }
+                    }
+
+                    object fObj = dgvHoles.Rows[(int)HolesRows.Fairway].Cells[i].Value;
+                    h.FairwayWasHit = (fObj != null && fObj.ToString() != string.Empty && 
+                                    (fObj.ToString() == "X" || fObj.ToString() == "Y" || fObj.ToString() == "1"));
+
+                    object gObj = dgvHoles.Rows[(int)HolesRows.Green].Cells[i].Value;
+                    h.GreenWasHit = (gObj != null && gObj.ToString() != string.Empty &&
+                                    (gObj.ToString() == "X" || gObj.ToString() == "Y" || gObj.ToString() == "1"));
+
+                    object pobj = dgvHoles.Rows[(int)HolesRows.Putts].Cells[i].Value;
+                    if(pobj != null)
+                    {
+                        int pval = 0;
+                        if (Int32.TryParse(pobj.ToString(), out pval)) { h.PuttsForHole = pval; }
+                    }
+                }
             }
         }
         #endregion

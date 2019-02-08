@@ -64,9 +64,9 @@ namespace GolfStatKeeper
             {
                 foreach (HoleScore h in HolesPlayed)
                 {
-                    if (h.GreenWasHit()) this.TotalGreensHit++;
-                    if (h.FairwayWasHit()) this.TotalFairwaysHit++;
-                    this.TotalPutts += h.GetPuttsForHole();
+                    if (h.GreenWasHit) this.TotalGreensHit++;
+                    if (h.FairwayWasHit) this.TotalFairwaysHit++;
+                    this.TotalPutts += h.PuttsForHole;
                     this.TotalScore += h.Score;
                     this.TotalPenaltyStrokes += h.PenaltyStrokes;
                 }
@@ -76,6 +76,8 @@ namespace GolfStatKeeper
         #region File IO functions
         public override string ToString()
         {
+            UpdateTotalsFromHolesPlayed();
+
             // use enum?
             string[] fields = new string[Enum.GetNames(typeof(RoundFileFields)).Length];
             // set the data

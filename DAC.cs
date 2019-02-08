@@ -43,8 +43,12 @@ namespace GolfStatKeeper
     public enum HolesPlayedFileFields // ID of file is the round ID
     {
         HoleNumber = 0,
-        PenaltyStrokes = 1,
-        Shots = 2,
+        Score = 1,
+        FairwayHit = 2,
+        GreenHit = 3,
+        Putts = 4,
+        PenaltyStrokes = 5,
+        Shots = 6,
     }
     #endregion
 
@@ -925,12 +929,7 @@ namespace GolfStatKeeper
             string[] holeData = new string[holes.Count];
             for (int i = 0; i < holes.Count; i++)
             {
-                string[] fields = new string[Enum.GetNames(typeof(HolesPlayedFileFields)).Length];
-                fields[(int)HolesPlayedFileFields.HoleNumber] = holes[i].HolePlayed.HoleNumber.ToString();
-                fields[(int)HolesPlayedFileFields.PenaltyStrokes] = holes[i].PenaltyStrokes.ToString();
-                fields[(int)HolesPlayedFileFields.Shots] = Shot.SaveShotsToString(holes[i].Shots);
-
-                holeData[i] = String.Join(Level1Separator, fields);
+                holeData[i] = holes[i].ToString();
             }
 
             // will either overwrite or create file as necessary.
