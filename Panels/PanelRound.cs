@@ -387,6 +387,8 @@ namespace GolfStatKeeper.Panels
         #region Public Methods
         public void LoadRoundData(int roundID)
         {
+            this.IsLoading = true;
+
             // get round object from file
             m_thisRound = DAC.GetRoundByID(roundID);
 
@@ -398,6 +400,8 @@ namespace GolfStatKeeper.Panels
             // load holes
             SetupEmptyScoreCard(m_thisRound.Course);
             PopulateScoreCardWithHoleSummary();
+
+            this.IsLoading = false;
         }
         #endregion
 
@@ -562,6 +566,8 @@ namespace GolfStatKeeper.Panels
                 DAC.SaveRound(m_thisRound);
                 MessageBox.Show("Round saved.");
             }
+
+            this.isDirty = false;
         }
 
         private void CaptureHoleSummaryIfNoShots()
@@ -615,5 +621,17 @@ namespace GolfStatKeeper.Panels
             }
         }
         #endregion
+
+        private void dgvHoles_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (IsLoading) { return; }
+
+            // otherwise, update things
+            CaptureHoleSummaryIfNoShots();
+            PopulateSummaryTotals();
+
+            // and set the round as dirty
+            isDirty = true;
+        }
     }
 }

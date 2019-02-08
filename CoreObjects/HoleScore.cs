@@ -399,7 +399,9 @@ namespace GolfStatKeeper
             string sval = o.ToString();
             if (sval == string.Empty) { return false; }
             return (sval.ToLower() == "y" ||
-                    sval.ToLower() == "1");
+                    sval.ToLower() == "1" ||
+                    sval.ToLower() == "true" ||
+                    sval.ToLower() == "t");
         }
 
         private static int GetInt(string[] fields, int col)
@@ -426,9 +428,9 @@ namespace GolfStatKeeper
             sb.Append(DAC.Level1Separator);
             sb.Append(this.Score);
             sb.Append(DAC.Level1Separator);
-            sb.Append(this.FairwayWasHit);
+            sb.Append((this.FairwayWasHit ? 1: 0));
             sb.Append(DAC.Level1Separator);
-            sb.Append(this.GreenWasHit);
+            sb.Append((this.GreenWasHit ? 1: 0));
             sb.Append(DAC.Level1Separator);
             sb.Append(this.PuttsForHole);
             sb.Append(DAC.Level1Separator);

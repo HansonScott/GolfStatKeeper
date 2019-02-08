@@ -113,6 +113,7 @@
             this.dgvHoles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullColumnSelect;
             this.dgvHoles.Size = new System.Drawing.Size(555, 175);
             this.dgvHoles.TabIndex = 4;
+            this.dgvHoles.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHoles_CellValueChanged);
             this.dgvHoles.SelectionChanged += new System.EventHandler(this.dgvHolesPlayed_SelectionChanged);
             // 
             // dgvShots

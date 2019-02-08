@@ -106,6 +106,8 @@ namespace GolfStatKeeper.Panels
             FormRoundDetails frm = new FormRoundDetails();
             frm.panelRound1.LoadRoundData(ID);
             frm.ShowDialog(this);
+
+            LoadRoundSummaries();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
