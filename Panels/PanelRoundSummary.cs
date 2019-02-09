@@ -41,6 +41,8 @@ namespace GolfStatKeeper.Panels
             int grandPutts = 0;
             int grandPenalties = 0;
 
+            int roundsForPutts = 0;
+
             foreach (Round r in rounds)
             {
                 int rowIndex = dgvRounds.Rows.Add();
@@ -50,7 +52,7 @@ namespace GolfStatKeeper.Panels
                 row.Cells[(int)RoundGridColumns.CourseTee].Value = r.Course.CourseAndTee;
                 row.Cells[(int)RoundGridColumns.Fairways].Value = (r.TotalFairwaysHit * 100 / r.Course.GetTotalFairways()) + "%";
                 row.Cells[(int)RoundGridColumns.Greens].Value = r.TotalGreensHit;
-                row.Cells[(int)RoundGridColumns.Putts].Value = r.TotalPutts;
+                row.Cells[(int)RoundGridColumns.Putts].Value = (r.TotalPutts == 0 ? "-": r.TotalPutts.ToString());
                 row.Cells[(int)RoundGridColumns.Penalties].Value = r.TotalPenaltyStrokes;
                 row.Cells[(int)RoundGridColumns.Score].Value = r.TotalScore;
 
@@ -59,7 +61,11 @@ namespace GolfStatKeeper.Panels
                 grandFairways += r.TotalFairwaysHit;
                 grandFairwaysPossible += r.Course.GetTotalFairways();
                 grandGreens += r.TotalGreensHit;
-                grandPutts += r.TotalPutts;
+                if(r.TotalPutts > 0)
+                {
+                    grandPutts += r.TotalPutts;
+                    roundsForPutts++;
+                }
                 grandPenalties += r.TotalPenaltyStrokes;
             }
 
@@ -67,11 +73,11 @@ namespace GolfStatKeeper.Panels
             dgvSummaryStats.Rows.Clear();
             if (rounds != null && rounds.Length > 0)
             {
-                string fairways = (int)(grandFairways / grandFairwaysPossible) + "%";
-                string greens = (grandGreens / rounds.Length).ToString("F2");
-                string putts = (grandPutts / rounds.Length).ToString("F2");
-                string penalties = (grandPenalties / rounds.Length).ToString("F2");
-                string score = (grandScore / rounds.Length).ToString("F2");
+                string fairways = (grandFairways * 100 / grandFairwaysPossible).ToString("F2") + "%";
+                string greens = ((decimal)grandGreens / (decimal)rounds.Length).ToString("F2");
+                string putts = ((decimal)grandPutts / (decimal)roundsForPutts).ToString("F2");
+                string penalties = ((decimal)grandPenalties / (decimal)rounds.Length).ToString("F2");
+                string score = ((decimal)grandScore / (decimal)rounds.Length).ToString("F2");
 
                 dgvSummaryStats.Rows.Add(fairways, greens, putts, penalties, score);
             }
