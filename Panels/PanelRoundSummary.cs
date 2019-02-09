@@ -38,6 +38,7 @@ namespace GolfStatKeeper.Panels
             int grandFairways = 0;
             int grandFairwaysPossible = 0;
             int grandGreens = 0;
+            int grandGreensPossible = 0;
             int grandPutts = 0;
             int grandPenalties = 0;
 
@@ -60,6 +61,7 @@ namespace GolfStatKeeper.Panels
                 grandScore += r.TotalScore;
                 grandFairways += r.TotalFairwaysHit;
                 grandFairwaysPossible += r.Course.GetTotalFairways();
+                grandGreensPossible += r.Course.Holes.Length;
                 grandGreens += r.TotalGreensHit;
                 if(r.TotalPutts > 0)
                 {
@@ -74,7 +76,7 @@ namespace GolfStatKeeper.Panels
             if (rounds != null && rounds.Length > 0)
             {
                 string fairways = (grandFairways * 100 / grandFairwaysPossible).ToString("F2") + "%";
-                string greens = ((decimal)grandGreens / (decimal)rounds.Length).ToString("F2");
+                string greens = ((decimal)grandGreens * 100/ grandGreensPossible).ToString("F2") + "%";
                 string putts = ((decimal)grandPutts / (decimal)roundsForPutts).ToString("F2");
                 string penalties = ((decimal)grandPenalties / (decimal)rounds.Length).ToString("F2");
                 string score = ((decimal)grandScore / (decimal)rounds.Length).ToString("F2");
