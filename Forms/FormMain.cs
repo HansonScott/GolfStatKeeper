@@ -57,6 +57,10 @@ namespace GolfStatKeeper
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            DAC.DATA_PATH = @"D:\Program Files (x86)\GolfStatKeeper";
+
+
             bool Install = DAC.CheckInstalled();
             // regardless of the install, run the app.
             FormMain.IsAppRunning = true;

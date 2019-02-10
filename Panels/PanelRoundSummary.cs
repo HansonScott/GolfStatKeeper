@@ -77,7 +77,11 @@ namespace GolfStatKeeper.Panels
             {
                 string fairways = (grandFairways * 100 / grandFairwaysPossible).ToString("F2") + "%";
                 string greens = ((decimal)grandGreens * 100/ grandGreensPossible).ToString("F2") + "%";
-                string putts = ((decimal)grandPutts / (decimal)roundsForPutts).ToString("F2");
+
+                string putts;
+                if (roundsForPutts == 0) { putts = "-"; }
+                else { putts = ((decimal)grandPutts / (decimal)roundsForPutts).ToString("F2"); }
+
                 string penalties = ((decimal)grandPenalties / (decimal)rounds.Length).ToString("F2");
                 string score = ((decimal)grandScore / (decimal)rounds.Length).ToString("F2");
 
@@ -142,7 +146,14 @@ namespace GolfStatKeeper.Panels
 
         private void btnAnalyze_Click(object sender, EventArgs e)
         {
+            if(dgvRounds.SelectedRows.Count != 1){ return; }
 
+            int rID = (dgvRounds.SelectedRows[0].Tag as int?).Value;
+
+            FormRoundAnalyzer frm = new FormRoundAnalyzer();
+            frm.LoadRound(DAC.GetRoundByID(rID));
+            
+            frm.ShowDialog(this);
         }
 
         private void dgvRounds_SelectionChanged(object sender, EventArgs e)

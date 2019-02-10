@@ -22,19 +22,19 @@
     public class ShotWasted
     {
         public int holeNumber { get; set; }
-        public int v1 { get; set; }
+        public int OverPar { get; set; }
         public int shotNumber { get; set; }
         public ClubType club { get; set; }
-        public int v2 { get; set; }
+        public int PuttDistance { get; set; }
         public ShotWastedType type {get; set;}
 
-        public ShotWasted(int holeNumber, int v1, int shotNumber, ClubType club, int v2, ShotWastedType t)
+        public ShotWasted(int holeNumber, int OverPar, int shotNumber, ClubType club, int PuttDistance, ShotWastedType t)
         {
             this.holeNumber = holeNumber;
-            this.v1 = v1;
+            this.OverPar = OverPar;
             this.shotNumber = shotNumber;
             this.club = club;
-            this.v2 = v2;
+            this.PuttDistance = PuttDistance;
             this.type = t;
         }
     }

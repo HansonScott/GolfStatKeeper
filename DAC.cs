@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 namespace GolfStatKeeper
 {
+
     #region Enums
     #region Top level files
     public enum PlayerFileFields
@@ -92,13 +93,28 @@ namespace GolfStatKeeper
 
         #region FileLocations from App Settings
         //public static string LocalDirectory = ConfigurationManager.AppSettings["LocalDirectory"] + Path.DirectorySeparatorChar;
+        public static string DATA_PATH
+        {
+            get; set;
+        }
         public static string LocalDirectory
         {
             get { return System.AppDomain.CurrentDomain.BaseDirectory; }
         }
         public static string ContentsFolder
         {
-            get { return Path.Combine(LocalDirectory, ConfigurationManager.AppSettings["ContentsFolder"]); }
+            get
+            {
+                if (DATA_PATH != null && 
+                    DATA_PATH != String.Empty)
+                {
+                    return Path.Combine(DATA_PATH, ConfigurationManager.AppSettings["ContentsFolder"]);
+                }
+                else
+                {
+                    return Path.Combine(LocalDirectory, ConfigurationManager.AppSettings["ContentsFolder"]);
+                }
+            }
         }
         public static string RoundDetailsFolder
         {
@@ -132,9 +148,9 @@ namespace GolfStatKeeper
         public static bool CheckInstalled()
         {
             // if installed directory does not exist, then install
-            if (!Directory.Exists(LocalDirectory))
+            if (!Directory.Exists(ContentsFolder))
             {
-                DialogResult dr = MessageBox.Show("Golf Stat Keeper has not been installed on this machine.  Install now?", "Local Directory not found.", MessageBoxButtons.YesNo);
+                DialogResult dr = MessageBox.Show("Golf Stat Keeper has not been installed on this machine.  Install now?", "Contents Directory not found.", MessageBoxButtons.YesNo);
                 if (dr == DialogResult.No) { return false; }
 
                 #region Create Directories
