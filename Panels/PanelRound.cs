@@ -299,6 +299,17 @@ namespace GolfStatKeeper.Panels
                 }
             }
         }
+        private void dgvHoles_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (IsLoading) { return; }
+
+            // otherwise, update things
+            CaptureHoleSummaryIfNoShots();
+            PopulateSummaryTotals();
+
+            // and set the round as dirty
+            isDirty = true;
+        }
         private void btnSave_Click(object sender, EventArgs e)
         {
             HandleRoundSave();
@@ -337,7 +348,36 @@ namespace GolfStatKeeper.Panels
 
                 }
             }
+
+            // when we choose a lie, assume the club, if we can.
+            if (e.ColumnIndex == (int)ShotsColumns.Lie)
+            {
+                if (this.dgvShots.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == (Shot.BallLie.Tee).ToString())
+                {
+                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Club].Value = GetClubByType(ClubType.Driver).Name; // driver
+                }
+                else if (this.dgvShots.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == (Shot.BallLie.Sand).ToString())
+                {
+                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Club].Value = GetClubByType(ClubType.Wedge_Sand).Name; // sand wedge
+                }
+                else if (this.dgvShots.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == (Shot.BallLie.Green).ToString())
+                {
+                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Club].Value = GetClubByType(ClubType.Putter).Name; // putter
+                }
+            }
         }
+
+        private Club GetClubByType(ClubType ct)
+        {
+            Club[] clubs = FormMain.thisForm.CurrentPlayer.Bag.Clubs;
+            foreach(Club c in clubs)
+            {
+                if(c.ClubType == ct) { return c; }
+            }
+
+            return null;
+        }
+
         private void BtnDelete_Click(object sender, EventArgs e)
         {
             int r = dgvShots.SelectedCells[0].RowIndex;
@@ -621,17 +661,5 @@ namespace GolfStatKeeper.Panels
             }
         }
         #endregion
-
-        private void dgvHoles_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (IsLoading) { return; }
-
-            // otherwise, update things
-            CaptureHoleSummaryIfNoShots();
-            PopulateSummaryTotals();
-
-            // and set the round as dirty
-            isDirty = true;
-        }
     }
 }
