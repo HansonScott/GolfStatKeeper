@@ -150,11 +150,16 @@ namespace GolfStatKeeper.Panels
                 ShotWasted w = m_ThisShotsWasted[i];
                 int ID = dgvShotsWasted.Rows.Add();
                 DataGridViewRow row = dgvShotsWasted.Rows[ID];
-                row.Cells["Type"].Value = w.type;
+                row.Cells["Type"].Value = CleanTypeName(w.type);
                 row.Cells["HoleNumber"].Value = w.holeNumber;
                 row.Cells["Club"].Value = GetClubName(w.club);
                 //row.Cells["ShotNumber"].Value = w.shotNumber;
             }
+        }
+
+        private string CleanTypeName(ShotWastedType type)
+        {
+            return type.ToString().Replace('_', ' ');
         }
 
         private string GetClubName(ClubType club)
