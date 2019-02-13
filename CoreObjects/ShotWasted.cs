@@ -2,21 +2,21 @@
 {
     public enum ShotWastedType
     {
-        Wiff,
-        Penalty_OB,
-        Penalty_hazard,
-        Duplicate_chip,
-        Duplicate_sand_shot,
-        Miss_Hit,
-        Poor_Drive,
-        Three_putts_within_50_feet,
-        Three_putts_from_over_50_feet,
-        Two_putts_within_5_feet,
-        Chip_and_two_putts,
-        Approach_missed_green,
-        Two_putts_from_5_to_10_feet,
-        Two_putts_from_10_to_15_feet,
-        Approach_left_30_foot_putt_or_more,
+        Wiff = 1,
+        Penalty_OB = 2,
+        Penalty_hazard = 3,
+        Duplicate_chip = 4,
+        Duplicate_sand_shot = 5,
+        Miss_Hit = 6,
+        Three_putts_within_50_feet = 7,
+        Three_putts_from_over_50_feet = 8,
+        Two_putts_within_5_feet = 9,
+        Chip_and_two_putts = 10,
+        Poor_Drive = 11,
+        Approach_missed_green = 12,
+        Two_putts_from_5_to_10_feet = 13,
+        Two_putts_from_10_to_15_feet = 14,
+        Approach_left_30_foot_putt_or_more = 15,
     }
 
     public class ShotWasted

@@ -363,6 +363,7 @@ namespace GolfStatKeeper.Panels
                 else if (this.dgvShots.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == (Shot.BallLie.Green).ToString())
                 {
                     this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Club].Value = GetClubByType(ClubType.Putter).Name; // putter
+                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Intended_Flight].Value = Shot.BallFlight.Straight.ToString(); // putter
                 }
             }
         }
@@ -564,7 +565,14 @@ namespace GolfStatKeeper.Panels
             int holeNumber = dgvHoles.SelectedColumns[0].DisplayIndex;
 
             // capture the course's hole that this score is for
-            hole.HolePlayed = (cbCourse.SelectedItem as Course).Holes[holeNumber - 1];
+            if(m_thisRound != null && m_thisRound.Course != null)
+            {
+                hole.HolePlayed = m_thisRound.Course.Holes[holeNumber - 1];
+            }
+            else
+            {
+                hole.HolePlayed = (cbCourse.SelectedItem as Course).Holes[holeNumber - 1];
+            }
 
             // and store this score back to this round
             if (m_thisRound.HolesPlayed.Count >= holeNumber &&

@@ -22,6 +22,7 @@ namespace GolfStatKeeper.Panels
         }
 
         private Round m_thisRound;
+        private List<ShotWasted> m_ThisShotsWasted;
 
         public PanelRoundAnalyzer()
         {
@@ -115,10 +116,10 @@ namespace GolfStatKeeper.Panels
         }
         private void SetupShotsWastedGrid()
         {
-            dgvShotsWasted.Columns.Add("HoleNumber", "Hole Number");
             dgvShotsWasted.Columns.Add("Type", "Type");
+            dgvShotsWasted.Columns.Add("HoleNumber", "Hole Number");
             dgvShotsWasted.Columns.Add("Club", "Club");
-            dgvShotsWasted.Columns.Add("ShotNumber", "Shot Number");
+            //dgvShotsWasted.Columns.Add("ShotNumber", "Shot Number");
         }
         private void AnalyzeRound(Round r)
         {
@@ -129,19 +130,54 @@ namespace GolfStatKeeper.Panels
                 results.AddRange(w);
             }
 
-            PopulateShotsWasted(results);
+            results.Sort(delegate (ShotWasted w1, ShotWasted w2) 
+                {
+                    int result = ((int)w1.type).CompareTo((int)w2.type);
+
+                    if(result == 0)
+                    {
+                        result = ((int)w1.OverPar).CompareTo((int)w2.OverPar);
+                    }
+
+                    return result;
+                }
+            );
+
+            m_ThisShotsWasted = results;
+
+            PopulateShotsWasted();
         }
-        private void PopulateShotsWasted(List<ShotWasted> results)
+        private void PopulateShotsWasted()
         {
-            foreach(ShotWasted w in results)
+            dgvShotsWasted.Rows.Clear();
+
+            int count = (int)this.numericUpDown1.Value;
+
+            for(int i = 0; i < count && i < m_ThisShotsWasted.Count; i++)
             {
+                ShotWasted w = m_ThisShotsWasted[i];
                 int ID = dgvShotsWasted.Rows.Add();
                 DataGridViewRow row = dgvShotsWasted.Rows[ID];
-                row.Cells["HoleNumber"].Value = w.holeNumber;
-                row.Cells["ShotNumber"].Value = w.shotNumber;
                 row.Cells["Type"].Value = w.type;
-                row.Cells["Club"].Value = w.club;
+                row.Cells["HoleNumber"].Value = w.holeNumber;
+                row.Cells["Club"].Value = GetClubName(w.club);
+                //row.Cells["ShotNumber"].Value = w.shotNumber;
             }
+        }
+
+        private string GetClubName(ClubType club)
+        {
+            foreach(Club c in FormMain.thisForm.CurrentPlayer.Bag.Clubs)
+            {
+                if(c.ClubType == club) { return c.Name; }
+            }
+
+            return null;
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            PopulateShotsWasted();
         }
     }
 }
