@@ -126,22 +126,11 @@ namespace GolfStatKeeper.Panels
             List<ShotWasted> results = new List<ShotWasted>();
             foreach(HoleScore h in r.HolesPlayed)
             {
-                List<ShotWasted> w = h.FindWastedShots();
+                List<ShotWasted> w = ShotWasted.FindWastedShots(h);
                 results.AddRange(w);
             }
 
-            results.Sort(delegate (ShotWasted w1, ShotWasted w2) 
-                {
-                    int result = ((int)w1.type).CompareTo((int)w2.type);
-
-                    if(result == 0)
-                    {
-                        result = ((int)w1.OverPar).CompareTo((int)w2.OverPar);
-                    }
-
-                    return result;
-                }
-            );
+            ShotWasted.SortList(ref results);
 
             m_ThisShotsWasted = results;
 
@@ -152,6 +141,9 @@ namespace GolfStatKeeper.Panels
             dgvShotsWasted.Rows.Clear();
 
             int count = (int)this.numericUpDown1.Value;
+
+            this.lblScore.Text = m_thisRound.TotalScore.ToString();
+            this.lblNetScore.Text = (m_thisRound.TotalScore - count).ToString();
 
             for(int i = 0; i < count && i < m_ThisShotsWasted.Count; i++)
             {

@@ -32,6 +32,10 @@
             this.dgvShotsWasted = new System.Windows.Forms.DataGridView();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
+            this.lblRawScore = new System.Windows.Forms.Label();
+            this.lblScore = new System.Windows.Forms.Label();
+            this.lblNetScore = new System.Windows.Forms.Label();
+            this.lblAdjustedScore = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHoles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShotsWasted)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -76,7 +80,7 @@
             // 
             this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.numericUpDown1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDown1.Location = new System.Drawing.Point(571, 234);
+            this.numericUpDown1.Location = new System.Drawing.Point(573, 284);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             30,
             0,
@@ -96,16 +100,63 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(559, 209);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(553, 286);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 13);
+            this.label1.Size = new System.Drawing.Size(14, 20);
             this.label1.TabIndex = 8;
-            this.label1.Text = "Shots to Save:";
+            this.label1.Text = "-";
+            // 
+            // lblRawScore
+            // 
+            this.lblRawScore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblRawScore.AutoSize = true;
+            this.lblRawScore.Location = new System.Drawing.Point(563, 209);
+            this.lblRawScore.Name = "lblRawScore";
+            this.lblRawScore.Size = new System.Drawing.Size(63, 13);
+            this.lblRawScore.TabIndex = 9;
+            this.lblRawScore.Text = "Raw Score:";
+            // 
+            // lblScore
+            // 
+            this.lblScore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblScore.AutoSize = true;
+            this.lblScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblScore.Location = new System.Drawing.Point(575, 240);
+            this.lblScore.Name = "lblScore";
+            this.lblScore.Size = new System.Drawing.Size(51, 20);
+            this.lblScore.TabIndex = 10;
+            this.lblScore.Text = "label2";
+            // 
+            // lblNetScore
+            // 
+            this.lblNetScore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblNetScore.AutoSize = true;
+            this.lblNetScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNetScore.Location = new System.Drawing.Point(569, 367);
+            this.lblNetScore.Name = "lblNetScore";
+            this.lblNetScore.Size = new System.Drawing.Size(51, 20);
+            this.lblNetScore.TabIndex = 12;
+            this.lblNetScore.Text = "label2";
+            // 
+            // lblAdjustedScore
+            // 
+            this.lblAdjustedScore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblAdjustedScore.AutoSize = true;
+            this.lblAdjustedScore.Location = new System.Drawing.Point(563, 336);
+            this.lblAdjustedScore.Name = "lblAdjustedScore";
+            this.lblAdjustedScore.Size = new System.Drawing.Size(82, 13);
+            this.lblAdjustedScore.TabIndex = 11;
+            this.lblAdjustedScore.Text = "Adjusted Score:";
             // 
             // PanelRoundAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblNetScore);
+            this.Controls.Add(this.lblAdjustedScore);
+            this.Controls.Add(this.lblScore);
+            this.Controls.Add(this.lblRawScore);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.dgvShotsWasted);
@@ -126,5 +177,9 @@
         private System.Windows.Forms.DataGridView dgvShotsWasted;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblRawScore;
+        private System.Windows.Forms.Label lblScore;
+        private System.Windows.Forms.Label lblNetScore;
+        private System.Windows.Forms.Label lblAdjustedScore;
     }
 }

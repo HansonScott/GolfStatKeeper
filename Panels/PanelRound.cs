@@ -334,6 +334,33 @@ namespace GolfStatKeeper.Panels
         {
             if (IsLoading) { return; }
 
+            // when we choose a lie, assume the club, if we can.
+            if (e.ColumnIndex == (int)ShotsColumns.Lie)
+            {
+                if (this.dgvShots.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == (Shot.BallLie.Tee).ToString())
+                {
+                    if(this.dgvHoles.Rows[(int)HolesRows.Par].Cells[this.dgvHoles.SelectedColumns[0].Index].Value.ToString() != "3")
+                    {
+                        this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Club].Value = GetClubByType(ClubType.Driver).Name; // driver
+                    }
+                }
+                else if (this.dgvShots.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == (Shot.BallLie.Sand).ToString())
+                {
+                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Club].Value = GetClubByType(ClubType.Wedge_Sand).Name; // sand wedge
+                }
+                else if (this.dgvShots.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == (Shot.BallLie.Green).ToString())
+                {
+                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Club].Value = GetClubByType(ClubType.Putter).Name; // putter
+                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Intended_Flight].Value = Shot.BallFlight.Straight.ToString(); // putter
+                }
+            }
+
+            // when we choose a club, assume straight for all (exceptions?)
+            if(e.ColumnIndex == (int)ShotsColumns.Club)
+            {
+                this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Intended_Flight].Value = Shot.BallFlight.Straight.ToString(); // putter
+            }
+
             // if we hit the shot as intended, then copy the intended values over to the actual values
             if (e.ColumnIndex == (int)ShotsColumns.Result)
             {
@@ -349,23 +376,6 @@ namespace GolfStatKeeper.Panels
                 }
             }
 
-            // when we choose a lie, assume the club, if we can.
-            if (e.ColumnIndex == (int)ShotsColumns.Lie)
-            {
-                if (this.dgvShots.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == (Shot.BallLie.Tee).ToString())
-                {
-                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Club].Value = GetClubByType(ClubType.Driver).Name; // driver
-                }
-                else if (this.dgvShots.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == (Shot.BallLie.Sand).ToString())
-                {
-                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Club].Value = GetClubByType(ClubType.Wedge_Sand).Name; // sand wedge
-                }
-                else if (this.dgvShots.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == (Shot.BallLie.Green).ToString())
-                {
-                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Club].Value = GetClubByType(ClubType.Putter).Name; // putter
-                    this.dgvShots.Rows[e.RowIndex].Cells[(int)ShotsColumns.Intended_Flight].Value = Shot.BallFlight.Straight.ToString(); // putter
-                }
-            }
         }
 
         private Club GetClubByType(ClubType ct)
