@@ -49,13 +49,10 @@ namespace GolfStatKeeper
             int putts = 0;
             int puttLength = 0;
 
+            Shot ChipShot = null;
             bool chipped = false;
-            ClubType ChipClub = ClubType.Wedge_Lob;
-            int ChipShotNumber = 0;
 
-            ClubType ApproachClub = ClubType.Wedge_Lob;
-            int ApproachShotNumber = 0;
-            int ApproachDistance = 0;
+            Shot Approach = null;
 
             // for each shot, find any wasted ones
             for (int i = 0; i < score.Shots.Count; i++)
@@ -94,8 +91,7 @@ namespace GolfStatKeeper
                          thisShot.ActualFlight == Shot.BallFlight.Flop)
                 {
                     chipped = true;
-                    ChipClub = thisShot.Club;
-                    ChipShotNumber = thisShot.ShotNumber;
+                    ChipShot = thisShot;
 
                     if (nextShot != null &&
                         (nextShot.ActualFlight == Shot.BallFlight.Chip ||
@@ -166,9 +162,7 @@ namespace GolfStatKeeper
                         thisShot.TargetFlight != Shot.BallFlight.Flop &&
                         !(score.HolePlayed.Par == 5 && thisShot.ShotNumber == 2))
                 {
-                    ApproachClub = thisShot.Club;
-                    ApproachShotNumber = thisShot.ShotNumber;
-                    ApproachDistance = thisShot.ActualDistance;
+                    Approach = thisShot;
                 }
                 #endregion
                 #region store putts
@@ -195,30 +189,41 @@ namespace GolfStatKeeper
             }
             #endregion
 
-            #region 2-Putts
+            #region 2-Putts, Chip & 2 putts, Approach
             else if (putts > 1)
             {
                 if (puttLength == 0)
                 {
                     // if no distances were put into the system, don't assume, just leave it out.
                 }
+
+                // if first putt length was less than 5, but we had 2 putts...
                 else if (puttLength <= 5)
                 {
                     results.Add(new ShotWasted(score.HolePlayed.HoleNumber, (score.Score - score.HolePlayed.Par), score.Score, ClubType.Putter, puttLength, ShotWastedType.Two_putts_within_5_feet));
                 }
-                // if a chip left a putt length greater than 5 feet, it's more a chipping issue.
+
+                // if a chip left a putt length greater than 5 feet, it's more a chipping/approach issue than just a putting issue.
                 else if (chipped)
                 {
-                    // if our chip was just close to the green, it was a chip issue.
-                    if (score.GreenWasHit || score.Shots[ChipShotNumber - 1].ActualDistance < 10)
+                    // we had a good lie, but didn't hit the green at all with a short club, so it was the approaches fault.
+                    if (Approach.Lie == Shot.BallLie.Fairway ||
+                            Approach.ActualResult != Shot.ShotResult.As_intended && Approach.TargetDistance < 170)
                     {
-                        results.Add(new ShotWasted(score.HolePlayed.HoleNumber, (score.Score - score.HolePlayed.Par), ChipShotNumber, ChipClub, puttLength, ShotWastedType.Chip_and_two_putts));
+                        results.Add(new ShotWasted(score.HolePlayed.HoleNumber, (score.Score - score.HolePlayed.Par), Approach.ShotNumber, Approach.Club, Approach.ActualDistance, ShotWastedType.Approach_missed_green));
                     }
-                    // otherwise, it was the approaches fault.
-                    else if (score.Shots[ChipShotNumber - 2].Lie == Shot.BallLie.Fairway ||
-                            score.Shots[ChipShotNumber - 2].ActualResult != Shot.ShotResult.As_intended)
+
+                    // if our chip was close to the green edge, it was a chip issue.
+                    else if (ChipShot.ActualDistance < 20)
                     {
-                        results.Add(new ShotWasted(score.HolePlayed.HoleNumber, (score.Score - score.HolePlayed.Par), ApproachShotNumber, ApproachClub, ApproachDistance, ShotWastedType.Approach_missed_green));
+                        results.Add(new ShotWasted(score.HolePlayed.HoleNumber, (score.Score - score.HolePlayed.Par), ChipShot.ShotNumber, ChipShot.Club, puttLength, ShotWastedType.Chip_and_two_putts));
+                    }
+
+                    // otherwise, we didn't hit the green with a longer club, so it was probably the approaches fault.
+                    else if (Approach.Lie == Shot.BallLie.Fairway ||
+                            Approach.ActualResult != Shot.ShotResult.As_intended)// && Approach.TargetDistance < 150)
+                    {
+                        results.Add(new ShotWasted(score.HolePlayed.HoleNumber, (score.Score - score.HolePlayed.Par), Approach.ShotNumber, Approach.Club, Approach.ActualDistance, ShotWastedType.Approach_missed_green));
                     }
                 }
                 else if (puttLength <= 10)
@@ -230,15 +235,9 @@ namespace GolfStatKeeper
                     results.Add(new ShotWasted(score.HolePlayed.HoleNumber, (score.Score - score.HolePlayed.Par), score.Score, ClubType.Putter, puttLength, ShotWastedType.Two_putts_from_10_to_15_feet));
                 }
 
-                if (score.GreenWasHit && puttLength >= 30)
+                if (score.GreenWasHit && puttLength >= 30) // & putts > 1
                 {
-                    if (ApproachShotNumber == 0)
-                    {
-                        ApproachShotNumber = score.HolePlayed.Par - 2;
-                        ApproachClub = score.Shots[ApproachShotNumber - 1].Club;
-                        ApproachDistance = score.Shots[ApproachShotNumber - 1].ActualDistance;
-                    }
-                    results.Add(new ShotWasted(score.HolePlayed.HoleNumber, (score.Score - score.HolePlayed.Par), ApproachShotNumber, ApproachClub, puttLength, ShotWastedType.Approach_left_30_foot_putt_or_more));
+                    results.Add(new ShotWasted(score.HolePlayed.HoleNumber, (score.Score - score.HolePlayed.Par), Approach.ShotNumber, Approach.Club, puttLength, ShotWastedType.Approach_left_30_foot_putt_or_more));
                 }
             }
             #endregion
