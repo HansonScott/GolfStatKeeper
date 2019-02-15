@@ -71,8 +71,11 @@ namespace GolfStatKeeper
         #region Constructor
         public FormMain()
         {
-            thisForm = this;
             InitializeComponent();
+
+            if (!IsAppRunning) { return; }
+
+            thisForm = this;
 
             // load current player before any panels
             bool NewPlayer = LoadCurrentPlayer();

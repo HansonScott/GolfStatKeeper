@@ -35,10 +35,10 @@ namespace GolfStatKeeper
             this.tabCourses = new System.Windows.Forms.TabPage();
             this.panelCourse1 = new GolfStatKeeper.Panels.PanelCourse();
             this.tabRounds = new System.Windows.Forms.TabPage();
+            this.panelRoundSummary1 = new GolfStatKeeper.Panels.PanelRoundSummary();
             this.tabStats = new System.Windows.Forms.TabPage();
             this.tabNotes = new System.Windows.Forms.TabPage();
             this.tabHelp = new System.Windows.Forms.TabPage();
-            this.panelRoundSummary1 = new GolfStatKeeper.Panels.PanelRoundSummary();
             this.tabControl1.SuspendLayout();
             this.tabPlayers.SuspendLayout();
             this.tabCourses.SuspendLayout();
@@ -47,6 +47,9 @@ namespace GolfStatKeeper
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPlayers);
             this.tabControl1.Controls.Add(this.tabCourses);
             this.tabControl1.Controls.Add(this.tabRounds);
@@ -73,6 +76,9 @@ namespace GolfStatKeeper
             // 
             // panelPlayer1
             // 
+            this.panelPlayer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelPlayer1.CurrentPlayer = null;
             this.panelPlayer1.Location = new System.Drawing.Point(8, 6);
             this.panelPlayer1.Name = "panelPlayer1";
@@ -110,6 +116,16 @@ namespace GolfStatKeeper
             this.tabRounds.Text = "Rounds";
             this.tabRounds.UseVisualStyleBackColor = true;
             // 
+            // panelRoundSummary1
+            // 
+            this.panelRoundSummary1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelRoundSummary1.Location = new System.Drawing.Point(3, 3);
+            this.panelRoundSummary1.Name = "panelRoundSummary1";
+            this.panelRoundSummary1.Size = new System.Drawing.Size(711, 534);
+            this.panelRoundSummary1.TabIndex = 0;
+            // 
             // tabStats
             // 
             this.tabStats.Location = new System.Drawing.Point(4, 22);
@@ -137,13 +153,6 @@ namespace GolfStatKeeper
             this.tabHelp.TabIndex = 5;
             this.tabHelp.Text = "Help";
             this.tabHelp.UseVisualStyleBackColor = true;
-            // 
-            // panelRoundSummary2
-            // 
-            this.panelRoundSummary1.Location = new System.Drawing.Point(3, 3);
-            this.panelRoundSummary1.Name = "panelRoundSummary2";
-            this.panelRoundSummary1.Size = new System.Drawing.Size(711, 534);
-            this.panelRoundSummary1.TabIndex = 0;
             // 
             // FormMain
             // 

@@ -24,7 +24,10 @@ namespace GolfStatKeeper.Panels
             set
             {
                 m_CurrentPlayer = value;
-                FormMain.thisForm.CurrentPlayer = value;
+                if(FormMain.thisForm != null)
+                {
+                    FormMain.thisForm.CurrentPlayer = value;
+                }
             }
             
         }
