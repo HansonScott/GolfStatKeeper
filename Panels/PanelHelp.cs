@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace GolfStatKeeper.Panels
 {
@@ -13,6 +14,16 @@ namespace GolfStatKeeper.Panels
         public PanelHelp()
         {
             InitializeComponent();
+
+            if(FormMain.IsAppRunning)
+            {
+                DisplayAssemblyVersion();
+            }
+        }
+
+        private void DisplayAssemblyVersion()
+        {
+            lblVersion.Text = Application.ProductVersion;
         }
     }
 }

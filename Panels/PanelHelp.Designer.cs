@@ -28,10 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblVersion = new System.Windows.Forms.Label();
+            this.SuspendLayout();
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(42, 55);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Version:";
+            // 
+            // lblVersion
+            // 
+            this.lblVersion.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.Location = new System.Drawing.Point(42, 84);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(53, 13);
+            this.lblVersion.TabIndex = 1;
+            this.lblVersion.Text = "<version>";
+            // 
+            // PanelHelp
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblVersion);
+            this.Controls.Add(this.label1);
+            this.Name = "PanelHelp";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblVersion;
     }
 }

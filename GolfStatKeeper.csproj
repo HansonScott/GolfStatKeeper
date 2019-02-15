@@ -182,6 +182,7 @@
     <Compile Include="Panels\PanelTemplate.Designer.cs">
       <DependentUpon>PanelTemplate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\FormCourseSelector.resx">
       <DependentUpon>FormCourseSelector.cs</DependentUpon>
     </EmbeddedResource>
@@ -200,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\PanelCourse.resx">
       <DependentUpon>PanelCourse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\PanelHelp.resx">
+      <DependentUpon>PanelHelp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\PanelPlayer.resx">
       <DependentUpon>PanelPlayer.cs</DependentUpon>
