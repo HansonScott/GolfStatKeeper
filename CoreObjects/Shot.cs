@@ -22,6 +22,7 @@ namespace GolfStatKeeper
             Straight = 1,
             Draw = 2,
             Fade = 3,
+            Punch = 20,
             Chip = 4,
             BumpAndRun = 5,
             SandShot = 6,

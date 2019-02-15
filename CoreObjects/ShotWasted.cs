@@ -206,6 +206,8 @@ namespace GolfStatKeeper
                 // if a chip left a putt length greater than 5 feet, it's more a chipping/approach issue than just a putting issue.
                 else if (chipped)
                 {
+                    if(Approach == null) { Approach = ChipShot; }
+
                     // we had a good lie, but didn't hit the green at all with a short club, so it was the approaches fault.
                     if (Approach.Lie == Shot.BallLie.Fairway ||
                             Approach.ActualResult != Shot.ShotResult.As_intended && Approach.TargetDistance < 170)

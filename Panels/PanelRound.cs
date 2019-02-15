@@ -267,6 +267,7 @@ namespace GolfStatKeeper.Panels
 
             // if we selected anything, clear the grid below before determining what to load.
             dgvShots.Rows.Clear();
+            nud_Penalties.Value = 0;
             
             if (dgvHoles.SelectedColumns.Count == 1)
             {
