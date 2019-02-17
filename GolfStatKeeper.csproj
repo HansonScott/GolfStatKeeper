@@ -110,12 +110,6 @@
     <Compile Include="Forms\FormRoundDetails.Designer.cs">
       <DependentUpon>FormRoundDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\PanelAbout.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Panels\PanelAbout.Designer.cs">
-      <DependentUpon>PanelAbout.cs</DependentUpon>
-    </Compile>
     <Compile Include="Panels\PanelChart.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -170,11 +164,29 @@
     <Compile Include="Panels\PanelRoundSummary.Designer.cs">
       <DependentUpon>PanelRoundSummary.cs</DependentUpon>
     </Compile>
+    <Compile Include="Panels\PanelStatsClubs.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\PanelStatsClubs.Designer.cs">
+      <DependentUpon>PanelStatsClubs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Panels\PanelStats.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Panels\PanelStats.Designer.cs">
       <DependentUpon>PanelStats.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\PanelStatsSummary.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\PanelStatsSummary.Designer.cs">
+      <DependentUpon>PanelStatsSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\PanelStatsTrends.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\PanelStatsTrends.Designer.cs">
+      <DependentUpon>PanelStatsTrends.cs</DependentUpon>
     </Compile>
     <Compile Include="Panels\PanelTemplate.cs">
       <SubType>UserControl</SubType>
@@ -216,6 +228,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\PanelRoundSummary.resx">
       <DependentUpon>PanelRoundSummary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\PanelStats.resx">
+      <DependentUpon>PanelStats.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
     <None Include="Properties\DataSources\Shot.BallFlight.datasource" />

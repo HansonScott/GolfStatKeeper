@@ -28,7 +28,6 @@ namespace GolfStatKeeper
         public PanelNotes PanelNotes1;
         public PanelRoundAnalyzer PanelRoundAnalyzer1;
         public PanelHelp PanelHelp1;
-        public PanelAbout PanelAbout1;
         #endregion
         #endregion
 

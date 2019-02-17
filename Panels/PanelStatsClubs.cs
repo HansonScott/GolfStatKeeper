@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace GolfStatKeeper.Panels
 {
-    public partial class PanelAbout : PanelTemplate
+    public partial class PanelStatsClubs : UserControl
     {
-        public PanelAbout()
+        public PanelStatsClubs()
         {
             InitializeComponent();
         }

@@ -1,6 +1,6 @@
 ﻿namespace GolfStatKeeper.Panels
 {
-    partial class PanelAbout
+    partial class PanelStatsClubs
     {
         /// <summary> 
         /// Required designer variable.
