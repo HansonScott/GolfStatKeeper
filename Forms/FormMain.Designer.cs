@@ -40,10 +40,12 @@ namespace GolfStatKeeper
             this.tabNotes = new System.Windows.Forms.TabPage();
             this.tabHelp = new System.Windows.Forms.TabPage();
             this.panelHelp2 = new GolfStatKeeper.Panels.PanelHelp();
+            this.panelStats2 = new GolfStatKeeper.Panels.PanelStats();
             this.tabControl1.SuspendLayout();
             this.tabPlayers.SuspendLayout();
             this.tabCourses.SuspendLayout();
             this.tabRounds.SuspendLayout();
+            this.tabStats.SuspendLayout();
             this.tabHelp.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -130,6 +132,7 @@ namespace GolfStatKeeper
             // 
             // tabStats
             // 
+            this.tabStats.Controls.Add(this.panelStats2);
             this.tabStats.Location = new System.Drawing.Point(4, 22);
             this.tabStats.Name = "tabStats";
             this.tabStats.Size = new System.Drawing.Size(717, 540);
@@ -167,6 +170,16 @@ namespace GolfStatKeeper
             this.panelHelp2.Size = new System.Drawing.Size(706, 534);
             this.panelHelp2.TabIndex = 0;
             // 
+            // panelStats2
+            // 
+            this.panelStats2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelStats2.Location = new System.Drawing.Point(3, 3);
+            this.panelStats2.Name = "panelStats2";
+            this.panelStats2.Size = new System.Drawing.Size(711, 534);
+            this.panelStats2.TabIndex = 0;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -183,6 +196,7 @@ namespace GolfStatKeeper
             this.tabPlayers.ResumeLayout(false);
             this.tabCourses.ResumeLayout(false);
             this.tabRounds.ResumeLayout(false);
+            this.tabStats.ResumeLayout(false);
             this.tabHelp.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -201,6 +215,7 @@ namespace GolfStatKeeper
         private Panels.PanelPlayer panelPlayer1;
         private Panels.PanelCourse panelCourse1;
         private Panels.PanelHelp panelHelp2;
+        private Panels.PanelStats panelStats2;
     }
 }
 
