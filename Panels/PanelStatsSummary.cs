@@ -44,14 +44,21 @@ namespace GolfStatKeeper.Panels
             AvgBirdyPuttDistance = 4,
         }
 
+        private bool isLoading = false;
+
+        #region Constructor, setup, and on load
         public PanelStatsSummary()
         {
             InitializeComponent();
+            dtpTo.Value = DateTime.Today;
 
-            if(FormMain.IsAppRunning)
+
+            if (FormMain.IsAppRunning)
             {
                 PopulateCourses();
             }
+
+            LoadGridEmptyRows();
         }
 
         private void PopulateCourses()
@@ -66,17 +73,127 @@ namespace GolfStatKeeper.Panels
                 dgvCourses.Rows[r].Tag = c; // save the course for later
             }
         }
-
-        private void dgvCourses_SelectionChanged(object sender, EventArgs e)
+        private void LoadGridEmptyRows()
         {
-            LoadData();
+            //Hole Summary
+            dgvHoleSummary.Rows.Add();
+            dgvHoleSummary.Rows[(int)SummaryRows.NumberOfRounds_Penalties].Cells[0].Value = "Number of Rounds:";
+            dgvHoleSummary.Rows[(int)SummaryRows.NumberOfRounds_Penalties].Cells[3].Value = "Penalties / Rnd:";
+
+            dgvHoleSummary.Rows.Add();
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgTotalScore_Birdies].Cells[0].Value = "Avg Total Score:";
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgTotalScore_Birdies].Cells[3].Value = "Birdies / Rnd";
+
+            dgvHoleSummary.Rows.Add();
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgScorePar3_Pars].Cells[0].Value = "Avg Score Par 3's:";
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgScorePar3_Pars].Cells[3].Value = "Pars / Rnd";
+
+            dgvHoleSummary.Rows.Add();
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgScorePar4_Bogies].Cells[0].Value = "Avg Score Par 4's:";
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgScorePar4_Bogies].Cells[3].Value = "Bogies / Rnd";
+
+            dgvHoleSummary.Rows.Add();
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgScorePar5_Doubles].Cells[0].Value = "Avg Score Par 5's:";
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgScorePar5_Doubles].Cells[3].Value = "Doubles / Rnd";
+
+            dgvHoleSummary.Rows.Add();
+            dgvHoleSummary.Rows[(int)SummaryRows.HolesPerEagle_Others].Cells[0].Value = "Holes per Eagle:";
+            dgvHoleSummary.Rows[(int)SummaryRows.HolesPerEagle_Others].Cells[3].Value = "Others / Rnd";
+
+            // Driving
+            dgvDriving.Rows.Add();
+            dgvDriving.Rows[(int)DrivingRows.Fairways].Cells[0].Value = "Avg Fairway %:";
+
+            dgvDriving.Rows.Add();
+            dgvDriving.Rows[(int)DrivingRows.Distance].Cells[0].Value = "Avg Driving Dist:";
+
+            dgvDriving.Rows.Add();
+            dgvDriving.Rows[(int)DrivingRows.Longest].Cells[0].Value = "Longest Drive:";
+
+            dgvDriving.Rows.Add();
+            dgvDriving.Rows[(int)DrivingRows.Hazards].Cells[0].Value = "Drive Hzds Per Rnd:";
+
+            dgvDriving.Rows.Add();
+            dgvDriving.Rows[(int)DrivingRows.OBs].Cells[0].Value = "Drive OBs Per Rnd:";
+
+
+            // Irons
+            dgvIrons.Rows.Add();
+            dgvIrons.Rows[(int)IronRows.GIR].Cells[0].Value = "Avg GIR %:";
+
+            dgvIrons.Rows.Add();
+            dgvIrons.Rows[(int)IronRows.Distance].Cells[0].Value = "Avg Approach Dist:";
+
+            dgvIrons.Rows.Add();
+            dgvIrons.Rows[(int)IronRows.FavoriteClub].Cells[0].Value = "Fav. Approach Club:";
+
+            dgvIrons.Rows.Add();
+            dgvIrons.Rows[(int)IronRows.SandShots].Cells[0].Value = "Sand Shots Per Rnd:";
+
+            dgvIrons.Rows.Add();
+            dgvIrons.Rows[(int)IronRows.SandSaves].Cells[0].Value = "Sand Save %:";
+
+            // Putting
+            dgvPutting.Rows.Add();
+            dgvPutting.Rows[(int)PuttingRows.PuttsPerRound].Cells[0].Value = "Avg Putts Per Rnd:";
+
+            dgvPutting.Rows.Add();
+            dgvPutting.Rows[(int)PuttingRows.PuttsPerGIR].Cells[0].Value = "Avg Putts Per GIR:";
+
+            dgvPutting.Rows.Add();
+            dgvPutting.Rows[(int)PuttingRows.ThreePuttsPerRound].Cells[0].Value = "Avg 3 Putts Per Rnd:";
+
+            dgvPutting.Rows.Add();
+            dgvPutting.Rows[(int)PuttingRows.ThreePuttDistance].Cells[0].Value = "Avg 3 Putt Dist:";
+
+            dgvPutting.Rows.Add();
+            dgvPutting.Rows[(int)PuttingRows.AvgBirdyPuttDistance].Cells[0].Value = "Avg Birdie Putt Dist:";
         }
+
         private void PanelStatsSummary_Load(object sender, EventArgs e)
         {
-            LoadData();
-        }
+            isLoading = true;
 
-        private void LoadData()
+            for (int r = 0; r < dgvCourses.Rows.Count; r++)
+            {
+                dgvCourses.Rows[r].Cells[1].Value = GetRoundCountForCourse((dgvCourses.Rows[r].Tag as Course).ID);
+            }
+
+            // becauuse we are on the first view, clear the selection to load all data by default.
+            dgvCourses.ClearSelection();
+
+            isLoading = false;
+
+            Round[] rounds = LoadData();
+            PopulateStats(rounds);
+
+        }
+        private string GetRoundCountForCourse(int cID)
+        {
+            if(PanelRoundSummary.CurrentRounds == null)
+            {
+                PanelRoundSummary.CurrentRounds = DAC.GetRoundsSummaryOnly();
+            }
+
+            int result = 0;
+            foreach(Round r in PanelRoundSummary.CurrentRounds)
+            {
+                if(r.Course.ID == cID) { result++;}
+            }
+
+            return result.ToString();
+        }
+        #endregion
+
+        #region UI Event Handlers
+        private void dgvCourses_SelectionChanged(object sender, EventArgs e)
+        {
+            Round[] rounds = LoadData();
+            PopulateStats(rounds);
+        }
+        #endregion
+
+        private Round[] LoadData()
         {
             List<Course> Courses = new List<Course>();
             // get selected courses
@@ -104,13 +221,110 @@ namespace GolfStatKeeper.Panels
             // load rounds for these, Summaries only
             Round[] rounds = DAC.GetRoundsByCoursesAndDates(Courses.ToArray(), from, to, true);
 
-            // update grid
-            PopulateStats(rounds);
+            return rounds;
         }
-
         private void PopulateStats(Round[] rounds)
         {
-            
+            if(rounds == null || rounds.Length == 0) { return; }
+
+            if (isLoading) { return; }
+
+            #region Setup Variables
+            #region Summary Variables
+            List<int> ScoresPar3 = new List<int>();
+            List<int> ScoresPar4 = new List<int>();
+            List<int> ScoresPar5 = new List<int>();
+
+            int Eagles = 0;
+            int Birdies = 0;
+            int Pars = 0;
+            int Bogies = 0;
+            int Doubles = 0;
+            int Others = 0;
+
+            int Penalties = 0;
+            #endregion
+            #region Driving Variables
+            int FairwaysHit = 0;
+            List<int> Drives = new List<int>();
+
+            #endregion
+            #endregion
+
+            #region Calculate Values
+            foreach (Round r in rounds)
+            {
+                foreach (HoleScore h in r.HolesPlayed)
+                {
+                    if (h.HolePlayed.Par == 3) { ScoresPar3.Add(h.Score); }
+                    else if (h.HolePlayed.Par == 4) { ScoresPar4.Add(h.Score); }
+                    else { ScoresPar5.Add(h.Score); }
+
+                    int diff = h.Score - h.HolePlayed.Par;
+                    switch(diff)
+                    {
+                        case -2: Eagles++; break;
+                        case -1: Birdies++; break;
+                        case 0: Pars++; break;
+                        case 1: Bogies++; break;
+                        case 2: Doubles++; break;
+                        default: Others++; break;
+                    }
+
+                    if(h.PenaltyStrokes > 0) { Penalties += h.PenaltyStrokes; }
+
+                    if (h.FairwayWasHit) { FairwaysHit++; }
+                    int dist = h.GetDrivingDistance(true);
+                    if (dist > 0) { Drives.Add(dist); }
+
+                }// end foreach hole in this round
+            } // end foreach round
+            #endregion
+
+            #region Populate Grid Rows
+            #region Populate Summary Rows
+            int total3s = SumList(ScoresPar3);
+            int total4s = SumList(ScoresPar4);
+            int total5s = SumList(ScoresPar5);
+            int totalScores = total3s + total4s + total5s;
+            dgvHoleSummary.Rows[(int)SummaryRows.NumberOfRounds_Penalties].Cells[1].Value = rounds.Length;
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgTotalScore_Birdies].Cells[1].Value = ((double)totalScores / (double)rounds.Length).ToString("F2");
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgScorePar3_Pars].Cells[1].Value = ((double)total3s / (double)ScoresPar3.Count).ToString("F2");
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgScorePar4_Bogies].Cells[1].Value = ((double)total4s / (double)ScoresPar4.Count).ToString("F2");
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgScorePar5_Doubles].Cells[1].Value = ((double)total5s / (double)ScoresPar5.Count).ToString("F2");
+            if(Eagles > 0)
+            {
+                dgvHoleSummary.Rows[(int)SummaryRows.HolesPerEagle_Others].Cells[1].Value = ((double)(ScoresPar3.Count + ScoresPar4.Count + ScoresPar5.Count) / (double)Eagles).ToString("F2");
+            }
+            else
+            {
+                dgvHoleSummary.Rows[(int)SummaryRows.HolesPerEagle_Others].Cells[1].Value = "-";
+            }
+
+            dgvHoleSummary.Rows[(int)SummaryRows.NumberOfRounds_Penalties].Cells[4].Value = ((double)Penalties / (double)rounds.Length).ToString("F2");
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgTotalScore_Birdies].Cells[4].Value = ((double)Birdies / (double)rounds.Length).ToString("F2");
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgScorePar3_Pars].Cells[4].Value = ((double)Pars / (double)rounds.Length).ToString("F2");
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgScorePar4_Bogies].Cells[4].Value = ((double)Bogies / (double)rounds.Length).ToString("F2");
+            dgvHoleSummary.Rows[(int)SummaryRows.AvgScorePar5_Doubles].Cells[4].Value = ((double)Doubles / (double)rounds.Length).ToString("F2");
+            dgvHoleSummary.Rows[(int)SummaryRows.HolesPerEagle_Others].Cells[4].Value = ((double)Others / (double)rounds.Length).ToString("F2");
+            #endregion
+            #region Populate Driving Rows
+            dgvDriving.Rows[(int)DrivingRows.Fairways].Cells[1].Value = ((double)FairwaysHit * 100 / (double)(ScoresPar4.Count + ScoresPar5.Count)).ToString("F2");
+            int driveDist = SumList(Drives);
+            dgvDriving.Rows[(int)DrivingRows.Distance].Cells[1].Value = ((double)driveDist / (double)(Drives.Count)).ToString("F2");
+            #endregion
+            #region Populate Iron Rows
+            #endregion
+            #region Populate Putting Rows
+            #endregion
+            #endregion
+        }
+
+        private int SumList(List<int> l)
+        {
+            int result = 0;
+            foreach(int i in l) { result += i; }
+            return result;
         }
     }
 }

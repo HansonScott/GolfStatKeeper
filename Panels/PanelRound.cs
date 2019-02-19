@@ -446,7 +446,7 @@ namespace GolfStatKeeper.Panels
 
             // load summary fields
             dtWhen.Value = m_thisRound.When;
-            cbCourse.SelectedItem = m_thisRound.Course;
+            cbCourse.Text = m_thisRound.Course.CourseAndTee;
             cbConditions.Text = Enum.GetName(typeof(Round.RoundConditions), m_thisRound.Conditions);
 
             // load holes

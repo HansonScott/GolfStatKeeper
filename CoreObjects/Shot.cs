@@ -112,7 +112,7 @@ namespace GolfStatKeeper
 
             int ad = 0;
             if (fields != null && fields.Length > 5 &&
-                Int32.TryParse(fields[6], out ad))
+                Int32.TryParse(fields[8], out ad))
             {
                 s.ActualDistance = ad;
             }

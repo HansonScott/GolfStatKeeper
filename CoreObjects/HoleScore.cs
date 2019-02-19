@@ -176,7 +176,6 @@ namespace GolfStatKeeper
 
             return result;
         }
-
         private static bool GetBool(string[] fields, int col)
         {
             if (fields == null) { return false; }
@@ -190,7 +189,6 @@ namespace GolfStatKeeper
                     sval.ToLower() == "true" ||
                     sval.ToLower() == "t");
         }
-
         private static int GetInt(string[] fields, int col)
         {
             if(fields == null) { return 0; }
@@ -231,5 +229,25 @@ namespace GolfStatKeeper
             return sb.ToString();
         }
 
+        public int GetDrivingDistance(bool FairwayOnly)
+        {
+            int result = 0;
+
+            if(this.HolePlayed == null || this.HolePlayed.Par == 3) { return result; }
+            if(this.Shots == null || this.Shots.Count == 0){ return result; }
+            if(this.Shots[0] == null) { return result; }
+            if(this.Shots[0].Club != ClubType.Driver) { return result; }
+
+            // if requester wants fairway only, and we did not hit one, then 0
+            if(FairwayOnly && !this.FairwayWasHit)
+            {
+                return result;
+            }
+
+            // else, we are a useful drive, so return the distance
+            result = this.Shots[0].ActualDistance;
+
+            return result;
+        }
     }
 }

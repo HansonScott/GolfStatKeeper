@@ -10,6 +10,8 @@ namespace GolfStatKeeper.Panels
 {
     public partial class PanelRoundSummary : PanelTemplate
     {
+        public static Round[] CurrentRounds;
+
         public enum RoundGridColumns
         {
             Date = 0,
@@ -33,6 +35,8 @@ namespace GolfStatKeeper.Panels
             dgvRounds.Rows.Clear();
 
             Round[] rounds = DAC.GetRoundsSummaryOnly();
+
+            CurrentRounds = rounds;
 
             int grandScore = 0;
             int grandFairways = 0;

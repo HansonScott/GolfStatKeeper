@@ -70,7 +70,8 @@
             // 
             // gbFilter
             // 
-            this.gbFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbFilter.Controls.Add(this.label3);
             this.gbFilter.Controls.Add(this.dgvCourses);
@@ -80,7 +81,7 @@
             this.gbFilter.Controls.Add(this.dtpFrom);
             this.gbFilter.Location = new System.Drawing.Point(3, 3);
             this.gbFilter.Name = "gbFilter";
-            this.gbFilter.Size = new System.Drawing.Size(230, 209);
+            this.gbFilter.Size = new System.Drawing.Size(230, 233);
             this.gbFilter.TabIndex = 0;
             this.gbFilter.TabStop = false;
             this.gbFilter.Text = "Filter";
@@ -112,7 +113,7 @@
             this.dgvCourses.Name = "dgvCourses";
             this.dgvCourses.RowHeadersVisible = false;
             this.dgvCourses.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCourses.Size = new System.Drawing.Size(218, 130);
+            this.dgvCourses.Size = new System.Drawing.Size(218, 154);
             this.dgvCourses.TabIndex = 4;
             this.dgvCourses.SelectionChanged += new System.EventHandler(this.dgvCourses_SelectionChanged);
             // 
@@ -162,6 +163,7 @@
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.Size = new System.Drawing.Size(99, 20);
             this.dtpFrom.TabIndex = 0;
+            this.dtpFrom.Value = new System.DateTime(1990, 1, 1, 22, 24, 0, 0);
             // 
             // dgvHoleSummary
             // 
@@ -217,9 +219,7 @@
             // 
             // gbSummary
             // 
-            this.gbSummary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbSummary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gbSummary.Controls.Add(this.dgvHoleSummary);
             this.gbSummary.Location = new System.Drawing.Point(239, 3);
             this.gbSummary.Name = "gbSummary";
@@ -230,13 +230,11 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.dgvDriving);
-            this.groupBox1.Location = new System.Drawing.Point(3, 212);
+            this.groupBox1.Location = new System.Drawing.Point(3, 242);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(230, 196);
+            this.groupBox1.Size = new System.Drawing.Size(230, 166);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Hole Summary";
@@ -259,7 +257,7 @@
             this.dgvDriving.Name = "dgvDriving";
             this.dgvDriving.RowHeadersVisible = false;
             this.dgvDriving.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvDriving.Size = new System.Drawing.Size(215, 171);
+            this.dgvDriving.Size = new System.Drawing.Size(215, 141);
             this.dgvDriving.TabIndex = 1;
             // 
             // dataGridViewTextBoxColumn1
@@ -275,13 +273,11 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.groupBox2.Controls.Add(this.dgvIrons);
-            this.groupBox2.Location = new System.Drawing.Point(233, 212);
+            this.groupBox2.Location = new System.Drawing.Point(233, 242);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(230, 196);
+            this.groupBox2.Size = new System.Drawing.Size(230, 166);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Hole Summary";
@@ -304,7 +300,7 @@
             this.dgvIrons.Name = "dgvIrons";
             this.dgvIrons.RowHeadersVisible = false;
             this.dgvIrons.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvIrons.Size = new System.Drawing.Size(215, 171);
+            this.dgvIrons.Size = new System.Drawing.Size(215, 141);
             this.dgvIrons.TabIndex = 1;
             // 
             // dataGridViewTextBoxColumn3
@@ -320,13 +316,11 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.dgvPutting);
-            this.groupBox3.Location = new System.Drawing.Point(463, 212);
+            this.groupBox3.Location = new System.Drawing.Point(463, 242);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(221, 196);
+            this.groupBox3.Size = new System.Drawing.Size(221, 166);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Hole Summary";
@@ -349,7 +343,7 @@
             this.dgvPutting.Name = "dgvPutting";
             this.dgvPutting.RowHeadersVisible = false;
             this.dgvPutting.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvPutting.Size = new System.Drawing.Size(206, 171);
+            this.dgvPutting.Size = new System.Drawing.Size(206, 141);
             this.dgvPutting.TabIndex = 1;
             // 
             // dataGridViewTextBoxColumn5
