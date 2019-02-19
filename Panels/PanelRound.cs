@@ -280,7 +280,7 @@ namespace GolfStatKeeper.Panels
                 // if we have shots for this hole, load them
                 if (holeNumber == 0) { } // this is the row header, do nothing
                 else if (holeNumber > m_thisRound.Course.Holes.Length) { } // totals column, do nothing
-                else if (holeNumber < m_thisRound.HolesPlayed.Count) // if we have hole data for this so far
+                else if (holeNumber <= m_thisRound.HolesPlayed.Count) // if we have hole data for this so far
                 {
                     HoleScore h = m_thisRound.HolesPlayed[holeNumber - 1];
                     LoadShots(h);
