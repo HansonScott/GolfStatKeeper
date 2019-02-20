@@ -237,7 +237,7 @@
             this.groupBox1.Size = new System.Drawing.Size(230, 166);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Hole Summary";
+            this.groupBox1.Text = "Driving";
             // 
             // dgvDriving
             // 
@@ -280,7 +280,7 @@
             this.groupBox2.Size = new System.Drawing.Size(230, 166);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Hole Summary";
+            this.groupBox2.Text = "Irons";
             // 
             // dgvIrons
             // 
@@ -323,7 +323,7 @@
             this.groupBox3.Size = new System.Drawing.Size(221, 166);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Hole Summary";
+            this.groupBox3.Text = "Putting";
             // 
             // dgvPutting
             // 

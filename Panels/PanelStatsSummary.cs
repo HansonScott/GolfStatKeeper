@@ -111,10 +111,10 @@ namespace GolfStatKeeper.Panels
             dgvDriving.Rows[(int)DrivingRows.Longest].Cells[0].Value = "Longest Drive:";
 
             dgvDriving.Rows.Add();
-            dgvDriving.Rows[(int)DrivingRows.Hazards].Cells[0].Value = "Drive Hzds Per Rnd:";
+            dgvDriving.Rows[(int)DrivingRows.Hazards].Cells[0].Value = "Avg Drive to Hzd Per Rnd:";
 
             dgvDriving.Rows.Add();
-            dgvDriving.Rows[(int)DrivingRows.OBs].Cells[0].Value = "Drive OBs Per Rnd:";
+            dgvDriving.Rows[(int)DrivingRows.OBs].Cells[0].Value = "Avg Drive to OB Per Rnd:";
 
 
             // Irons
@@ -247,7 +247,9 @@ namespace GolfStatKeeper.Panels
             #region Driving Variables
             int FairwaysHit = 0;
             List<int> Drives = new List<int>();
-
+            int LongestDrive = 0;
+            int DriveHazards = 0;
+            int DriveOB = 0;
             #endregion
             #endregion
 
@@ -271,11 +273,26 @@ namespace GolfStatKeeper.Panels
                         default: Others++; break;
                     }
 
-                    if(h.PenaltyStrokes > 0) { Penalties += h.PenaltyStrokes; }
+                    if(h.PenaltyStrokes > 0)
+                    {
+                        Penalties += h.PenaltyStrokes;
+                        if(h.Shots != null && h.Shots[0].Club == ClubType.Driver && h.Shots[0].ActualResult == Shot.ShotResult.Hazard)
+                        {
+                            DriveHazards++;
+                        }
+                        else if (h.Shots != null && h.Shots[0].Club == ClubType.Driver && h.Shots[0].ActualResult == Shot.ShotResult.OB)
+                        {
+                            DriveOB++;
+                        }
+                    }
 
                     if (h.FairwayWasHit) { FairwaysHit++; }
                     int dist = h.GetDrivingDistance(true);
-                    if (dist > 0) { Drives.Add(dist); }
+                    if (dist > 0)
+                    {
+                        Drives.Add(dist);
+                        LongestDrive = Math.Max(LongestDrive, dist);
+                    }
 
                 }// end foreach hole in this round
             } // end foreach round
@@ -312,6 +329,9 @@ namespace GolfStatKeeper.Panels
             dgvDriving.Rows[(int)DrivingRows.Fairways].Cells[1].Value = ((double)FairwaysHit * 100 / (double)(ScoresPar4.Count + ScoresPar5.Count)).ToString("F2");
             int driveDist = SumList(Drives);
             dgvDriving.Rows[(int)DrivingRows.Distance].Cells[1].Value = ((double)driveDist / (double)(Drives.Count)).ToString("F2");
+            dgvDriving.Rows[(int)DrivingRows.Longest].Cells[1].Value = LongestDrive;
+            dgvDriving.Rows[(int)DrivingRows.Hazards].Cells[1].Value = ((double)DriveHazards / (double)(rounds.Length)).ToString("F2");
+            dgvDriving.Rows[(int)DrivingRows.OBs].Cells[1].Value = ((double)DriveOB / (double)(rounds.Length)).ToString("F2");
             #endregion
             #region Populate Iron Rows
             #endregion
