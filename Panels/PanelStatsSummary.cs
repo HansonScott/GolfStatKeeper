@@ -255,6 +255,9 @@ namespace GolfStatKeeper.Panels
             int GIR = 0;
             Dictionary<ClubType, int> ApproachClubs = new Dictionary<ClubType, int>();
             List<int> ApproachDistances = new List<int>();
+            int TotalSandShots = 0;
+            int TotalHolesInSand = 0;
+            int TotalSandSaves = 0;
             #endregion
             #region Putts
             int totalPutts = 0;
@@ -332,6 +335,17 @@ namespace GolfStatKeeper.Panels
                         }
                     }
 
+                    int sands = h.GetSandShots();
+                    if(sands > 0)
+                    {
+                        TotalHolesInSand++;
+                        TotalSandShots += sands;
+
+                        if (sands == 1 && h.Score == h.HolePlayed.Par)
+                        {
+                            TotalSandSaves++;
+                        }
+                    }
                     totalPutts += p;
                     if(p >= 3)
                     {
@@ -381,10 +395,10 @@ namespace GolfStatKeeper.Panels
             #region Populate Iron Rows
             dgvIrons.Rows[(int)IronRows.GIR].Cells[1].Value = ((double)GIR / (double)(rounds.Length)).ToString("F2");
             dgvIrons.Rows[(int)IronRows.Distance].Cells[1].Value = ((double)SumList(ApproachDistances) / (double)(ApproachDistances.Count)).ToString("F2");
-
             ClubType t = GetFavoriteApproachClub(ApproachClubs);
             dgvIrons.Rows[(int)IronRows.FavoriteClub].Cells[1].Value = Club.GetClubNameFromClubType(t);
-
+            dgvIrons.Rows[(int)IronRows.SandShots].Cells[1].Value = ((double)TotalSandShots / (double)rounds.Length).ToString("F2");
+            dgvIrons.Rows[(int)IronRows.SandSaves].Cells[1].Value = ((double)TotalSandSaves * 100 / (double)TotalHolesInSand).ToString("F2");
             #endregion
             #region Populate Putting Rows
             dgvPutting.Rows[(int)PuttingRows.PuttsPerRound].Cells[1].Value = ((double)totalPutts / (double)(ScoresPar3.Count + ScoresPar4.Count + ScoresPar5.Count)).ToString("F2");

@@ -311,5 +311,19 @@ namespace GolfStatKeeper
 
             return MostLikelyShot;
         }
+
+        public int GetSandShots()
+        {
+            int result = 0;
+            foreach (Shot s in this.Shots)
+            {
+                if (s.Lie == Shot.BallLie.Sand ||
+                    s.Lie == Shot.BallLie.Sand_Buried ||
+                    s.Lie == Shot.BallLie.Sand_Lip)
+                { result++; }
+            }
+
+            return result;
+        }
     }
 }
