@@ -64,5 +64,26 @@ namespace GolfStatKeeper
             this.Name = Name;
         }
         #endregion
+
+        public static string GetClubNameFromClubType(ClubType club)
+        {
+            // comes in as a custom name, needs to map back to the generic type
+            foreach (Club c in FormMain.thisForm.CurrentPlayer.Bag.Clubs)
+            {
+                if (c.ClubType == club) { return c.Name; }
+            }
+
+                return null;
+            }
+        public static ClubType? GetClubTypeFromClubName(string clubName)
+        {
+            // comes in as a custom name, needs to map back to the generic type
+            foreach (Club c in FormMain.thisForm.CurrentPlayer.Bag.Clubs)
+            {
+                if (c.Name == clubName) { return c.ClubType; }
+            }
+
+            return null;
+        }
     }
 }

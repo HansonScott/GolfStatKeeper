@@ -249,5 +249,55 @@ namespace GolfStatKeeper
 
             return result;
         }
+
+        public Shot GetApproachShot()
+        {
+            if (this.Shots == null || this.Shots.Count < 1) { return null; }
+
+            // for a par 3, it's always the first shot
+            if (this.HolePlayed.Par == 3) { return this.Shots[0]; }
+
+            // if we hit the green in regulation - we can track back from par
+            if (this.GreenWasHit)
+            {
+                // then it was the appropriate shot before putts (-2 putts, -1 for 0-based index)
+                return this.Shots[this.HolePlayed.Par - 3];
+            }
+
+            // we didn't hit the green on a par 4 or 5, so take into account mishits and chips, etc.
+            // so we need to calculate it
+            Shot lastShot = null;
+            Shot thisShot = null;
+            Shot nextShot = null;
+            Shot MostLikelyShot = null;
+
+            for(int i = 0; i < this.Shots.Count; i++)
+            {
+                // stablish relative shots
+                if(i > 0) { lastShot = this.Shots[i - 1]; } else { lastShot = null; }
+                thisShot = this.Shots[i];
+                if(i < this.Shots.Count - 1) { nextShot = this.Shots[i + 1]; } else { nextShot = null; }
+
+                // it's not from the tee
+                if(thisShot.Lie == Shot.BallLie.Tee) { continue; }
+                
+                // if it is not a chip or something short around the green, then it is a candidate
+                if(thisShot.Club != ClubType.Putter &&
+                thisShot.Lie != Shot.BallLie.Green &&
+                thisShot.Lie != Shot.BallLie.Sand &&
+                thisShot.Lie != Shot.BallLie.Sand_Buried &&
+                thisShot.Lie != Shot.BallLie.Sand_Lip &&
+                thisShot.Lie != Shot.BallLie.Tee &&
+                thisShot.TargetFlight != Shot.BallFlight.BumpAndRun &&
+                thisShot.TargetFlight != Shot.BallFlight.Chip &&
+                thisShot.TargetFlight != Shot.BallFlight.SandShot &&
+                thisShot.TargetFlight != Shot.BallFlight.Flop)
+                {
+                    MostLikelyShot = thisShot; // the last one of these is most likely.
+                }
+            }
+
+            return MostLikelyShot;
+        }
     }
 }

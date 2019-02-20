@@ -468,7 +468,7 @@ namespace GolfStatKeeper.Panels
                 DataGridViewRow shotRow = dgvShots.Rows[newRowIndex];
 
                 shotRow.Cells[(int)ShotsColumns.Lie].Value = s.Lie.ToString();
-                string c = GetClubNameFromClubType(s.Club.ToString());
+                string c = Club.GetClubNameFromClubType(s.Club);
                 shotRow.Cells[(int)ShotsColumns.Club].Value = c;
                 shotRow.Cells[(int)ShotsColumns.Intended_Flight].Value = s.TargetFlight.ToString();
                 shotRow.Cells[(int)ShotsColumns.Intended_Length].Value = s.TargetDistance;
@@ -476,16 +476,6 @@ namespace GolfStatKeeper.Panels
                 shotRow.Cells[(int)ShotsColumns.Actual_Flight].Value = s.ActualFlight.ToString();
                 shotRow.Cells[(int)ShotsColumns.Actual_Length].Value = s.ActualDistance;
             }
-        }
-        private string GetClubNameFromClubType(string clubType)
-        {
-            // comes in as a custom name, needs to map back to the generic type
-            foreach (Club c in FormMain.thisForm.CurrentPlayer.Bag.Clubs)
-            {
-                if (c.ClubType.ToString() == clubType) { return c.Name; }
-            }
-
-            return null;
         }
         private void PopulateEmptyScoreCardFromCourseAndTees(Course course)
         {
@@ -524,10 +514,10 @@ namespace GolfStatKeeper.Panels
                     s.Lie = (Shot.BallLie)Enum.Parse(typeof(Shot.BallLie), valLie.ToString());
                 }
 
-                object valClub = row.Cells[(int)ShotsColumns.Club].Value;
+                string valClub = row.Cells[(int)ShotsColumns.Club].Value.ToString();
                 if (valClub != null)
                 {
-                    object valClubType = GetClubTypeFromClubName(valClub);
+                    object valClubType = Club.GetClubTypeFromClubName(valClub);
 
                     s.Club = (ClubType)Enum.Parse(typeof(ClubType), valClubType.ToString());
                 }
@@ -600,16 +590,6 @@ namespace GolfStatKeeper.Panels
 
             // repopulate scorecard with changes
             PopulateScoreCardWithHoleSummary();
-        }
-        private object GetClubTypeFromClubName(object valClub)
-        {
-            // comes in as a custom name, needs to map back to the generic type
-            foreach(Club c in FormMain.thisForm.CurrentPlayer.Bag.Clubs)
-            {
-                if(c.Name == valClub.ToString()) { return c.ClubType; }
-            }
-
-            return null;
         }
         private void HandleRoundSave()
         {

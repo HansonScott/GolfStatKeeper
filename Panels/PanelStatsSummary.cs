@@ -251,6 +251,11 @@ namespace GolfStatKeeper.Panels
             int DriveHazards = 0;
             int DriveOB = 0;
             #endregion
+            #region Irons
+            int GIR = 0;
+            Dictionary<ClubType, int> ApproachClubs = new Dictionary<ClubType, int>();
+            List<int> ApproachDistances = new List<int>();
+            #endregion
             #endregion
 
             #region Calculate Values
@@ -294,6 +299,22 @@ namespace GolfStatKeeper.Panels
                         LongestDrive = Math.Max(LongestDrive, dist);
                     }
 
+                    if (h.GreenWasHit) { GIR++; }
+
+                    Shot s = h.GetApproachShot();
+                    if(s != null)
+                    {
+                        ApproachDistances.Add(s.ActualDistance);
+                        if(ApproachClubs.ContainsKey(s.Club))
+                        {
+                            ApproachClubs[s.Club] = ApproachClubs[s.Club] + 1;
+                        }
+                        else
+                        {
+                            ApproachClubs.Add(s.Club, 1);
+                        }
+                    }
+
                 }// end foreach hole in this round
             } // end foreach round
             #endregion
@@ -334,10 +355,29 @@ namespace GolfStatKeeper.Panels
             dgvDriving.Rows[(int)DrivingRows.OBs].Cells[1].Value = ((double)DriveOB / (double)(rounds.Length)).ToString("F2");
             #endregion
             #region Populate Iron Rows
+            dgvIrons.Rows[(int)IronRows.GIR].Cells[1].Value = ((double)GIR / (double)(rounds.Length)).ToString("F2");
+            dgvIrons.Rows[(int)IronRows.Distance].Cells[1].Value = ((double)SumList(ApproachDistances) / (double)(ApproachDistances.Count)).ToString("F2");
+
+            ClubType t = GetFavoriteApproachClub(ApproachClubs);
+            dgvIrons.Rows[(int)IronRows.FavoriteClub].Cells[1].Value = Club.GetClubNameFromClubType(t);
+
             #endregion
             #region Populate Putting Rows
             #endregion
             #endregion
+        }
+
+        private ClubType GetFavoriteApproachClub(Dictionary<ClubType, int> approachClubs)
+        {
+            ClubType Fav = ClubType.Wedge_Pitching;
+            int usage = 0;
+            foreach(ClubType c in approachClubs.Keys)
+            {
+                if(approachClubs[c] >= usage)
+                { Fav = c; usage = approachClubs[c]; }
+            }
+
+            return Fav;
         }
 
         private int SumList(List<int> l)
