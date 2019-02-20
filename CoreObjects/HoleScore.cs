@@ -250,6 +250,18 @@ namespace GolfStatKeeper
             return result;
         }
 
+        public int GetPuttingDistance()
+        {
+            int dist = 0;
+            foreach(Shot s in this.Shots)
+            {
+                if(s.Club == ClubType.Putter)
+                { dist = Math.Max(dist, s.ActualDistance); }
+            }
+
+            return dist;
+        }
+
         public Shot GetApproachShot()
         {
             if (this.Shots == null || this.Shots.Count < 1) { return null; }

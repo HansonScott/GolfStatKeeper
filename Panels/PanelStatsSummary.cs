@@ -256,6 +256,13 @@ namespace GolfStatKeeper.Panels
             Dictionary<ClubType, int> ApproachClubs = new Dictionary<ClubType, int>();
             List<int> ApproachDistances = new List<int>();
             #endregion
+            #region Putts
+            int totalPutts = 0;
+            List<int> PuttsPerGIR = new List<int>();
+            int ThreePuttCount = 0;
+            List<int> ThreePuttDist = new List<int>();
+            List<int> BirdiePuttDist = new List<int>();
+            #endregion
             #endregion
 
             #region Calculate Values
@@ -299,7 +306,17 @@ namespace GolfStatKeeper.Panels
                         LongestDrive = Math.Max(LongestDrive, dist);
                     }
 
-                    if (h.GreenWasHit) { GIR++; }
+                    int p = h.PuttsForHole;
+                    if (h.GreenWasHit)
+                    {
+                        GIR++;
+                        PuttsPerGIR.Add(p);
+
+                        if(h.Score == h.HolePlayed.Par - 1)
+                        {
+                            BirdiePuttDist.Add(h.GetPuttingDistance());
+                        }
+                    }
 
                     Shot s = h.GetApproachShot();
                     if(s != null)
@@ -313,6 +330,13 @@ namespace GolfStatKeeper.Panels
                         {
                             ApproachClubs.Add(s.Club, 1);
                         }
+                    }
+
+                    totalPutts += p;
+                    if(p >= 3)
+                    {
+                        ThreePuttCount++;
+                        ThreePuttDist.Add(h.GetPuttingDistance());
                     }
 
                 }// end foreach hole in this round
@@ -363,6 +387,11 @@ namespace GolfStatKeeper.Panels
 
             #endregion
             #region Populate Putting Rows
+            dgvPutting.Rows[(int)PuttingRows.PuttsPerRound].Cells[1].Value = ((double)totalPutts / (double)(ScoresPar3.Count + ScoresPar4.Count + ScoresPar5.Count)).ToString("F2");
+            dgvPutting.Rows[(int)PuttingRows.PuttsPerGIR].Cells[1].Value = ((double)SumList(PuttsPerGIR)/ (double)(PuttsPerGIR.Count)).ToString("F2");
+            dgvPutting.Rows[(int)PuttingRows.ThreePuttsPerRound].Cells[1].Value = ((double)ThreePuttCount / (double)(rounds.Length)).ToString("F2");
+            dgvPutting.Rows[(int)PuttingRows.ThreePuttDistance].Cells[1].Value = ((double)SumList(ThreePuttDist) / (double)(ThreePuttDist.Count)).ToString("F2");
+            dgvPutting.Rows[(int)PuttingRows.AvgBirdyPuttDistance].Cells[1].Value = ((double)SumList(BirdiePuttDist) / (double)(BirdiePuttDist.Count)).ToString("F2");
             #endregion
             #endregion
         }
