@@ -235,6 +235,9 @@
     <EmbeddedResource Include="Panels\PanelStatsSummary.resx">
       <DependentUpon>PanelStatsSummary.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Panels\PanelStatsTrends.resx">
+      <DependentUpon>PanelStatsTrends.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="App.config" />
     <None Include="Properties\DataSources\Shot.BallFlight.datasource" />
     <None Include="Properties\DataSources\Shot.BallLie.datasource" />

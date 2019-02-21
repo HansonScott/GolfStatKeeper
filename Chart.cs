@@ -8,9 +8,18 @@ namespace GolfStatKeeper
 {
     public class Chart: System.Windows.Forms.Panel
     {
+        public enum TrendItems
+        {
+            Score = 0,
+            Fairways = 1,
+            Greens = 2,
+            Putts = 3,
+            Penalties = 4,
+        }
+
         private DataTable m_DataSource;
         public Round[] TheseRounds;
-        public bool[] ShowTheseColumns;
+        public bool[] ShowTheseColumns = new bool[Enum.GetNames(typeof(TrendItems)).Length];
         public decimal[] Scales;
         public decimal[] Mins;
         public Color[] LineColors;
@@ -18,6 +27,7 @@ namespace GolfStatKeeper
         public int Inset = 30;
         public Font TextFont = new Font("Ariel", 10f);
         public Brush TextBrush = new SolidBrush(Color.White);
+
 
         public Chart()
         {
@@ -35,11 +45,11 @@ namespace GolfStatKeeper
         public void GenerateStats(Course[] Courses, DateTime dFrom, DateTime dTo)
         {
             DataTable dt = new DataTable();
-            dt.Columns.Add("Score");
-            dt.Columns.Add("Fairways");
-            dt.Columns.Add("Greens");
-            dt.Columns.Add("Putts");
-            dt.Columns.Add("Penalties");
+            string[] items = Enum.GetNames(typeof(TrendItems));
+            foreach(string item in items)
+            {
+                dt.Columns.Add(item);
+            }
 
             TheseRounds = DAC.GetRoundsByCoursesAndDates(Courses, dFrom, dTo, false);
 
@@ -51,11 +61,11 @@ namespace GolfStatKeeper
 
                 DataRow row = dt.NewRow();
 
-                row["Score"] = ThisRound.TotalScore;
-                row["Fairways"] = (decimal)((decimal)(ThisRound.TotalFairwaysHit * 100) / (decimal)ThisRound.Course.GetTotalFairways());
-                row["Greens"] = (decimal)((decimal)(ThisRound.TotalGreensHit * 100) / (decimal)18);
-                row["Putts"] = ThisRound.TotalPutts;
-                row["Penalties"] = ThisRound.TotalPenaltyStrokes;
+                row[(int)TrendItems.Score] = ThisRound.TotalScore;
+                row[(int)TrendItems.Fairways] = (decimal)((decimal)(ThisRound.TotalFairwaysHit * 100) / (decimal)ThisRound.Course.GetTotalFairways());
+                row[(int)TrendItems.Greens] = (decimal)((decimal)(ThisRound.TotalGreensHit * 100) / (decimal)18);
+                row[(int)TrendItems.Putts] = ThisRound.TotalPutts;
+                row[(int)TrendItems.Penalties] = ThisRound.TotalPenaltyStrokes;
 
                 dt.Rows.Add(row);
             } // end for loop
@@ -80,38 +90,32 @@ namespace GolfStatKeeper
                         Mins[m] = 100;
                     }
 
-                    ShowTheseColumns = new bool[m_DataSource.Columns.Count];
-                    for (int s = 0; s < ShowTheseColumns.Length; s++)
-                    {
-                        ShowTheseColumns[s] = true;
-                    }
-
                     LineColors = new Color[m_DataSource.Columns.Count];
                     for(int c = 0; c < LineColors.Length; c++)
                     {
                         switch(c)
                         {
-                            case 0:
+                            case (int)TrendItems.Score:
                                 LineColors[c] = Color.White;
                                 break;
-                            case 1:
+                            case (int)TrendItems.Fairways:
                                 LineColors[c] = Color.Yellow;
                                 break;
-                            case 2:
+                            case (int)TrendItems.Greens:
                                 LineColors[c] = Color.Blue;
                                 break;
-                            case 3:
+                            case (int)TrendItems.Putts:
                                 LineColors[c] = Color.Orange;
                                 break;
-                            case 4:
+                            case (int)TrendItems.Penalties:
                                 LineColors[c] = Color.Red;
                                 break;
-                            case 5:
-                                LineColors[c] = Color.Purple;
-                                break;
-                            case 6:
-                                LineColors[c] = Color.Gray;
-                                break;
+                            //case 5:
+                            //    LineColors[c] = Color.Purple;
+                            //    break;
+                            //case 6:
+                            //    LineColors[c] = Color.Gray;
+                            //    break;
                             default:
                                 LineColors[c] = Color.Black;
                                 break;
