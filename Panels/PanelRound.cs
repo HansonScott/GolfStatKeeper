@@ -660,5 +660,118 @@ namespace GolfStatKeeper.Panels
             }
         }
         #endregion
+
+        private void btnPopulateShots_Click(object sender, EventArgs e)
+        {
+            // this only works for one hole at a time
+            if(dgvHoles.SelectedColumns.Count != 1) { return; }
+
+            // this only works if we don't already have shots
+            if(dgvShots.Rows.Count > 1) { return; }
+
+            // capture all the data from the hole summary
+            int c = dgvHoles.SelectedColumns[0].DisplayIndex;
+            object ObjPar = dgvHoles.Rows[(int)HolesRows.Par].Cells[c].Value;
+            object ObjLength = dgvHoles.Rows[(int)HolesRows.Length].Cells[c].Value;
+            object ObjScore = dgvHoles.Rows[(int)HolesRows.Score].Cells[c].Value;
+            object ObjPutts = dgvHoles.Rows[(int)HolesRows.Putts].Cells[c].Value;
+            object ObjFairway = dgvHoles.Rows[(int)HolesRows.Fairway].Cells[c].Value;
+            object ObjGreen = dgvHoles.Rows[(int)HolesRows.Green].Cells[c].Value;
+
+            // there needs to be the basic info in order to accomplish the assumptions
+            if(ObjPar == null || ObjLength == null || ObjScore == null || ObjPutts == null) { return; }
+
+            int par = 0; Int32.TryParse(ObjPar.ToString(), out par);
+            int length = 0; Int32.TryParse(ObjLength.ToString(), out length);
+            int score = 0; Int32.TryParse(ObjScore.ToString(), out score);
+            int putts = 0; Int32.TryParse(ObjPutts.ToString(), out putts);
+            bool fairway = (ObjFairway == null ? false: true);
+            bool green = (ObjGreen == null ? false : true);
+
+            PopulateShotsFromSummaryData(par, length, score, fairway, green, putts);
+        }
+
+        private void PopulateShotsFromSummaryData(int par, int length, int score, bool fairway, bool green, int putts)
+        {
+            #region Drive
+            object[] fields = new object[Enum.GetNames(typeof(ShotsColumns)).Length];
+            fields[(int)ShotsColumns.Lie] = Shot.BallLie.Tee.ToString();
+
+            if(par > 3)
+            {
+                fields[(int)ShotsColumns.Club] = GetClubByType(ClubType.Driver).Name;
+                fields[(int)ShotsColumns.Intended_Length] = 250;
+                fields[(int)ShotsColumns.Actual_Length] = 250;
+            }
+            else
+            {
+                // its a par 3, check the length?
+                fields[(int)ShotsColumns.Club] = GetClubByType(ClubType.Iron_5).Name;
+                fields[(int)ShotsColumns.Intended_Length] = length;
+                fields[(int)ShotsColumns.Actual_Length] = length;
+            }
+
+            fields[(int)ShotsColumns.Intended_Flight] = Shot.BallFlight.Straight.ToString();
+            fields[(int)ShotsColumns.Actual_Flight] = Shot.BallFlight.Straight.ToString();
+            fields[(int)ShotsColumns.Result] = Shot.ShotResult.As_intended.ToString();
+            
+            dgvShots.Rows.Add(fields);
+            #endregion
+
+            #region Additional Shots
+            int otherShots = score - putts - 1;
+            for(int i = 0; i < otherShots; i++)
+            {
+                fields = new object[Enum.GetNames(typeof(ShotsColumns)).Length];
+
+                if(fairway)
+                {
+                    fields[(int)ShotsColumns.Lie] = Shot.BallLie.Fairway.ToString();
+                }
+                else
+                {
+                    fields[(int)ShotsColumns.Lie] = Shot.BallLie.Rough_Light.ToString();
+                }
+
+                fields[(int)ShotsColumns.Club] = GetClubByType(ClubType.Wedge_Pitching).Name;
+
+                if(par > 3)
+                {
+                    fields[(int)ShotsColumns.Intended_Length] = (length - 250);
+                    fields[(int)ShotsColumns.Actual_Length] = (length - 250);
+                    fields[(int)ShotsColumns.Intended_Flight] = Shot.BallFlight.Straight.ToString();
+                    fields[(int)ShotsColumns.Actual_Flight] = Shot.BallFlight.Straight.ToString();
+                }
+                else
+                {
+                    fields[(int)ShotsColumns.Intended_Length] = 10;
+                    fields[(int)ShotsColumns.Actual_Length] = 10;
+                    fields[(int)ShotsColumns.Intended_Flight] = Shot.BallFlight.Chip.ToString();
+                    fields[(int)ShotsColumns.Actual_Flight] = Shot.BallFlight.Chip.ToString();
+                }
+
+                fields[(int)ShotsColumns.Result] = Shot.ShotResult.As_intended.ToString();
+
+                dgvShots.Rows.Add(fields);
+            }
+            #endregion
+
+            #region Putts
+            for (int i = 0; i < putts; i++)
+            {
+                fields = new object[Enum.GetNames(typeof(ShotsColumns)).Length];
+
+                fields[(int)ShotsColumns.Lie] = Shot.BallLie.Green.ToString();
+                fields[(int)ShotsColumns.Club] = GetClubByType(ClubType.Putter).Name;
+                fields[(int)ShotsColumns.Intended_Length] = 1;
+                fields[(int)ShotsColumns.Actual_Length] = 1;
+                fields[(int)ShotsColumns.Intended_Flight] = Shot.BallFlight.Straight.ToString();
+                fields[(int)ShotsColumns.Actual_Flight] = Shot.BallFlight.Straight.ToString();
+                fields[(int)ShotsColumns.Result] = Shot.ShotResult.As_intended.ToString();
+
+                dgvShots.Rows.Add(fields);
+            }
+            #endregion
+        }
     }
 }

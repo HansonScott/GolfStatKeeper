@@ -54,6 +54,7 @@
             this.BtnDelete = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
             this.btnDown = new System.Windows.Forms.Button();
+            this.btnPopulateShots = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHoles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShots)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ballLieBindingSource)).BeginInit();
@@ -111,7 +112,7 @@
             this.dgvHoles.Name = "dgvHoles";
             this.dgvHoles.RowHeadersVisible = false;
             this.dgvHoles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullColumnSelect;
-            this.dgvHoles.Size = new System.Drawing.Size(555, 175);
+            this.dgvHoles.Size = new System.Drawing.Size(451, 175);
             this.dgvHoles.TabIndex = 4;
             this.dgvHoles.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHoles_CellValueChanged);
             this.dgvHoles.SelectionChanged += new System.EventHandler(this.dgvHolesPlayed_SelectionChanged);
@@ -320,10 +321,22 @@
             this.btnDown.UseVisualStyleBackColor = true;
             this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
             // 
+            // btnPopulateShots
+            // 
+            this.btnPopulateShots.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPopulateShots.Location = new System.Drawing.Point(457, 177);
+            this.btnPopulateShots.Name = "btnPopulateShots";
+            this.btnPopulateShots.Size = new System.Drawing.Size(98, 65);
+            this.btnPopulateShots.TabIndex = 27;
+            this.btnPopulateShots.Text = "Populate Shots From Hole Summary";
+            this.btnPopulateShots.UseVisualStyleBackColor = true;
+            this.btnPopulateShots.Click += new System.EventHandler(this.btnPopulateShots_Click);
+            // 
             // PanelRound
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnPopulateShots);
             this.Controls.Add(this.btnDown);
             this.Controls.Add(this.btnUp);
             this.Controls.Add(this.BtnDelete);
@@ -379,5 +392,6 @@
         private System.Windows.Forms.Button BtnDelete;
         private System.Windows.Forms.Button btnUp;
         private System.Windows.Forms.Button btnDown;
+        private System.Windows.Forms.Button btnPopulateShots;
     }
 }
