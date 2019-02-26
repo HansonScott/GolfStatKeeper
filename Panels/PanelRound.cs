@@ -644,11 +644,11 @@ namespace GolfStatKeeper.Panels
 
                     object fObj = dgvHoles.Rows[(int)HolesRows.Fairway].Cells[i].Value;
                     h.FairwayWasHit = (fObj != null && fObj.ToString() != string.Empty && 
-                                    (fObj.ToString() == "X" || fObj.ToString() == "Y" || fObj.ToString() == "1"));
+                                    (fObj.ToString().ToUpper() == "X" || fObj.ToString().ToUpper() == "Y" || fObj.ToString() == "1"));
 
                     object gObj = dgvHoles.Rows[(int)HolesRows.Green].Cells[i].Value;
                     h.GreenWasHit = (gObj != null && gObj.ToString() != string.Empty &&
-                                    (gObj.ToString() == "X" || gObj.ToString() == "Y" || gObj.ToString() == "1"));
+                                    (gObj.ToString().ToUpper() == "X" || gObj.ToString().ToUpper() == "Y" || gObj.ToString() == "1"));
 
                     object pobj = dgvHoles.Rows[(int)HolesRows.Putts].Cells[i].Value;
                     if(pobj != null)
