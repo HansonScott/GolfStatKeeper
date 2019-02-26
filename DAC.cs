@@ -394,25 +394,11 @@ namespace GolfStatKeeper
         #endregion
 
         #region Clubs - sub object within player
-        public static ArrayList GetClubsForCurrentPlayer()
+        public static Club[] GetClubsForCurrentPlayer()
         {
             // get the current players bag
             Player p = FormMain.thisForm.CurrentPlayer;
-            Club[] clubs = p.Bag.Clubs;
-
-            // go through the bag
-            ArrayList results = new ArrayList();
-            for (int i = 0; i < clubs.Length; i++)
-            {
-                // pull the club, and get it's name and ID from the enum
-                string name = clubs[i].Name;
-                int ID = (int)clubs[i].ClubType;
-
-                // add both to a custom string [] and add to results arrayList.
-                results.Add(new string[] {name, ID.ToString() });
-            }
-
-            return results;
+            return p.Bag.Clubs;
         }
         #endregion
 

@@ -24,7 +24,7 @@ namespace GolfStatKeeper
         public PanelRound PanelRound1;
         public PanelStats PanelStats1;
         public PanelChart PanelChart1;
-        public PanelClubStats PanelClubStats1;
+        public PanelStatsClubs PanelClubStats1;
         public PanelNotes PanelNotes1;
         public PanelRoundAnalyzer PanelRoundAnalyzer1;
         public PanelHelp PanelHelp1;

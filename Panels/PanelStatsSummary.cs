@@ -291,11 +291,11 @@ namespace GolfStatKeeper.Panels
                     if(h.PenaltyStrokes > 0)
                     {
                         Penalties += h.PenaltyStrokes;
-                        if(h.Shots != null && h.Shots[0].Club == ClubType.Driver && h.Shots[0].ActualResult == Shot.ShotResult.Hazard)
+                        if(h.Shots != null && h.Shots.Count > 0 && h.Shots[0].Club == ClubType.Driver && h.Shots[0].ActualResult == Shot.ShotResult.Hazard)
                         {
                             DriveHazards++;
                         }
-                        else if (h.Shots != null && h.Shots[0].Club == ClubType.Driver && h.Shots[0].ActualResult == Shot.ShotResult.OB)
+                        else if (h.Shots != null && h.Shots.Count > 0 && h.Shots[0].Club == ClubType.Driver && h.Shots[0].ActualResult == Shot.ShotResult.OB)
                         {
                             DriveOB++;
                         }

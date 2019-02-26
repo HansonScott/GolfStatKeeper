@@ -71,6 +71,7 @@
     </Compile>
     <Compile Include="CoreObjects\Club.cs" />
     <Compile Include="ComboBoxUtil.cs" />
+    <Compile Include="CoreObjects\ClubStat.cs" />
     <Compile Include="CoreObjects\Course.cs" />
     <Compile Include="CoreObjects\HoleScore.cs" />
     <Compile Include="DAC.cs" />
@@ -116,11 +117,11 @@
     <Compile Include="Panels\PanelChart.Designer.cs">
       <DependentUpon>PanelChart.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\PanelClubStats.cs">
+    <Compile Include="Panels\PanelStatsClubs.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Panels\PanelClubStats.Designer.cs">
-      <DependentUpon>PanelClubStats.cs</DependentUpon>
+    <Compile Include="Panels\PanelStatsClubs.Designer.cs">
+      <DependentUpon>PanelStatsClubs.cs</DependentUpon>
     </Compile>
     <Compile Include="Panels\PanelCourse.cs">
       <SubType>UserControl</SubType>
@@ -164,12 +165,6 @@
     <Compile Include="Panels\PanelRoundSummary.Designer.cs">
       <DependentUpon>PanelRoundSummary.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\PanelStatsClubs.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Panels\PanelStatsClubs.Designer.cs">
-      <DependentUpon>PanelStatsClubs.cs</DependentUpon>
-    </Compile>
     <Compile Include="Panels\PanelStats.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -210,6 +205,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormRoundDetails.resx">
       <DependentUpon>FormRoundDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\PanelStatsClubs.resx">
+      <DependentUpon>PanelStatsClubs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\PanelCourse.resx">
       <DependentUpon>PanelCourse.cs</DependentUpon>

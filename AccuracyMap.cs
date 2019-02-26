@@ -4,32 +4,33 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Data;
+using GolfStatKeeper.CoreObjects;
 
 namespace GolfStatKeeper
 {
-    public enum AccuracyLength
-    {
-        VeryLong = 0,
-        Long = 1,
-        EdgeLong = 2,
-        AsIntended = 3,
-        EdgeShort = 4,
-        Short = 5,
-        VeryShort = 6,
-    }
-    public enum AccuracyWidth
-    {
-        VeryLeft = 0,
-        Left = 1,
-        EdgeLeft = 2,
-        AsIntended = 3,
-        EdgeRight = 4,
-        Right = 5,
-        VeryRight = 6,
-    }
-
     public class AccuracyMap : Panel
     {
+        public enum AccuracyLength
+        {
+            VeryLong = 0,
+            Long = 1,
+            EdgeLong = 2,
+            AsIntended = 3,
+            EdgeShort = 4,
+            Short = 5,
+            VeryShort = 6,
+        }
+        public enum AccuracyWidth
+        {
+            VeryLeft = 0,
+            Left = 1,
+            EdgeLeft = 2,
+            AsIntended = 3,
+            EdgeRight = 4,
+            Right = 5,
+            VeryRight = 6,
+        }
+
         private int[,] m_DataSource;
 
         public AccuracyMap()
