@@ -159,7 +159,7 @@ namespace GolfStatKeeper.Panels
                 dgvCourses.Rows[r].Cells[1].Value = GetRoundCountForCourse((dgvCourses.Rows[r].Tag as Course).ID);
             }
 
-            // becauuse we are on the first view, clear the selection to load all data by default.
+            // because we are on the first view, clear the selection to load all data by default.
             dgvCourses.ClearSelection();
 
             isLoading = false;

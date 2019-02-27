@@ -13,14 +13,16 @@ namespace GolfStatKeeper.Panels
         public PanelStatsTrends()
         {
             InitializeComponent();
-
-            if(FormMain.IsAppRunning)
+        }
+        private void PanelStatsTrends_Load(object sender, EventArgs e)
+        {
+            if (FormMain.IsAppRunning)
             {
                 PopulateCoursesGrid();
+                // because we are on the first view, clear the selection to load all data by default.
+                dgvCourses.ClearSelection();
             }
-
         }
-
         private void PopulateCoursesGrid()
         {
             Course[] courses = DAC.GetCourses();
@@ -31,7 +33,25 @@ namespace GolfStatKeeper.Panels
                 int r = dgvCourses.Rows.Add();
                 dgvCourses.Rows[r].Cells[0].Value = c.CourseAndTee;
                 dgvCourses.Rows[r].Tag = c; // save the course for later
+
+                dgvCourses.Rows[r].Cells[1].Value = GetRoundCountForCourse((dgvCourses.Rows[r].Tag as Course).ID);
+
             }
+        }
+        private string GetRoundCountForCourse(int cID)
+        {
+            if (PanelRoundSummary.CurrentRounds == null)
+            {
+                PanelRoundSummary.CurrentRounds = DAC.GetRoundsSummaryOnly();
+            }
+
+            int result = 0;
+            foreach (Round r in PanelRoundSummary.CurrentRounds)
+            {
+                if (r.Course.ID == cID) { result++; }
+            }
+
+            return result.ToString();
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)

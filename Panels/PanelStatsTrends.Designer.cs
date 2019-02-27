@@ -219,6 +219,8 @@
             // cbScore
             // 
             this.cbScore.AutoSize = true;
+            this.cbScore.Checked = true;
+            this.cbScore.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbScore.ForeColor = System.Drawing.Color.White;
             this.cbScore.Location = new System.Drawing.Point(9, 30);
             this.cbScore.Name = "cbScore";
@@ -247,6 +249,7 @@
             this.Controls.Add(this.gbFilter);
             this.Name = "PanelStatsTrends";
             this.Size = new System.Drawing.Size(738, 504);
+            this.Load += new System.EventHandler(this.PanelStatsTrends_Load);
             this.gbFilter.ResumeLayout(false);
             this.gbFilter.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCourses)).EndInit();

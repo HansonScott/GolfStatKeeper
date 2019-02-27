@@ -162,7 +162,22 @@ namespace GolfStatKeeper.Panels
 
         private void LoadGridOfData(List<ClubStat> clubStats)
         {
-            
+            dgvStats.Rows.Clear();
+            dgvStats.Columns.Clear();
+
+            dgvStats.Columns.Add("Item", "Item");
+            dgvStats.Columns.Add("Value", "Value");
+
+            dgvStats.Rows.Add(new string[] {"Total Shots", clubStats.Count.ToString()});
+            int max = 0;
+            int total = 0;
+            foreach(ClubStat cs in clubStats)
+            {
+                max = Math.Max(max, cs.shot.ActualDistance);
+                total += cs.shot.ActualDistance;
+            }
+            dgvStats.Rows.Add(new string[] { "Max Distance", max.ToString() });
+            dgvStats.Rows.Add(new string[] { "Avg Distance", ((double)total / (double)clubStats.Count).ToString("F2")});
         }
     }
 }
