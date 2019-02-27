@@ -171,13 +171,26 @@ namespace GolfStatKeeper.Panels
             dgvStats.Rows.Add(new string[] {"Total Shots", clubStats.Count.ToString()});
             int max = 0;
             int total = 0;
+            int missHits = 0;
             foreach(ClubStat cs in clubStats)
             {
                 max = Math.Max(max, cs.shot.ActualDistance);
                 total += cs.shot.ActualDistance;
+
+                if(cs.shot.ActualFlight == Shot.BallFlight.Fat ||
+                   cs.shot.ActualFlight == Shot.BallFlight.Shank ||
+                   cs.shot.ActualFlight == Shot.BallFlight.Skied ||
+                   cs.shot.ActualFlight == Shot.BallFlight.Topped ||
+                   cs.shot.ActualFlight == Shot.BallFlight.Wiff)
+                {
+                    missHits++;
+                }
             }
             dgvStats.Rows.Add(new string[] { "Max Distance", max.ToString() });
-            dgvStats.Rows.Add(new string[] { "Avg Distance", ((double)total / (double)clubStats.Count).ToString("F2")});
+            dgvStats.Rows.Add(new string[] { "Avg Distance", ((double)total / (double)clubStats.Count).ToString("F1")});
+            dgvStats.Rows.Add(new string[] { "Miss Hits", missHits.ToString() });
+
+
         }
     }
 }

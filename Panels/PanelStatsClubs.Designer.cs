@@ -69,8 +69,11 @@
             this.dgvStats.AllowUserToAddRows = false;
             this.dgvStats.AllowUserToDeleteRows = false;
             this.dgvStats.AllowUserToResizeRows = false;
+            this.dgvStats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.dgvStats.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvStats.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvStats.ColumnHeadersVisible = false;
             this.dgvStats.Location = new System.Drawing.Point(6, 56);
             this.dgvStats.Name = "dgvStats";
             this.dgvStats.RowHeadersVisible = false;
