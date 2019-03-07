@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using GolfStatKeeper.Panels;
+using System.Configuration;
 
 namespace GolfStatKeeper
 {
@@ -57,8 +58,7 @@ namespace GolfStatKeeper
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            DAC.DATA_PATH = @"D:\Program Files (x86)\GolfStatKeeper";
-
+            DAC.DATA_PATH = ConfigurationManager.AppSettings["DataPath"];
 
             bool Install = DAC.CheckInstalled();
             // regardless of the install, run the app.
