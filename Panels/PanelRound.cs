@@ -37,7 +37,6 @@ namespace GolfStatKeeper.Panels
             set
             {
                 m_isDirty = value;
-                this.btnSave.Enabled = value;
             }
         }
         private Round m_thisRound;

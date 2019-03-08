@@ -671,12 +671,16 @@ namespace GolfStatKeeper
 
             string[] roundsUpdated = new string[rounds.Length + 1];
 
+            int maxID = 0;
             for (int i = 0; i < roundsUpdated.Length; i++)
             {
+                Round r = Round.LoadFromFileLine(rounds[i], false);
+                maxID = Math.Max(r.ID, maxID);
+
                 if (i == rounds.Length) // if last record.
                 {
                     // assign the new ID
-                    thisRound.ID = i;
+                    thisRound.ID = maxID + 1;
 
                     string newLine = thisRound.ToString();
                     
