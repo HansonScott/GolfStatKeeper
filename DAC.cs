@@ -674,9 +674,6 @@ namespace GolfStatKeeper
             int maxID = 0;
             for (int i = 0; i < roundsUpdated.Length; i++)
             {
-                Round r = Round.LoadFromFileLine(rounds[i-1], false);
-                maxID = Math.Max(r.ID, maxID);
-
                 if (i == rounds.Length) // if last record.
                 {
                     // assign the new ID
@@ -688,6 +685,9 @@ namespace GolfStatKeeper
                 }
                 else
                 {
+                    Round r = Round.LoadFromFileLine(rounds[i], false);
+                    maxID = Math.Max(r.ID, maxID);
+
                     roundsUpdated[i] = rounds[i];
                 }
             }
