@@ -35,6 +35,7 @@ namespace GolfStatKeeper.Panels
             dgvRounds.Rows.Clear();
 
             Round[] rounds = DAC.GetRoundsSummaryOnly();
+            DAC.SortRoundsByDate(rounds, true);
 
             CurrentRounds = rounds;
 

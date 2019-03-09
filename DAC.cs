@@ -721,17 +721,29 @@ namespace GolfStatKeeper
             }
 
             Round[] results = (Round[])temp.ToArray(typeof(Round));
-            SortRoundsByDate(results);
             return results;
         }
-        private static void SortRoundsByDate(Round[] results)
+        public static void SortRoundsByDate(Round[] results, bool ascending)
         {
-            Array.Sort(results, 
-                    delegate(Round r1, Round r2) 
-                    {
-                        return r1.When.CompareTo(r2.When);
-                    }
-                );
+            if (ascending)
+            {
+                Array.Sort(results,
+                        delegate (Round r1, Round r2)
+                        {
+                            return r1.When.CompareTo(r2.When);
+                        }
+                    );
+
+            }
+            else
+            {
+                Array.Sort(results,
+                        delegate (Round r1, Round r2)
+                        {
+                            return r2.When.CompareTo(r1.When);
+                        }
+                    );
+            }
         }
         public static Round[] GetRoundsByCoursesAndDates(Course[] Courses, 
                                 DateTime dateTime_From, 
@@ -743,6 +755,7 @@ namespace GolfStatKeeper
 
             // get pre-made rounds (maybe do manually to make faster?)
             Round[] AllRounds = GetRoundsSummaryOnly();
+            SortRoundsByDate(AllRounds, true);
 
             for (int i = 0; i < AllRounds.Length; i++)
             {
