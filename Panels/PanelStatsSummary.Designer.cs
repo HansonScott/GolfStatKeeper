@@ -159,7 +159,7 @@
             this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFrom.Location = new System.Drawing.Point(6, 34);
             this.dtpFrom.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            this.dtpFrom.MinDate = new System.DateTime(1980, 1, 1, 0, 0, 0, 0);
+            this.dtpFrom.MinDate = new System.DateTime(1950, 1, 1, 0, 0, 0, 0);
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.Size = new System.Drawing.Size(99, 20);
             this.dtpFrom.TabIndex = 0;

@@ -69,7 +69,7 @@
             this.dtWhen.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtWhen.Location = new System.Drawing.Point(0, 37);
             this.dtWhen.MaxDate = new System.DateTime(2030, 12, 31, 0, 0, 0, 0);
-            this.dtWhen.MinDate = new System.DateTime(2010, 1, 1, 0, 0, 0, 0);
+            this.dtWhen.MinDate = new System.DateTime(1950, 1, 1, 0, 0, 0, 0);
             this.dtWhen.Name = "dtWhen";
             this.dtWhen.Size = new System.Drawing.Size(118, 20);
             this.dtWhen.TabIndex = 0;
