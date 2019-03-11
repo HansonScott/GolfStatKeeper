@@ -269,8 +269,21 @@ namespace GolfStatKeeper.Panels
             #endregion
 
             #region Calculate Values
+            int roundsWithShots = 0;
+            int roundsWithFGs = 0;
+            int roundsWithPutts = 0;
+
             foreach (Round r in rounds)
             {
+                // determine if this rounds had shots entered.
+                if(r.HolesPlayed != null && r.HolesPlayed.Count > 0 && r.HolesPlayed[0] != null) // check the first hole
+                {
+                    if(r.HolesPlayed[0].Shots != null && r.HolesPlayed[0].Shots.Count > 0)
+                    {
+                        roundsWithShots++;
+                    }
+                }
+
                 foreach (HoleScore h in r.HolesPlayed)
                 {
                     if (h.HolePlayed.Par == 3) { ScoresPar3.Add(h.Score); }
@@ -354,6 +367,11 @@ namespace GolfStatKeeper.Panels
                     }
 
                 }// end foreach hole in this round
+
+                if(r.TotalGreensHit > 0 || r.TotalFairwaysHit > 0) { roundsWithFGs++; }
+
+                if(r.TotalPutts > 0) { roundsWithPutts++; }
+
             } // end foreach round
             #endregion
 
@@ -385,26 +403,35 @@ namespace GolfStatKeeper.Panels
             dgvHoleSummary.Rows[(int)SummaryRows.HolesPerEagle_Others].Cells[4].Value = ((double)Others / (double)rounds.Length).ToString("F2");
             #endregion
             #region Populate Driving Rows
+            groupBox1.Text = $"Driving ({roundsWithShots} rnds)";
+            dgvDriving.Rows[(int)DrivingRows.Fairways].Cells[0].Value = $"Avg Fairway % ({roundsWithFGs} rnds)";
             dgvDriving.Rows[(int)DrivingRows.Fairways].Cells[1].Value = ((double)FairwaysHit * 100 / (double)(ScoresPar4.Count + ScoresPar5.Count)).ToString("F2");
             int driveDist = SumList(Drives);
             dgvDriving.Rows[(int)DrivingRows.Distance].Cells[1].Value = ((double)driveDist / (double)(Drives.Count)).ToString("F2");
             dgvDriving.Rows[(int)DrivingRows.Longest].Cells[1].Value = LongestDrive;
-            dgvDriving.Rows[(int)DrivingRows.Hazards].Cells[1].Value = ((double)DriveHazards / (double)(rounds.Length)).ToString("F2");
-            dgvDriving.Rows[(int)DrivingRows.OBs].Cells[1].Value = ((double)DriveOB / (double)(rounds.Length)).ToString("F2");
+            dgvDriving.Rows[(int)DrivingRows.Hazards].Cells[1].Value = ((double)DriveHazards / (double)(roundsWithShots)).ToString("F2");
+            dgvDriving.Rows[(int)DrivingRows.OBs].Cells[1].Value = ((double)DriveOB / (double)(roundsWithShots)).ToString("F2");
             #endregion
             #region Populate Iron Rows
-            dgvIrons.Rows[(int)IronRows.GIR].Cells[1].Value = ((double)GIR / (double)(rounds.Length)).ToString("F2");
+            groupBox2.Text = $"Irons ({roundsWithShots} rnds)";
+            dgvIrons.Rows[(int)IronRows.GIR].Cells[0].Value = $"Avg GIR % ({roundsWithFGs} rnds):";
+            dgvIrons.Rows[(int)IronRows.GIR].Cells[1].Value = ((double)GIR / (double)(roundsWithShots)).ToString("F2");
             dgvIrons.Rows[(int)IronRows.Distance].Cells[1].Value = ((double)SumList(ApproachDistances) / (double)(ApproachDistances.Count)).ToString("F2");
             ClubType t = GetFavoriteApproachClub(ApproachClubs);
             dgvIrons.Rows[(int)IronRows.FavoriteClub].Cells[1].Value = Club.GetClubNameFromClubType(t);
-            dgvIrons.Rows[(int)IronRows.SandShots].Cells[1].Value = ((double)TotalSandShots / (double)rounds.Length).ToString("F2");
+            dgvIrons.Rows[(int)IronRows.SandShots].Cells[1].Value = ((double)TotalSandShots / (double)roundsWithShots).ToString("F2");
             dgvIrons.Rows[(int)IronRows.SandSaves].Cells[1].Value = ((double)TotalSandSaves * 100 / (double)TotalHolesInSand).ToString("F2");
             #endregion
             #region Populate Putting Rows
+            groupBox3.Text = $"Putting ({roundsWithPutts} rnds)";
             dgvPutting.Rows[(int)PuttingRows.PuttsPerRound].Cells[1].Value = ((double)totalPutts / (double)(ScoresPar3.Count + ScoresPar4.Count + ScoresPar5.Count)).ToString("F2");
             dgvPutting.Rows[(int)PuttingRows.PuttsPerGIR].Cells[1].Value = ((double)SumList(PuttsPerGIR)/ (double)(PuttsPerGIR.Count)).ToString("F2");
             dgvPutting.Rows[(int)PuttingRows.ThreePuttsPerRound].Cells[1].Value = ((double)ThreePuttCount / (double)(rounds.Length)).ToString("F2");
+
+            dgvPutting.Rows[(int)PuttingRows.ThreePuttDistance].Cells[0].Value = $"Avg 3 Putt Dist ({roundsWithShots} rnds): ";
             dgvPutting.Rows[(int)PuttingRows.ThreePuttDistance].Cells[1].Value = ((double)SumList(ThreePuttDist) / (double)(ThreePuttDist.Count)).ToString("F2");
+
+            dgvPutting.Rows[(int)PuttingRows.AvgBirdyPuttDistance].Cells[0].Value = $"Avg Birdie Putt Dist ({roundsWithShots} rnds):";
             dgvPutting.Rows[(int)PuttingRows.AvgBirdyPuttDistance].Cells[1].Value = ((double)SumList(BirdiePuttDist) / (double)(BirdiePuttDist.Count)).ToString("F2");
             #endregion
             #endregion
