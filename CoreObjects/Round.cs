@@ -242,7 +242,14 @@ namespace GolfStatKeeper
 
             for (int i = startingHole - 1; i < startingHole + holeCount - 1; i++)
             {
-                newRound.HolesPlayed.Add(HoleScore.CreateHolePlayedFromString(sourceRound.HolesPlayed[i].ToString()));
+                HoleScore h = HoleScore.Copy(sourceRound.HolesPlayed[i]);
+
+                // and fill in course data too
+                h.HolePlayed.Par = sourceRound.Course.Holes[i].Par;
+                h.HolePlayed.HCP = sourceRound.Course.Holes[i].HCP;
+                h.HolePlayed.Length = sourceRound.Course.Holes[i].Length;
+
+                newRound.HolesPlayed.Add(h);
             }
         }
     }
