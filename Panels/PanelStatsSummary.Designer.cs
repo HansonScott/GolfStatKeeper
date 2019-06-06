@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.gbFilter = new System.Windows.Forms.GroupBox();
+            this.rb9s = new System.Windows.Forms.RadioButton();
+            this.rb18s = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.dgvCourses = new System.Windows.Forms.DataGridView();
             this.Course = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,6 +75,8 @@
             this.gbFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbFilter.Controls.Add(this.rb9s);
+            this.gbFilter.Controls.Add(this.rb18s);
             this.gbFilter.Controls.Add(this.label3);
             this.gbFilter.Controls.Add(this.dgvCourses);
             this.gbFilter.Controls.Add(this.label2);
@@ -85,6 +89,31 @@
             this.gbFilter.TabIndex = 0;
             this.gbFilter.TabStop = false;
             this.gbFilter.Text = "Filter";
+            // 
+            // rb9s
+            // 
+            this.rb9s.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.rb9s.AutoSize = true;
+            this.rb9s.Location = new System.Drawing.Point(105, 210);
+            this.rb9s.Name = "rb9s";
+            this.rb9s.Size = new System.Drawing.Size(52, 17);
+            this.rb9s.TabIndex = 7;
+            this.rb9s.Text = "All 9\'s";
+            this.rb9s.UseVisualStyleBackColor = true;
+            // 
+            // rb18s
+            // 
+            this.rb18s.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.rb18s.AutoSize = true;
+            this.rb18s.Checked = true;
+            this.rb18s.Location = new System.Drawing.Point(9, 210);
+            this.rb18s.Name = "rb18s";
+            this.rb18s.Size = new System.Drawing.Size(66, 17);
+            this.rb18s.TabIndex = 6;
+            this.rb18s.TabStop = true;
+            this.rb18s.Text = "18\'s only";
+            this.rb18s.UseVisualStyleBackColor = true;
+            this.rb18s.CheckedChanged += new System.EventHandler(this.Rb18s_CheckedChanged);
             // 
             // label3
             // 
@@ -113,7 +142,7 @@
             this.dgvCourses.Name = "dgvCourses";
             this.dgvCourses.RowHeadersVisible = false;
             this.dgvCourses.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCourses.Size = new System.Drawing.Size(218, 154);
+            this.dgvCourses.Size = new System.Drawing.Size(218, 136);
             this.dgvCourses.TabIndex = 4;
             this.dgvCourses.SelectionChanged += new System.EventHandler(this.dgvCourses_SelectionChanged);
             // 
@@ -414,5 +443,7 @@
         private System.Windows.Forms.DataGridView dgvPutting;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.RadioButton rb9s;
+        private System.Windows.Forms.RadioButton rb18s;
     }
 }

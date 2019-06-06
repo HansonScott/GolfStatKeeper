@@ -81,6 +81,7 @@ namespace GolfStatKeeper
             }
         }
         private int m_Putts;
+
         public int PuttsForHole
         {
             get
@@ -109,7 +110,7 @@ namespace GolfStatKeeper
         #endregion
 
         public HoleScore(){}
-        
+
         public void AddShot(Shot shot)
         {
             if (shot.ShotNumber < this.Shots.Count)
@@ -310,6 +311,11 @@ namespace GolfStatKeeper
             }
 
             return MostLikelyShot;
+        }
+
+        internal static HoleScore Copy(HoleScore holeScore)
+        {
+            return HoleScore.CreateHolePlayedFromString(holeScore.ToString());
         }
 
         public int GetSandShots()

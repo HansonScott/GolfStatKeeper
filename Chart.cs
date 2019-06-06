@@ -40,9 +40,9 @@ namespace GolfStatKeeper
         }
         public void GenerateStats(DateTime dFrom, DateTime dTo)
         {
-            GenerateStats(DAC.GetCourses(), dFrom, dTo);
+            GenerateStats(DAC.GetCourses(), dFrom, dTo, true);
         }
-        public void GenerateStats(Course[] Courses, DateTime dFrom, DateTime dTo)
+        public void GenerateStats(Course[] Courses, DateTime dFrom, DateTime dTo, bool use18sOnly)
         {
             DataTable dt = new DataTable();
             string[] items = Enum.GetNames(typeof(TrendItems));
@@ -52,6 +52,11 @@ namespace GolfStatKeeper
             }
 
             TheseRounds = DAC.GetRoundsByCoursesAndDates(Courses, dFrom, dTo, false);
+
+            if(!use18sOnly)
+            {
+                TheseRounds = Round.FilterRoundsBy18sOr8s(TheseRounds, use18sOnly);
+            }
 
             // go through "TheseRounds" and their holes and shots, and calculate each particular stat.
             for (int i = 0; i < TheseRounds.Length; i++)

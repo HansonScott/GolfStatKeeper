@@ -42,6 +42,7 @@ namespace GolfStatKeeper
             }
         }
         public DateTime When { get; set; }
+        public bool HasDetails { get { return (HolesPlayed != null && HolesPlayed.Count > 0); } }
         #endregion
 
         #region Constructor
@@ -137,5 +138,112 @@ namespace GolfStatKeeper
             return thisRound;
         }
         #endregion
+
+        internal static Round[] FilterRoundsBy18sOr8s(Round[] rounds, bool Use18sOnly)
+        {
+            List<Round> filteredRounds = new List<Round>();
+
+            for(int i = 0; i < rounds.Length; i++)
+            {
+                Round r = rounds[i];
+
+                if (!r.HasDetails) { r.LoadDetails(); }
+
+                if (Use18sOnly)
+                {
+                    // take out any rounds that do not have 18 holes of data
+                    if(r.TotalHolesPlayed != 18) { continue; }
+                    else
+                    {
+                        filteredRounds.Add(r);
+                    }
+                }
+                else // rb9s.Checked
+                {
+                    // split all 18 hole rounds into two rounds each
+                    if (r.TotalHolesPlayed == 18)
+                    {
+                        // split into 2
+                        Round newRoundFront = Round.CopyFrontNine(r);
+                        Round newRoundBack = Round.CopyBackNine(r);
+
+                        filteredRounds.Add(newRoundFront);
+                        filteredRounds.Add(newRoundBack);
+                    }
+                    // use the 9 holes and discard the few extra holes
+                    else if (r.TotalHolesPlayed > 9)
+                    {
+                        // split
+                        Round newRoundFront = Round.CopyFrontNine(r);
+                        Round newRoundBack = Round.CopyBackNine(r);
+
+
+                        if(newRoundFront.TotalHolesPlayed == 9)
+                        {
+                            filteredRounds.Add(newRoundFront);
+                        }
+
+                        if(newRoundBack.TotalHolesPlayed == 9)
+                        {
+                            filteredRounds.Add(newRoundBack);
+                        }
+
+                        // else, we have 9 holes somwhere in the middle.  not used for now.
+                    }
+                    // use 9 hole rounds as is
+                    else if (r.TotalHolesPlayed == 9)
+                    {
+                        // use it as is
+                        filteredRounds.Add(r);
+                    }
+                    // discard anything less than 9
+                    else // < 9
+                    {
+                        continue;
+                    }
+                }
+            }
+
+            return filteredRounds.ToArray();
+        }
+
+        private void LoadDetails()
+        {
+            HolesPlayed = DAC.GetHolesPlayedByRoundID(ID.ToString(), Course);
+        }
+
+        private static Round CopyFrontNine(Round r)
+        {
+            Round newRound = Round.LoadFromFileLine(r.ToString(), false);
+
+            CopyHoles(r, newRound, 1, 9);
+
+            newRound.UpdateTotalsFromHolesPlayed();
+
+            return newRound;
+        }
+
+        private static Round CopyBackNine(Round r)
+        {
+            Round newRound = Round.LoadFromFileLine(r.ToString(), false);
+
+            CopyHoles(r, newRound, 10, 9);
+
+            newRound.UpdateTotalsFromHolesPlayed();
+
+            return newRound;
+        }
+
+        private static void CopyHoles(Round sourceRound, Round newRound, int startingHole, int holeCount)
+        {
+            if (sourceRound == null) { return; }
+            if (sourceRound.HolesPlayed == null) { return; }
+            if (sourceRound.HolesPlayed.Count + 1 < startingHole + holeCount) { return; }
+
+            for (int i = startingHole - 1; i < startingHole + holeCount - 1; i++)
+            {
+                newRound.HolesPlayed.Add(HoleScore.CreateHolePlayedFromString(sourceRound.HolesPlayed[i].ToString()));
+            }
+        }
     }
 }

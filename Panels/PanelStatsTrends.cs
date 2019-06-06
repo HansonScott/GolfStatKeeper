@@ -63,7 +63,7 @@ namespace GolfStatKeeper.Panels
             this.chart1.ShowTheseColumns[(int)Chart.TrendItems.Putts] = cbPutts.Checked;
             this.chart1.ShowTheseColumns[(int)Chart.TrendItems.Penalties] = cbPenalties.Checked;
 
-            this.chart1.GenerateStats(courses, dtpFrom.Value, dtpTo.Value);
+            this.chart1.GenerateStats(courses, dtpFrom.Value, dtpTo.Value, rb18s.Checked);
             this.chart1.Refresh();
         }
 

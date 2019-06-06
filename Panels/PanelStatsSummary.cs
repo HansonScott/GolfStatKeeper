@@ -191,6 +191,11 @@ namespace GolfStatKeeper.Panels
             Round[] rounds = LoadData();
             PopulateStats(rounds);
         }
+        private void Rb18s_CheckedChanged(object sender, EventArgs e)
+        {
+            Round[] rounds = LoadData();
+            PopulateStats(rounds);
+        }
         #endregion
 
         private Round[] LoadData()
@@ -221,8 +226,11 @@ namespace GolfStatKeeper.Panels
             // load rounds for these, Summaries only
             Round[] rounds = DAC.GetRoundsByCoursesAndDates(Courses.ToArray(), from, to, true);
 
+            rounds = Round.FilterRoundsBy18sOr8s(rounds, rb18s.Checked);
+
             return rounds;
         }
+
         private void PopulateStats(Round[] rounds)
         {
             if(rounds == null || rounds.Length == 0) { return; }
